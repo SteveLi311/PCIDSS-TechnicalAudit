@@ -296,6 +296,8 @@ check_vulnerability_scanning() {
         details+="</ul>"
         
         # Check if there are critical or high findings
+		critical_count=${critical_count:-0}
+		high_count=${high_count:-0}
         if [ "$critical_count" -gt 0 ] || [ "$high_count" -gt 0 ]; then
             details+="<p class='red'>WARNING: There are unresolved critical or high vulnerabilities. PCI DSS requires that high-risk and critical vulnerabilities be resolved.</p>"
             has_critical_high=true

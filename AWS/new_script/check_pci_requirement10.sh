@@ -640,12 +640,11 @@ main() {
     check_aws_cli
     
     # Prompt for AWS region
-    if [ -z "$REGION" ]; then
-		read -p "Enter AWS region to test (e.g., us-east-1): " REGION
-		if [ -z "$REGION" ]; then
-			REGION="us-east-1"
-			echo -e "${YELLOW}Using default region: $REGION${NC}"
-		fi
+    
+	read -p "Enter AWS region to test (e.g., us-east-1): " REGION
+	if [ -z "$REGION" ]; then
+		REGION="us-east-1"
+		echo -e "${YELLOW}Using default region: $REGION${NC}"
 	fi
 
     
@@ -723,7 +722,7 @@ main() {
         
         echo "Running check: $check_function"
         result=$($check_function "$region" 2>/dev/null || echo "error:Error running $check_function, check AWS permissions")
-        status=$(echo "$result" | cut -d':' -f1)
+        status=$(echo "$result" | cut -d':' -f1 | xargs)
         details=$(echo "$result" | cut -d':' -f2-)
         
         if [ "$status" = "error" ]; then
@@ -738,8 +737,8 @@ main() {
     
     # Check 10.1.1 - Implementation of audit trails
     echo "Checking CloudTrail configuration..."
-    cloudtrail_result=$(safe_check "check_cloudtrail_enabled" "$REGION")
-    status=$(echo "$cloudtrail_result" | cut -d':' -f1)
+    cloudtrail_result=$("check_cloudtrail_enabled" "$REGION")
+    status=$(echo "$cloudtrail_result" | cut -d':' -f1 | xargs)
     details=$(echo "$cloudtrail_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.1.1 - Implementation of audit trails" \
@@ -761,8 +760,8 @@ main() {
     
     # Check CloudWatch log metric filters for key security events
     echo "Checking CloudWatch log metric filters..."
-    cloudwatch_result=$(safe_check "check_cloudwatch_alarms" "$REGION")
-    status=$(echo "$cloudwatch_result" | cut -d':' -f1)
+    cloudwatch_result=$("check_cloudwatch_alarms" "$REGION")
+    status=$(echo "$cloudwatch_result" | cut -d':' -f1 | xargs)
     details=$(echo "$cloudwatch_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.2.1.1-10.2.1.7 - Specific audit log requirements" \
@@ -780,8 +779,8 @@ main() {
     
     # Check VPC Flow Logs for network traffic monitoring
     echo "Checking VPC Flow Logs..."
-    vpc_flow_result=$(safe_check "check_vpc_flow_logs" "$REGION") 
-    status=$(echo "$vpc_flow_result" | cut -d':' -f1)
+    vpc_flow_result=$("check_vpc_flow_logs" "$REGION") 
+    status=$(echo "$vpc_flow_result" | cut -d':' -f1 | xargs)
     details=$(echo "$vpc_flow_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.2.1.a - Network access is logged" \
@@ -799,8 +798,8 @@ main() {
     
     # Check database logging
     echo "Checking database logging..."
-    db_logging_result=$(safe_check "check_database_logging" "$REGION")
-    status=$(echo "$db_logging_result" | cut -d':' -f1)
+    db_logging_result=$("check_database_logging" "$REGION")
+    status=$(echo "$db_logging_result" | cut -d':' -f1 | xargs)
     details=$(echo "$db_logging_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.2.1.b - Database access is logged" \
@@ -850,8 +849,8 @@ main() {
     
     # Check CloudTrail log file validation
     echo "Checking CloudTrail log file validation..."
-    validation_result=$(safe_check "check_cloudtrail_validation" "$REGION")
-    status=$(echo "$validation_result" | cut -d':' -f1)
+    validation_result=$("check_cloudtrail_validation" "$REGION")
+    status=$(echo "$validation_result" | cut -d':' -f1 | xargs)
     details=$(echo "$validation_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.4.1.b - Log file integrity validation" \
@@ -869,8 +868,8 @@ main() {
     
     # Check log file integrity monitoring
     echo "Checking log file integrity monitoring..."
-    integrity_result=$(safe_check "check_log_integrity_monitoring" "$REGION")
-    status=$(echo "$integrity_result" | cut -d':' -f1)
+    integrity_result=$("check_log_integrity_monitoring" "$REGION")
+    status=$(echo "$integrity_result" | cut -d':' -f1 | xargs)
     details=$(echo "$integrity_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.3.4 - File integrity monitoring for logs" \
@@ -888,8 +887,8 @@ main() {
     
     # Check CloudTrail S3 bucket access controls
     echo "Checking CloudTrail S3 bucket access controls..."
-    s3_access_result=$(safe_check "check_cloudtrail_s3_access" "$REGION")
-    status=$(echo "$s3_access_result" | cut -d':' -f1)
+    s3_access_result=$("check_cloudtrail_s3_access" "$REGION")
+    status=$(echo "$s3_access_result" | cut -d':' -f1 | xargs)
     details=$(echo "$s3_access_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.3.1-10.3.2 - Log access controls" \
@@ -907,8 +906,8 @@ main() {
     
     # Check log retention settings
     echo "Checking log retention settings..."
-    retention_result=$(safe_check "check_log_retention" "$REGION")
-    status=$(echo "$retention_result" | cut -d':' -f1)
+    retention_result=$("check_log_retention" "$REGION")
+    status=$(echo "$retention_result" | cut -d':' -f1 | xargs)
     details=$(echo "$retention_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.4.3 - Audit log retention" \
@@ -928,12 +927,13 @@ main() {
     
     # Section 10.5: Time synchronization
     echo "Checking Requirement 10.5 - Time synchronization..."
+    echo "Checking Requirement 10.5 - Time synchronization..."
     add_section "$OUTPUT_FILE" "req-10.5" "Requirement 10.5: Time synchronization" "none"
     
     # Check time synchronization
     echo "Checking time synchronization..."
-    time_sync_result=$(safe_check "check_time_synchronization" "$REGION")
-    status=$(echo "$time_sync_result" | cut -d':' -f1)
+    time_sync_result=$("check_time_synchronization" "$REGION")
+    status=$(echo "$time_sync_result" | cut -d':' -f1 | xargs)
     details=$(echo "$time_sync_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.6.1-10.6.3 - Time synchronization" \
@@ -957,8 +957,8 @@ main() {
     
     # Check log anomaly detection
     echo "Checking log anomaly detection mechanisms..."
-    anomaly_result=$(safe_check "check_log_anomaly_detection" "$REGION")
-    status=$(echo "$anomaly_result" | cut -d':' -f1)
+    anomaly_result=$("check_log_anomaly_detection" "$REGION")
+    status=$(echo "$anomaly_result" | cut -d':' -f1 | xargs)
     details=$(echo "$anomaly_result" | cut -d':' -f2-)
     
     add_check_item "$OUTPUT_FILE" "$status" "10.4.1-10.4.3 - Log review and monitoring process" \

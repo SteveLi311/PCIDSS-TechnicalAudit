@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Executive Summary Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .finding-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        .requirement-summary {
+            margin-bottom: 20px;
+        }
+        .requirement-header {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px 5px 0 0;
+            border: 1px solid #ddd;
+        }
+        .requirement-progress {
+            margin: 0;
+            padding: 0;
+            width: 200px;
+        }
+        .requirement-details {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .chart {
+            width: 48%;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .doughnut-chart {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .doughnut-segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip: rect(0, 200px, 200px, 100px);
+            border-radius: 50%;
+            transform: rotate(0deg);
+        }
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Executive Summary Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td id="aws-account">Loading...</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td id="aws-region">Loading...</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun 26 07:15:31 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Report Generated By</th>
+                    <td id="aws-user">Loading...</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Executive Summary</h2>
+            <div id="summary-statistics">
+                <p>Assessment analysis in progress...</p>
+            </div>
+        </div>
+        
+        <div id="report-content">
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 12: <span class="info">[MANUAL VERIFICATION]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 42 checks passed, 0 failed, 42 require manual verification.</p>
+                <p><a href="pci_req12_report_20250626_070943.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 11: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 91%; background-color: #4CAF50; height: 15px;">
+                            91%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 11 of 26 checks passed, 1 failed, 14 require manual verification.</p>
+                <p><a href="pci_req11_report_20250626_070550.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 10: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 57%; background-color: #f44336; height: 15px;">
+                            57%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 4 of 12 checks passed, 3 failed, 5 require manual verification.</p>
+                <p><a href="pci_req10_report_20250626_070016.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 8: <span class="pass">[PASS]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 4 checks passed, 0 failed, 0 require manual verification.</p>
+                <p><a href="pci_req8_report_20250626_061750.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 7: <span class="pass">[PASS]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 0 checks passed, 0 failed, 0 require manual verification.</p>
+                <p><a href="pci_req7_report_20250626_055845.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 9: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 32 checks passed, 3 failed, 24 require manual verification.</p>
+                <p><a href="pci_req9_report_20250626_034937.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 6: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 23 checks passed, 1 failed, 21 require manual verification.</p>
+                <p><a href="pci_req6_report_20250625_092543.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 2: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 88%; background-color: #ff9800; height: 15px;">
+                            88%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 16 of 22 checks passed, 2 failed, 4 require manual verification.</p>
+                <p><a href="pci_req2_report_20250625_085113.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 5: <span class="fail">[FAIL]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 0%; background-color: #f44336; height: 15px;">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 0 of 6 checks passed, 1 failed, 4 require manual verification.</p>
+                <p><a href="pci_req5_report_20250625_080033.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 4: <span class="info">[MANUAL VERIFICATION]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 66%; background-color: #f44336; height: 15px;">
+                            66%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 2 of 8 checks passed, 0 failed, 5 require manual verification.</p>
+                <p><a href="pci_req4_report_20250625_053508.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 3: <span class="info">[MANUAL VERIFICATION]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 100%; background-color: #4CAF50; height: 15px;">
+                            100%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 3 of 22 checks passed, 0 failed, 19 require manual verification.</p>
+                <p><a href="pci_req3_report_20250625_034535.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="requirement-summary">
+            <div class="requirement-header">
+                <span>Requirement 1: <span class="info">[MANUAL VERIFICATION]</span></span>
+                <div class="requirement-progress">
+                    <div class="progress-container" style="height: 15px;">
+                        <div class="progress-bar" style="width: 25%; background-color: #f44336; height: 15px;">
+                            25%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="requirement-details">
+                <p><strong>Summary:</strong> 3 of 18 checks passed, 0 failed, 6 require manual verification.</p>
+                <p><a href="pci_req1_report_20250625_015954.html" target="_blank">View detailed report</a></p>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                High Priority Findings
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="high-priority-findings">
+                <p><em>Note: Permission-related issues (Access Denied errors) are excluded from high priority findings as they represent assessment limitations rather than actual compliance failures. Items requiring manual verification are also not listed here.</em></p>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 11: 11.4.5 - Segmentation Controls Testing (VPC: vpc-f25d9f94)</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 10: 10.2.1.a - Network access is logged</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 10: 10.3.1-10.3.2 - Log access controls</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 10: 10.4.3 - Audit log retention</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 9: 9.3.x - KMS Key Management (equivalent to physical key control)</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 9: 9.4.x - S3 Bucket Encryption (for secure media storage)</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 9: 9.4.5 - Resource Inventory with AWS Config</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 6: 6.3.1 - Vulnerability scanning with AWS Inspector</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 2: Default Security Groups</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 2: Internet-Exposed Ports</h3>
+                    </div>
+                    <div class="finding-item fail">
+                        <h3><span class="red">[FAIL]</span> Requirement 5: 5.2.1 - Anti-malware protection deployment</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Executive Recommendations
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="recommendations">
+                    <p>Based on the assessment, the following key areas require immediate attention:</p>
+                    <ul>
+<li><strong>Requirement 11 (Security Testing):</strong> Security testing and scanning issues exist. Address vulnerability scanning and penetration testing processes.</li>
+<li><strong>Requirement 10 (Logging & Monitoring):</strong> Audit logging and monitoring deficiencies exist. Review logging mechanisms and monitoring processes.</li>
+<li><strong>Requirement 9 (Physical Access):</strong> Physical security control issues exist. Address physical access restrictions and protections.</li>
+<li><strong>Requirement 6 (Secure Systems & Applications):</strong> Application security deficiencies exist. Address secure development practices and vulnerability management.</li>
+<li><strong>Requirement 2 (Secure Configuration):</strong> System configuration deficiencies exist. Address vendor-supplied defaults and harden system configurations.</li>
+<li><strong>Requirement 5 (Malware Protection):</strong> Deficiencies in malware protection mechanisms. Review anti-malware solutions and processes.</li>
+                    </ul>
+                    
+                    <p><strong>Recommended Action Plan:</strong></p>
+                    <ol>
+                        <li>Address all failed findings, prioritizing those with the highest risk impact.</li>
+                        <li>Develop a remediation plan with clear timelines and ownership.</li>
+                        <li>Conduct follow-up assessments after remediation to verify effectiveness.</li>
+                        <li>Establish ongoing compliance monitoring to prevent regression.</li>
+                        <li>Document all remediation actions for audit purposes.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun 26 07:15:31 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class=\"summary-table\">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Manual Verification</th>
+                    <th>Access Denied</th>
+                    <th>Overall Compliance</th>
+                </tr>
+                <tr>
+                    <td>215</td>
+                    <td><span class=\"green\">39</span></td>
+                    <td><span class=\"red\">11</span></td>
+                    <td><span class=\"blue\">144</span></td>
+                    <td><span class=\"gray\">0</span></td>
+                    <td>54%</td>
+                </tr>
+            </table>
+            
+            <p><em>Note: Compliance percentage is calculated excluding both manual verification items and access denied failures, as these do not represent actual compliance failures.</em></p>
+            
+            <div class=\"progress-container\">
+                <div class=\"progress-bar\" style=\"width: 54%; background-color: #f44336;\">
+                    54%
+                </div>
+            </div>
+
+            <div class=\"chart-container\">
+                <div class=\"chart\">
+                    <h3>Compliance Status by Requirement</h3>
+                    <div id=\"requirements-chart\"></div>
+                </div>
+                
+                <div class=\"chart\">
+                    <h3>Overall Compliance</h3>
+                    <div id=\"overall-chart\"></div>
+                </div>
+            </div>
+`;
+            
+            // Add AWS account info
+            document.getElementById('aws-account').textContent = '<div>Assessment';
+            document.getElementById('aws-region').textContent = 'will';
+            document.getElementById('aws-user').textContent = 'be performed on';
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+            
+            // Simple bar chart for requirements
+            const createBarChart = () => {
+                const requirementSummaries = document.querySelectorAll('.requirement-summary');
+                const canvas = document.createElement('canvas');
+                canvas.width = 500;
+                canvas.height = 300;
+                document.getElementById('requirements-chart').appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const barWidth = 30;
+                const barSpacing = 15;
+                const startX = 40;
+                const startY = 250;
+                const maxHeight = 200;
+                
+                // Draw axes
+                ctx.beginPath();
+                ctx.moveTo(startX, 50);
+                ctx.lineTo(startX, startY);
+                ctx.lineTo(600, startY);
+                ctx.strokeStyle = '#333';
+                ctx.stroke();
+                
+                // Draw 100% line
+                ctx.beginPath();
+                ctx.moveTo(startX, 50);
+                ctx.lineTo(600, 50);
+                ctx.strokeStyle = '#ddd';
+                ctx.stroke();
+                
+                // Add 100% label
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.fillText('100%', 10, 55);
+                
+                // Draw each bar
+                let x = startX + 20;
+                requirementSummaries.forEach((summary, index) => {
+                    const percentage = summary.querySelector('.progress-bar').style.width.replace('%', '');
+                    const color = summary.querySelector('.progress-bar').style.backgroundColor;
+                    const reqNum = summary.querySelector('.requirement-header span').textContent.split(':')[0].trim().replace('Requirement ', '');
+                    
+                    // Draw bar
+                    const barHeight = (percentage / 100) * maxHeight;
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x, startY - barHeight, barWidth, barHeight);
+                    
+                    // Add label
+                    ctx.fillStyle = '#333';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(reqNum, x + barWidth/2 - 5, startY + 20);
+                    ctx.fillText(percentage + '%', x + barWidth/2 - 10, startY - barHeight - 15);
+                    
+                    x += barWidth + barSpacing;
+                });
+            };
+            
+            // Create simple doughnut chart for overall compliance
+            const createDoughnutChart = () => {
+                const percentage = 54;
+                const color = '#f44336';
+                
+                // Create doughnut container
+                const doughnutContainer = document.createElement('div');
+                doughnutContainer.className = 'doughnut-chart';
+                document.getElementById('overall-chart').appendChild(doughnutContainer);
+                
+                // Create percentage number in center
+                const percentageText = document.createElement('div');
+                percentageText.style.position = 'absolute';
+                percentageText.style.top = '50%';
+                percentageText.style.left = '50%';
+                percentageText.style.transform = 'translate(-50%, -50%)';
+                percentageText.style.fontSize = '36px';
+                percentageText.style.fontWeight = 'bold';
+                percentageText.style.color = color;
+                percentageText.textContent = percentage + '%';
+                doughnutContainer.appendChild(percentageText);
+                
+                // Create canvas for doughnut
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                doughnutContainer.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const centerX = 100;
+                const centerY = 100;
+                const outerRadius = 80;
+                const innerRadius = 60;
+                
+                // Background circle (gray)
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, outerRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#ddd';
+                ctx.fill();
+                
+                // Inner circle (white)
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+                
+                // Percentage arc
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, outerRadius, -0.5 * Math.PI, (percentage / 100 * 2 - 0.5) * Math.PI);
+                ctx.lineTo(centerX, centerY);
+                ctx.fillStyle = color;
+                ctx.fill();
+                
+                // Inner circle again to create doughnut
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, innerRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+                
+                // Add compliance status text
+                const statusText = document.createElement('div');
+                statusText.style.textAlign = 'center';
+                statusText.style.marginTop = '20px';
+                statusText.style.fontWeight = 'bold';
+                
+                if (percentage >= 90) {
+                    statusText.innerHTML = '<span style="color: #4CAF50;">Compliant</span>';
+                } else if (percentage >= 70) {
+                    statusText.innerHTML = '<span style="color: #ff9800;">Partially Compliant</span>';
+                } else {
+                    statusText.innerHTML = '<span style="color: #f44336;">Non-Compliant</span>';
+                }
+                
+                document.getElementById('overall-chart').appendChild(statusText);
+            };
+            
+            // Create charts
+            document.addEventListener('DOMContentLoaded', function() {
+                createBarChart();
+                createDoughnutChart();
+            });
+        </script>
+    </div>
+</body>
+</html>

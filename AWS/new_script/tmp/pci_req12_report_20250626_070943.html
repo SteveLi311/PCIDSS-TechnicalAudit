@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 12 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 12 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun 26 07:09:48 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-roles</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: organizations describe-organization</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: securityhub get-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail describe-trails</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: config describe-config-rules</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div>Sufficient permissions detected. 80% of required permissions are available.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target AWS Account
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-resources">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> AWS Account Identification</h3>
+                        <div>Assessment will be performed on the current AWS account: <pre>094692261598 (arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e)</pre></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.1: Comprehensive Information Security Policy
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.1.1 - Information Security Policy</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that an overall information security policy is established, published, maintained, and disseminated to all relevant personnel.</li>
+        <li>Verify that the policy addresses all PCI DSS requirements and includes roles and responsibilities.</li>
+        <li>The security policy must be disseminated to vendors and business partners who have access to cardholder data.</li>
+    </ul>
+    <p>AWS Findings: Although this primarily requires manual verification, we checked for security policy documentation in AWS Systems Manager Documents and found the following:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Establish, publish, and maintain a comprehensive information security policy that is distributed to all relevant personnel, vendors, and business partners who have access to cardholder data.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 12.1.1 - AWS Security Documentation</h3>
+                        <div><p>Found potential security policy documents in AWS Systems Manager Documents:</p>
+        <pre>AWSConformancePacks-OperationalBestPracticesforENISACybersecurityGuide</pre>
+        <p>Note: These documents should be manually reviewed to verify if they constitute adequate information security policies that comply with PCI DSS requirements.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review these documents to ensure they form part of your comprehensive information security policy. AWS Systems Manager Documents alone are not sufficient for compliance with this requirement.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.1.2 - Security Policy Reviews</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the information security policy is reviewed at least once every 12 months.</li>
+        <li>Verify that the policy is updated when there are changes to business objectives or the risk environment.</li>
+        <li>Review should be documented with evidence of executive approval for changes.</li>
+    </ul>
+    <p>AWS Findings: In AWS environments, policy reviews should be tracked in a change management system. Consider using AWS Systems Manager Change Manager or similar tools to track policy reviews.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a process to review security policies at least once every 12 months and update them as needed to reflect changes in business objectives or the risk environment.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.1.3 - Information Security Roles and Responsibilities</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the security policy clearly defines information security roles and responsibilities.</li>
+        <li>Verify that all personnel acknowledge their information security responsibilities.</li>
+        <li>Verify that IAM roles in AWS align with documented responsibilities.</li>
+    </ul>
+    <p>AWS Findings: Examining IAM roles and policies in the AWS environment:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Clearly define information security roles and responsibilities in the security policy, and ensure all personnel are aware of and acknowledge their responsibilities.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 12.1.3 - AWS IAM Roles Analysis</h3>
+                        <div><p>Found IAM roles that may be related to security responsibilities:</p>
+        <pre>None</pre>
+        <p>Note: These roles should be manually reviewed to verify they align with documented security responsibilities.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review IAM roles to ensure they align with your documented information security roles and responsibilities.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.1.4 - Executive Assignment of Security Responsibility</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that responsibility for information security is formally assigned to a Chief Information Security Officer (CISO) or other security-knowledgeable member of executive management.</li>
+        <li>Verify through documentation and interviews that this individual understands information security and is actively involved in the security program.</li>
+    </ul>
+    <p>AWS Finding: No automated means to verify executive assignment of security responsibility.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Formally assign responsibility for information security to a Chief Information Security Officer or another security-knowledgeable member of executive management.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.2: Acceptable Use Policies
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.2.1 - Acceptable Use Policies for End-User Technologies</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that acceptable use policies for end-user technologies are documented and implemented.</li>
+        <li>Verify that the policies include explicit approval by authorized parties.</li>
+        <li>Verify that the policies define acceptable uses of technology.</li>
+        <li>Verify that the policies list products approved by the company for employee use (hardware and software).</li>
+    </ul>
+    <p>AWS Findings: Examining Service Control Policies (SCPs) and potential technical enforcement of acceptable use:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and implement acceptable use policies for end-user technologies that include all requirements specified in PCI DSS.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.2.1 - Service Control Policies</h3>
+                        <div><p>No Service Control Policies found that might enforce acceptable use:</p>
+        <p>Consider implementing SCPs to help enforce aspects of your acceptable use policies, such as:</p>
+        <ul>
+            <li>Restricting access to unapproved AWS services</li>
+            <li>Enforcing encryption requirements</li>
+            <li>Preventing public exposure of sensitive resources</li>
+            <li>Limiting regions where resources can be deployed</li>
+            <li>Enforcing tagging policies to identify approved resources</li>
+        </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider implementing Service Control Policies to help enforce your documented acceptable use policies.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.3: Risk Management
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.3.1 - Targeted Risk Analysis for PCI DSS Requirements</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that for each PCI DSS requirement that specifies completion of a targeted risk analysis, the analysis is documented and includes:</li>
+        <ul>
+            <li>Identification of assets being protected</li>
+            <li>Identification of threats the requirement is protecting against</li>
+            <li>Identification of factors that contribute to likelihood/impact of threats</li>
+            <li>Justification for how the implemented approach minimizes the risk</li>
+            <li>Review of each targeted risk analysis at least once every 12 months</li>
+        </ul>
+    </ul>
+    <p>AWS Findings:</p>
+    <p>The following PCI DSS v4.0 requirements require a targeted risk analysis:</p>
+    <table border='1' cellpadding='5' style='border-collapse: collapse;'>
+        <tr><th>Requirement</th><th>Description</th><th>Evidence of Analysis</th></tr>
+        <tr><td>5.2.3.1</td><td>Frequency of evaluations for malware risk</td><td>No evidence found</td></tr>
+        <tr><td>5.3.2.1</td><td>Frequency of periodic malware scans</td><td>No evidence found</td></tr>
+        <tr><td>7.2.5.1</td><td>Frequency of application/system account reviews</td><td>No evidence found</td></tr>
+        <tr><td>8.3.10.1</td><td>Frequency of changing passwords</td><td>No evidence found</td></tr>
+        <tr><td>8.6.3</td><td>Password verifier timeout period</td><td>No evidence found</td></tr>
+        <tr><td>9.4.4</td><td>POI device inspection frequency</td><td>No evidence found</td></tr>
+        <tr><td>9.5.1.2</td><td>Frequency of media inventories</td><td>No evidence found</td></tr>
+        <tr><td>10.4.1</td><td>Frequency of log reviews</td><td>No evidence found</td></tr>
+        <tr><td>10.4.2.1</td><td>Frequency of automated log analysis</td><td>No evidence found</td></tr>
+        <tr><td>11.3.1.3</td><td>Frequency of vulnerability scans</td><td>No evidence found</td></tr>
+        <tr><td>11.6.1</td><td>Frequency of change detection mechanism assessment</td><td>No evidence found</td></tr>
+    </table>
+    <p>No evidence of documented risk analyses for these requirements was found in AWS resources.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a formal process for conducting and documenting targeted risk analyses for applicable PCI DSS requirements, and review them at least annually.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.3.2 - Risk Analysis for Customized Approach</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>If using customized approaches for PCI DSS requirements, verify that a targeted risk analysis is performed for each, including:</li>
+        <ul>
+            <li>Documented evidence detailing each element specified in Appendix D</li>
+            <li>Approval by senior management</li>
+            <li>Analysis performed at least once every 12 months</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: No automated means to verify risk analysis for customized approaches.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If using customized approaches for PCI DSS requirements, ensure risk analyses are properly documented and approved by senior management.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.3.3 - Cryptographic Suite Reviews</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that cryptographic cipher suites and protocols in use are documented and reviewed at least once every 12 months, including:</li>
+        <ul>
+            <li>An up-to-date inventory of all cryptographic cipher suites and protocols</li>
+            <li>Active monitoring of industry trends regarding viability</li>
+            <li>Documentation of a plan to respond to anticipated changes in cryptographic vulnerabilities</li>
+        </ul>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and review cryptographic cipher suites and protocols at least annually, including maintaining an inventory and monitoring industry trends.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.3.4 - Hardware and Software Technology Reviews</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that hardware and software technologies in use are reviewed at least once every 12 months, including:</li>
+        <ul>
+            <li>Analysis that technologies continue to receive security fixes from vendors</li>
+            <li>Analysis that technologies continue to support PCI DSS compliance</li>
+            <li>Documentation of industry announcements related to technologies</li>
+            <li>Documentation of a plan to remediate outdated technologies</li>
+        </ul>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review hardware and software technologies at least annually to ensure they continue to receive security updates and support PCI DSS compliance.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.3.4 - Potentially Outdated EC2 Instances</h3>
+                        <div><p>Found EC2 instances that were launched more than 3 years ago and may be running outdated software:</p>
+        <pre>i-0963fb04f890084a2</pre>
+        <p>Note: These instances should be reviewed to verify they are receiving security updates and not running end-of-life software.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review these instances to ensure they are running supported software versions and receiving security updates.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.4: PCI DSS Compliance Management
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.4.1 - Executive Responsibility for PCI DSS (Service Providers Only)</h3>
+                        <div><p>This check applies to service providers only and requires manual verification:</p>
+    <ul>
+        <li>Verify that executive management has established responsibility for the protection of cardholder data and a PCI DSS compliance program, including:</li>
+        <ul>
+            <li>Overall accountability for maintaining PCI DSS compliance</li>
+            <li>Defining a charter for a PCI DSS compliance program</li>
+            <li>Communication to executive management</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: No automated means to verify executive responsibility for PCI DSS.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, ensure executive management formally establishes responsibility for PCI DSS compliance.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.4.2 - Regular Compliance Reviews (Service Providers Only)</h3>
+                        <div><p>This check applies to service providers only and requires manual verification:</p>
+    <ul>
+        <li>Verify that reviews are performed at least once every three months to confirm personnel are performing security tasks according to policies and procedures, including:</li>
+        <ul>
+            <li>Daily log reviews</li>
+            <li>Configuration reviews for network security controls</li>
+            <li>Applying configuration standards to new systems</li>
+            <li>Responding to security alerts</li>
+            <li>Change management processes</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: Checking AWS Config for potential compliance monitoring:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, implement quarterly reviews to verify personnel are following security policies and procedures.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.5: PCI DSS Scope Documentation
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.5.1 - System Component Inventory</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that an inventory of system components that are in scope for PCI DSS, including a description of function/use, is maintained and kept current.</li>
+    </ul>
+    <p>AWS Findings: Examined AWS resources that could be used for inventory management. Per Requirement 12.5.1 in PCI DSS v4.0.1 [cite: 3332], the inventory must include a description of function/use for all system components in PCI DSS scope.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain a current inventory of all system components in scope for PCI DSS, including a description of each component's function and use.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.5.1 - AWS Systems Manager Inventory</h3>
+                        <div><p>AWS Systems Manager Inventory does not appear to be in use or configured:</p>
+        <p>Systems Manager Inventory can be used to help maintain an inventory of your EC2 instances and on-premises servers, including:</p>
+        <ul>
+            <li>Operating system details</li>
+            <li>Application inventory</li>
+            <li>Network configuration</li>
+            <li>Custom inventory data (could include function/use)</li>
+            <li>File system details</li>
+        </ul>
+        <p>Note: Per PCI DSS v4.0.1 Requirement 12.5.1 [cite: 3332], you must maintain an inventory with descriptions of function/use for each in-scope component.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider implementing AWS Systems Manager Inventory to help maintain an inventory of your in-scope systems with descriptions of their functions and uses.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 12.5.1 - AWS Config Resource Recording</h3>
+                        <div><p>AWS Config appears to be recording resource configurations, which can help maintain an inventory of AWS resources:</p>
+        <p>Note: Verify that AWS Config is recording all in-scope resource types and that the inventory includes descriptions of function/use.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure AWS Config is properly configured to record all in-scope resource types and that you have a process to maintain descriptions of function/use.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.5.2 - PCI DSS Scope Validation</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that PCI DSS scope is documented and confirmed by the entity at least once every 12 months and upon significant change to the in-scope environment, including:</li>
+        <ul>
+            <li>Identifying all data flows for payment stages</li>
+            <li>Updating data-flow diagrams</li>
+            <li>Identifying all locations where account data is stored, processed, and transmitted</li>
+            <li>Identifying all system components in the CDE</li>
+            <li>Identifying all segmentation controls</li>
+            <li>Identifying all connections from third-party entities</li>
+            <li>Confirming all elements are included in scope</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: No automated means to verify PCI DSS scope documentation.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and confirm PCI DSS scope at least annually and upon significant changes to the in-scope environment.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.5.3 - Organizational Structure Impact (Service Providers Only)</h3>
+                        <div><p>This check applies to service providers only and requires manual verification:</p>
+    <ul>
+        <li>Verify that significant changes to organizational structure result in a documented review of the impact to PCI DSS scope and applicability of controls, with results communicated to executive management.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify organizational structure impact reviews.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, implement a process to review the impact of organizational changes on PCI DSS scope and controls.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.6: Security Awareness Education
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.6.1 - Formal Security Awareness Program</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that a formal security awareness program is implemented to make all personnel aware of the entity's information security policy and procedures, and their role in protecting cardholder data.</li>
+    </ul>
+    <p>AWS Findings:</p>
+    <ul>
+        <li>Examined IAM policies for references to security awareness requirements</li>
+        <li>Checked AWS Organizations for potential security awareness documentation</li>
+        <li>Searched for Security Hub insights related to security awareness</li>
+        <li>No direct evidence of a security awareness program was found in AWS resources</li>
+    </ul>
+    <p>Note: This requirement primarily requires manual verification through documentation review and interviews.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a formal security awareness program for all personnel that covers information security policies and procedures and their role in protecting cardholder data.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.6.2 - Security Awareness Program Reviews</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the security awareness program is reviewed at least once every 12 months and updated as needed to address new threats and vulnerabilities.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify security awareness program reviews.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review the security awareness program at least annually and update it to address new threats and vulnerabilities.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.6.3 - Security Awareness Training</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that personnel receive security awareness training upon hire and at least once every 12 months.</li>
+        <li>Verify that multiple methods of communication are used.</li>
+        <li>Verify that personnel acknowledge at least once every 12 months that they have read and understood the information security policy and procedures.</li>
+        <li>Verify that the training includes awareness of threats and vulnerabilities that could impact cardholder data security, including phishing, social engineering, and acceptable use of end-user technologies.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify security awareness training.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Provide security awareness training to all personnel upon hire and at least annually, using multiple methods of communication.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.7: Personnel Screening
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.7">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.7.1 - Personnel Screening Procedures</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that potential personnel who will have access to the CDE are screened, within the constraints of local laws, prior to hire to minimize the risk of attacks from internal sources.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify personnel screening procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement personnel screening procedures for individuals who will have access to the cardholder data environment, in accordance with local laws.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.8: Third-Party Service Provider Management
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.8">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.8.1 - List of Service Providers</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that a list of all third-party service providers (TPSPs) with which account data is shared or that could affect the security of account data is maintained, including a description for each of the services provided.</li>
+    </ul>
+    <p>AWS Findings: Checking for AWS Marketplace subscriptions that might indicate third-party service providers:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain a list of all third-party service providers with which account data is shared or that could affect the security of account data.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.8.2 - Written Agreements with Service Providers</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that written agreements are maintained with all TPSPs with which account data is shared or that could affect the security of the CDE.</li>
+        <li>Verify that the agreements include acknowledgments from TPSPs that they are responsible for the security of account data they possess or otherwise store, process, or transmit on behalf of the entity.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify written agreements with service providers.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain written agreements with all third-party service providers that include acknowledgments of their responsibility for securing account data.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.8.3 - Service Provider Engagement Process</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that an established process is implemented for engaging TPSPs, including proper due diligence prior to engagement.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify service provider engagement processes.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a process for engaging third-party service providers, including due diligence procedures prior to engagement.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.8.4 - Service Provider Compliance Monitoring</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that a program is implemented to monitor TPSPs' PCI DSS compliance status at least once every 12 months.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify service provider compliance monitoring.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a program to monitor third-party service providers' PCI DSS compliance status at least annually.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.8.5 - Information about PCI DSS Responsibilities</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that information is maintained about which PCI DSS requirements are managed by each TPSP, which are managed by the entity, and any that are shared.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify documentation of PCI DSS responsibilities.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain information about which PCI DSS requirements are managed by each service provider, which are managed by your organization, and which are shared.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.9: Service Provider Requirements
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.9">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.9.1 - Service Provider Written Agreements (Service Providers Only)</h3>
+                        <div><p>This check applies to service providers only and requires manual verification:</p>
+    <ul>
+        <li>Verify that TPSPs provide written agreements to customers that include acknowledgments that TPSPs are responsible for the security of account data they possess or otherwise store, process, or transmit on behalf of the customer.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify service provider written agreements.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, provide written agreements to customers acknowledging your responsibility for securing account data you possess or otherwise handle.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.9.2 - Service Provider Compliance Information (Service Providers Only)</h3>
+                        <div><p>This check applies to service providers only and requires manual verification:</p>
+    <ul>
+        <li>Verify that TPSPs support their customers' requests for information about their PCI DSS compliance status and their responsibilities for PCI DSS requirements.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify service provider compliance information sharing.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, have processes in place to provide customers with information about your PCI DSS compliance status and your responsibilities for PCI DSS requirements.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 12.10: Security Incident Response
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-12.10">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.1 - Incident Response Plan</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that an incident response plan exists and is ready to be activated in the event of a suspected or confirmed security incident, including:</li>
+        <ul>
+            <li>Roles, responsibilities, and communication strategies</li>
+            <li>Specific incident response procedures</li>
+            <li>Business recovery and continuity procedures</li>
+            <li>Data backup processes</li>
+            <li>Analysis of legal requirements for reporting compromises</li>
+            <li>Coverage of all critical system components</li>
+            <li>Reference to incident response procedures from payment brands</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: Checking for AWS Incident Manager implementation:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement an incident response plan that is ready to be activated in the event of a security breach.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.1 - AWS Incident Manager</h3>
+                        <div><p>AWS Systems Manager Incident Manager does not appear to be in use.</p>
+        <p>According to PCI DSS v4.0.1 Requirement 12.10.1 [cite: 3550], an incident response plan must include:</p>
+        <ul>
+            <li>Roles, responsibilities, and communication strategies for security incidents</li>
+            <li>Specific incident response procedures for different types of incidents</li>
+            <li>Business recovery and continuity procedures</li>
+            <li>Data backup processes</li>
+            <li>Analysis of legal requirements for reporting compromises</li>
+            <li>Coverage and responses for all critical system components</li>
+            <li>Reference to incident response procedures from payment brands</li>
+        </ul>
+        <p>AWS Incident Manager offers capabilities that align with these requirements:</p>
+        <ul>
+            <li>Response plan creation with defined escalation paths</li>
+            <li>Integration with AWS ChatOps for communication</li>
+            <li>Automatic engagement of responders and stakeholders</li>
+            <li>Integration with runbooks for standardized response procedures</li>
+            <li>Tracking of response metrics and post-incident analysis</li>
+        </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider implementing AWS Systems Manager Incident Manager to help manage and coordinate your incident response activities in accordance with PCI DSS requirements.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.2 - Incident Response Plan Testing</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the security incident response plan is reviewed and tested at least once every 12 months.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify incident response plan testing.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review and test your incident response plan at least annually, including all elements listed in Requirement 12.10.1.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.3 - Designated Incident Response Personnel</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that specific personnel are designated to be available on a 24/7 basis to respond to suspected or confirmed security incidents.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify designation of incident response personnel.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Designate specific personnel to be available 24/7 to respond to security incidents.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.4 - Incident Response Training</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that personnel responsible for responding to suspected and confirmed security incidents are appropriately and periodically trained on their incident response responsibilities.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify incident response training.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Provide appropriate and periodic training to personnel responsible for security incident response.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.5 - Monitoring and Responding to Alerts</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the security incident response plan includes monitoring and responding to alerts from security monitoring systems, including:</li>
+        <ul>
+            <li>Intrusion-detection and intrusion-prevention systems</li>
+            <li>Network security controls</li>
+            <li>Change-detection mechanisms for critical files</li>
+            <li>Change- and tamper-detection mechanisms for payment pages</li>
+            <li>Detection of unauthorized wireless access points</li>
+        </ul>
+    </ul>
+    <p>AWS Findings: Checking for security monitoring systems in AWS:</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your incident response plan includes procedures for monitoring and responding to alerts from all security monitoring systems.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.5 - AWS Security Hub</h3>
+                        <div><p>AWS Security Hub does not appear to be enabled:</p>
+        <p>AWS Security Hub can provide a comprehensive view of your security state in AWS and help you check your environment against security standards.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider enabling AWS Security Hub to help monitor your security posture and detect security findings.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 12.10.5 - Amazon GuardDuty</h3>
+                        <div><p>Amazon GuardDuty appears to be enabled:</p>
+        <pre>{
+    "DetectorIds": [
+        "f4bdd236046b8bf4481e3c3961066b80"
+    ]
+}</pre>
+        <p>Note: Verify that your incident response plan includes procedures for monitoring and responding to GuardDuty findings.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your incident response plan includes procedures for monitoring and responding to Amazon GuardDuty findings.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 12.10.5 - AWS CloudTrail</h3>
+                        <div><p>AWS CloudTrail appears to be enabled:</p>
+        <pre>{
+    "trailList": [
+        {
+            "Name": "prod-orange-cloud-trail",
+            "S3BucketName": "aws-cloudtrail-logs-094692261598-dccbadad",
+            "IncludeGlobalServiceEvents": true,
+            "IsMultiRegionTrail": true,
+            "HomeRegion": "ap-southeast-1",
+            "TrailARN": "arn:aws:cloudtrail:ap-southeast-1:094692261598:trail/prod-orange-cloud-trail",
+            "LogFileValidationEnabled": true,
+            "HasCustomEventSelectors": false,
+            "HasInsightSelectors": false,
+            "IsOrganizationTrail": false
+        }
+    ]
+}</pre>
+        <p>Note: Verify that your incident response plan includes procedures for monitoring and analyzing CloudTrail logs for security events.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your incident response plan includes procedures for monitoring and analyzing AWS CloudTrail logs for security events.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.6 - Incident Response Plan Evolution</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that the security incident response plan is modified and evolved according to lessons learned and to incorporate industry developments.</li>
+    </ul>
+    <p>AWS Findings: No automated means to verify incident response plan evolution.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Continuously improve your incident response plan based on lessons learned and industry developments.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 12.10.7 - Procedures for Unexpected PAN</h3>
+                        <div><p>This check requires manual verification:</p>
+    <ul>
+        <li>Verify that incident response procedures are in place to be initiated upon the detection of stored PAN anywhere it is not expected, including:</li>
+        <ul>
+            <li>Determining what to do if PAN is discovered outside the CDE</li>
+            <li>Identifying whether sensitive authentication data is stored with PAN</li>
+            <li>Determining where the account data came from and how it ended up where it was not expected</li>
+            <li>Remediating data leaks or process gaps</li>
+        </ul>
+    </ul>
+    <p>AWS Findings:</p>
+    <ul>
+        <li>Analyzed AWS Macie configuration to detect if PAN discovery capabilities are enabled</li>
+        <li>Checked AWS Config rules for potential PAN discovery rules</li>
+        <li>Examined CloudWatch Events for potential PAN discovery alerting</li>
+        <li>Verified if Amazon Macie is configured to scan for sensitive data in unexpected locations</li>
+    </ul>
+    <p>The following AWS resources could help with automated PAN detection but need to be properly configured:</p>
+    <ul>
+        <li>Amazon Macie for automated PAN discovery in S3 buckets</li>
+        <li>AWS Config rules for monitoring where sensitive data might be stored</li>
+        <li>CloudWatch Events to alert on PAN discovery</li>
+        <li>AWS Lambda functions for automated remediation</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement specific incident response procedures for handling the discovery of cardholder data in unexpected locations.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun 26 07:10:20 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">42</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 12.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

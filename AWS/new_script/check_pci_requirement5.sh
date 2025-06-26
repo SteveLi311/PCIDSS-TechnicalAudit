@@ -62,18 +62,24 @@ check_command_access() {
         [[ "$log_output" == "true" ]] && add_check_item "$output_file" "warning" "$api_name" \
             "<p><code>aws $service $command</code> is not available (command not found).</p>" \
             "Ensure AWS CLI is installed and supports this command."
+		((warning_checks++))
+        ((total_checks++))
         return 2
 
     elif [[ $result == *"AccessDenied"* || $result == *"UnauthorizedOperation"* ]]; then
         [[ "$log_output" == "true" ]] && add_check_item "$output_file" "fail" "$api_name" \
             "<p><code>aws $service $command</code> - access denied.</p>" \
             "Check IAM policies for permission: $service:$command."
+		((failed_checks++))
+        ((total_checks++))
         return 1
 
     else
         [[ "$log_output" == "true" ]] && add_check_item "$output_file" "pass" "$api_name" \
             "<p>$message</p>" \
             "AWS CLI permissions are sufficient for $service:$command."
+		((passed_checks++))
+        ((total_checks++))
         return 0
     fi
 }

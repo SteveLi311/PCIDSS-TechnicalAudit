@@ -563,8 +563,8 @@ check_default_deny() {
     details+="<ul>"
     
     # Check the default security group for each VPC
-    for vpc_info in $(echo "$vpcs" | jq -c '.[]'); do
-        vpc_id=$(echo "$vpc_info" | jq -r '.[0]')
+    while IFS= read -r vpc_info; do
+		vpc_id=$(echo "$vpc_info" | jq -r '.[0]')
         
         # Get the default security group
         default_sg=$(aws ec2 describe-security-groups --region $region --filters "Name=vpc-id,Values=$vpc_id" "Name=group-name,Values=default" --query 'SecurityGroups[0]' --output json 2>/dev/null)
@@ -644,7 +644,7 @@ check_default_deny() {
             
             details+="</li>"
         fi
-    done
+    done < <(echo "$vpcs" | jq -c '.[]')
     
     details+="</ul>"
     
@@ -655,39 +655,39 @@ check_default_deny() {
     # Get all NACLs
     nacls=$(aws ec2 describe-network-acls --region $region --query 'NetworkAcls[*]' --output json 2>/dev/null)
     
-    for nacl in $(echo "$nacls" | jq -c '.[]'); do
-        nacl_id=$(echo "$nacl" | jq -r '.NetworkAclId')
-        vpc_id=$(echo "$nacl" | jq -r '.VpcId')
-        is_default=$(echo "$nacl" | jq -r '.IsDefault')
-        
-        details+="<li>NACL: $nacl_id - VPC: $vpc_id (Default: $is_default)<br>"
-        
-        # Check for a deny all rule at the end of inbound rules
-        inbound_entries=$(echo "$nacl" | jq -r '.Entries | map(select(.Egress == false)) | sort_by(.RuleNumber)')
-        highest_rule=$(echo "$inbound_entries" | jq -r '.[-1].RuleNumber')
-        highest_action=$(echo "$inbound_entries" | jq -r '.[-1].RuleAction')
-        
-        if [ "$highest_rule" = "32767" ] && [ "$highest_action" = "deny" ]; then
-            details+="<span class='green'>✓ Inbound NACL has a default deny rule (Rule #32767).</span><br>"
-        else
-            issues_found=true
-            details+="<span class='red'>⚠️ Inbound NACL does not end with a default deny rule.</span><br>"
-        fi
-        
-        # Check for a deny all rule at the end of outbound rules
-        outbound_entries=$(echo "$nacl" | jq -r '.Entries | map(select(.Egress == true)) | sort_by(.RuleNumber)')
-        highest_rule=$(echo "$outbound_entries" | jq -r '.[-1].RuleNumber')
-        highest_action=$(echo "$outbound_entries" | jq -r '.[-1].RuleAction')
-        
-        if [ "$highest_rule" = "32767" ] && [ "$highest_action" = "deny" ]; then
-            details+="<span class='green'>✓ Outbound NACL has a default deny rule (Rule #32767).</span>"
-        else
-            issues_found=true
-            details+="<span class='red'>⚠️ Outbound NACL does not end with a default deny rule.</span>"
-        fi
-        
-        details+="</li>"
-    done
+    while IFS= read -r nacl; do
+		nacl_id=$(echo "$nacl" | jq -r .NetworkAclId)
+		vpc_id=$(echo "$nacl" | jq -r .VpcId)
+		is_default=$(echo "$nacl" | jq -r .IsDefault)
+
+		details+="<li>NACL: $nacl_id - VPC: $vpc_id (Default: $is_default)<br>"
+
+		inbound_entries=$(echo "$nacl" | jq -c '.Entries | map(select(.Egress == false)) | sort_by(.RuleNumber)')
+		last_inbound=$(echo "$inbound_entries" | jq -c '.[-1]')
+		highest_rule=$(echo "$last_inbound" | jq -r '.RuleNumber')
+		highest_action=$(echo "$last_inbound" | jq -r '.RuleAction')
+
+		if [[ "$highest_rule" == "32767" && "$highest_action" == "deny" ]]; then
+			details+="<span class='green'>✓ Inbound NACL has a default deny rule (Rule #32767).</span><br>"
+		else
+			issues_found=true
+			details+="<span class='red'>⚠️ Inbound NACL does not end with a default deny rule.</span><br>"
+		fi
+
+		outbound_entries=$(echo "$nacl" | jq -c '.Entries | map(select(.Egress == true)) | sort_by(.RuleNumber)')
+		last_outbound=$(echo "$outbound_entries" | jq -c '.[-1]')
+		highest_rule=$(echo "$last_outbound" | jq -r '.RuleNumber')
+		highest_action=$(echo "$last_outbound" | jq -r '.RuleAction')
+
+		if [[ "$highest_rule" == "32767" && "$highest_action" == "deny" ]]; then
+			details+="<span class='green'>✓ Outbound NACL has a default deny rule (Rule #32767).</span>"
+		else
+			issues_found=true
+			details+="<span class='red'>⚠️ Outbound NACL does not end with a default deny rule.</span>"
+		fi
+
+		details+="</li>"
+	done < <(echo "$nacls" | jq -c '.[]')
     
     details+="</ul>"
     

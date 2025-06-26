@@ -307,6 +307,15 @@ check_mfa() {
         
         while IFS=$'\t' read -r username user_id create_date; do
             ((user_count++))
+			
+			# Skip invalid IAM usernames
+			if ! [[ "$username" =~ ^[a-zA-Z0-9+=,.@_-]+$ ]]; then
+				echo "Skipping invalid username: '$username'" >&2
+				continue
+			fi
+
+			echo "Processing user: '$username'"
+
             
             # Check if user has console access
             login_profile=$(aws iam get-login-profile --user-name "$username" --region "$REGION" 2>&1)
@@ -536,8 +545,19 @@ check_user_access_reviews() {
     
     # Check for old access keys
     old_access_keys_found=false
-    access_keys=$(aws iam list-users --region "$REGION" --query 'Users[*].UserName' --output text | xargs -I {} aws iam list-access-keys --user-name {} --region "$REGION" --query 'AccessKeyMetadata[*].[UserName,AccessKeyId,Status,CreateDate]' --output text)
-    
+    access_keys=""
+	while IFS= read -r username; do
+		if [[ "$username" =~ ^[a-zA-Z0-9+=,.@_-]+$ ]]; then
+			keys=$(aws iam list-access-keys --user-name "$username" --region "$REGION" \
+					--query 'AccessKeyMetadata[*].[UserName,AccessKeyId,Status,CreateDate]' --output text)
+			if [ -n "$keys" ]; then
+				access_keys+="$keys"$'\n'
+			fi
+		else
+			echo "Skipping invalid username: '$username'" >&2
+		fi
+	done < <(aws iam list-users --region "$REGION" --query 'Users[*].UserName' --output text)
+
     if [ -n "$access_keys" ]; then
         details+="<p>Access key analysis:</p><table border='1' cellpadding='5'>
         <tr>
