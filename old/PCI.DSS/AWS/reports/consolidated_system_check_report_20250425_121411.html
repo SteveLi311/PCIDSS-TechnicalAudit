@@ -1,2997 +1,0 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCI DSS v4.0 系統安全檢查合併報告</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #0066cc;
-        }
-        .summary {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .system-card {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #fff;
-        }
-        .system-header {
-            display: flex;
-            justify-content: space-between;
-        }
-        .issues {
-            background-color: #fff8f8;
-            padding: 10px;
-            border-left: 3px solid #cc0000;
-            margin-top: 10px;
-        }
-        .no-issues {
-            background-color: #f1f8e9;
-            padding: 10px;
-            border-left: 3px solid #4caf50;
-            margin-top: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .good {
-            color: #4caf50;
-        }
-        .warning {
-            color: #ff9800;
-        }
-        .risk {
-            color: #cc0000;
-        }
-        .compliance-meter {
-            height: 20px;
-            background-color: #f2f2f2;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .compliance-value {
-            height: 100%;
-            background-color: #4caf50;
-            text-align: center;
-            color: white;
-            line-height: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>PCI DSS v4.0 系統安全檢查 - 合併報告</h1>
-    <p>報告產生時間: 2025-04-25 12:14:16</p>
-    <p>檢查項目合規版本: PCI DSS v4.0</p>
-    
-    <div class="summary">
-        <h2>摘要</h2>
-        <p>檢查總系統數: 71</p>
-        <p>有問題的系統數: 71</p>
-        <p>檢查項目總數: 994</p>
-        <p>未通過的檢查項目數: 677</p>
-        <p>合規比率: 31%</p>
-        <div class="compliance-meter">
-            <div class="compliance-value" style="width: 31%;">
-                31%
-            </div>
-        </div>
-    </div>
-    
-    <h2>系統詳細資訊</h2>
-    <div class="systems-container">
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3021</h3>
-                <span>192.168.3.21</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3022</h3>
-                <span>192.168.3.22</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3025</h3>
-                <span>192.168.3.25</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3027</h3>
-                <span>192.168.3.27</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3028</h3>
-                <span>192.168.3.28</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 防火牆未完全啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3029-2</h3>
-                <span>192.168.3.29</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3030</h3>
-                <span>192.168.3.30</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3032</h3>
-                <span>192.168.3.32</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3035</h3>
-                <span>192.168.3.35</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3036</h3>
-                <span>192.168.3.36</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3038</h3>
-                <span>192.168.3.38</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3041</h3>
-                <span>192.168.3.41</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3042</h3>
-                <span>192.168.3.42</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3043</h3>
-                <span>192.168.3.43</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3045</h3>
-                <span>192.168.3.45</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3048</h3>
-                <span>192.168.3.48</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3054</h3>
-                <span>192.168.3.54</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3055</h3>
-                <span>192.168.3.55</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 已停用</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3058</h3>
-                <span>192.168.3.58</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3059</h3>
-                <span>192.168.3.59</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER306</h3>
-                <span>192.168.3.6</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3060</h3>
-                <span>192.168.3.60</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3063</h3>
-                <span>192.168.3.63</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3065</h3>
-                <span>192.168.3.65</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3066</h3>
-                <span>192.168.3.66</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3070</h3>
-                <span>192.168.3.70</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3072</h3>
-                <span>192.168.3.72</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3073</h3>
-                <span>192.168.3.73</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER30762</h3>
-                <span>192.168.3.76</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3077</h3>
-                <span>192.168.3.77</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3080</h3>
-                <span>192.168.3.80</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3082</h3>
-                <span>192.168.3.82</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3084</h3>
-                <span>192.168.3.84</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3087</h3>
-                <span>192.168.3.87</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3089</h3>
-                <span>192.168.3.89</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER309</h3>
-                <span>192.168.3.137</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3090</h3>
-                <span>192.168.3.90</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3095</h3>
-                <span>192.168.3.95</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> Windows更新不活躍</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3098</h3>
-                <span>192.168.3.98</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3101</h3>
-                <span>192.168.3.101</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> SMBv1協議未停用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-        <div class="system-card">
-            <div class="system-header">
-                <h3>USER3107</h3>
-                <span>192.168.3.103</span>
-            </div>
-            <p>作業系統: Windows 10 Pro (64 位元)</p>
-            <p>隸屬網域: jldc.com.tw</p>
-            <div class="issues">
-                <strong>發現的問題:</strong>
-                <ul><li>UAC 設定存在風險</li><li> BitLocker 未啟用</li><li> 安全開機未啟用</li><li> PowerShell執行原則過於寬鬆</li><li> TPM未啟用或不存在</li><li> 不安全連接埠開放: 445</li><li> 螢幕鎖定不安全</li></ul>
-            </div>
-        </div>
-    </div>
-    
-    <h2>詳細檢查結果</h2>
-    <h3>User Account Control (UAC) Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="warning">警告</td>
-        </tr>
-    </table>
-    <h3>BitLocker Disk Encryption Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="risk">風險</td>
-        </tr>
-    </table>
-    <h3>Windows Firewall Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>Antivirus Software Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>Windows Update Recent Activity</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>Remote Desktop (RDP) Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>Secure Boot Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="risk">風險</td>
-        </tr>
-    </table>
-    <h3>SMBv1 Protocol Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>PowerShell Execution Policy</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="risk">風險</td>
-        </tr>
-    </table>
-    <h3>Remote Registry Service Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>Built-in Guest Account Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="good">良好</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="good">良好</td>
-        </tr>
-    </table>
-    <h3>TPM (Trusted Platform Module) Status</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="risk">風險</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="risk">風險</td>
-        </tr>
-    </table>
-    <h3>Potentially Unsafe Listening Ports</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="warning">警告</td>
-        </tr>
-    </table>
-    <h3>Screen Auto-Lock</h3>
-    <table>
-        <tr>
-            <th>系統名稱</th>
-            <th>結果</th>
-        </tr>
-        <tr>
-            <td>USER3021</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3022</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3025</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3027</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3028</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3029-2</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3030</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3032</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3035</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3036</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3038</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3041</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3042</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3043</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3045</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3048</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3054</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3055</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3058</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3059</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER306</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3060</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3063</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3065</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3066</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3070</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3072</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3073</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER30762</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3077</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3080</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3082</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3084</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3087</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3089</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER309</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3090</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3095</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3098</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3101</td>
-            <td class="warning">警告</td>
-        </tr>
-        <tr>
-            <td>USER3107</td>
-            <td class="warning">警告</td>
-        </tr>
-    </table>
-</body>
-</html>
