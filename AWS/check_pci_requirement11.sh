@@ -79,32 +79,32 @@ echo "Verifying access to required AWS services for PCI Requirement $REQUIREMENT
 
 # Permission checks relevant to Requirement 11
 check_command_access "$OUTPUT_FILE" "ec2" "describe-vpcs" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "ec2" "describe-security-groups" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "ec2" "describe-instances" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "guardduty" "list-detectors" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "inspector2" "list-findings" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "cloudtrail" "describe-trails" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
-check_command_access "$OUTPUT_FILE" "config" "describe-config-rules" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+check_command_access "$OUTPUT_FILE" "configservice" "describe-config-rules" "$REGION"
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 permissions_percentage=$(( (passed_checks * 100) / total_checks ))
 
@@ -201,7 +201,7 @@ check_wifi_monitoring() {
     local has_monitoring=false
     
     # Check for WIDS/WIPS or other wireless monitoring in Config rules
-    config_rules=$(aws config describe-config-rules --region $REGION 2>/dev/null | grep -i wireless)
+    config_rules=$(aws configservice describe-config-rules --region $REGION 2>/dev/null | grep -i wireless)
     
     # Check for GuardDuty (might detect rogue wireless APs in certain cases)
     guardduty_detectors=$(aws guardduty list-detectors --region $REGION --query 'DetectorIds' --output text 2>/dev/null)
@@ -331,7 +331,7 @@ check_vulnerability_scanning() {
     fi
     
     # Check for AWS Config rules that might help with compliance
-    config_rules=$(aws config describe-config-rules --region $REGION 2>/dev/null | grep -i "vuln\|security")
+    config_rules=$(aws configservice describe-config-rules --region $REGION 2>/dev/null | grep -i "vuln\|security")
     
     if [ -n "$config_rules" ]; then
         details+="<p>AWS Config has rules related to security/vulnerabilities:</p>"
@@ -635,7 +635,7 @@ check_file_integrity_monitoring() {
     local has_fim=false
     
     # Check for AWS Config (can monitor configuration changes)
-    config_rules=$(aws config describe-config-rules --region $REGION 2>/dev/null | grep -i "rule")
+    config_rules=$(aws configservice describe-config-rules --region $REGION 2>/dev/null | grep -i "rule")
     
     if [ -n "$config_rules" ]; then
         has_fim=true

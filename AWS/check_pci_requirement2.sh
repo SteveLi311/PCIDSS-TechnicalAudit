@@ -40,7 +40,7 @@ check_command_access() {
     echo "Checking access to AWS $service $command..."
 
     local result
-    result=$(aws $service $command --region "$region" --max-items 1 2>&1)
+    result=$(aws $service $command --region "$region" 2>&1)
 
     if [[ $result == *"AccessDenied"* || $result == *"UnauthorizedOperation"* ]]; then
         add_check_item "$output_file" "fail" "Permissions Check: $service $command" "Insufficient permissions to access <code>$service $command</code>" "Ensure the AWS credentials have appropriate permissions"
@@ -99,7 +99,7 @@ main() {
 	check_command_access "$OUTPUT_FILE" "ec2" "describe-security-groups" "$REGION"
 	check_command_access "$OUTPUT_FILE" "ec2" "describe-instances" "$REGION"
 	check_command_access "$OUTPUT_FILE" "rds" "describe-db-instances" "$REGION"
-	check_command_access "$OUTPUT_FILE" "s3" "list-buckets" "$REGION"
+	check_command_access "$OUTPUT_FILE" "s3api" "list-buckets" "$REGION"
 	check_command_access "$OUTPUT_FILE" "lambda" "list-functions" "$REGION"
 	check_command_access "$OUTPUT_FILE" "iam" "list-users" "$REGION"
 	check_command_access "$OUTPUT_FILE" "cloudtrail" "describe-trails" "$REGION"

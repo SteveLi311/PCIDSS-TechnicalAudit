@@ -79,24 +79,24 @@ echo "Verifying access to required AWS services for PCI Requirement $REQUIREMENT
 
 # Permissions needed for Requirement 12 assessment
 check_command_access "$OUTPUT_FILE" "iam" "list-roles" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "organizations" "describe-organization" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "securityhub" "get-findings" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "cloudtrail" "describe-trails" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
-check_command_access "$OUTPUT_FILE" "config" "describe-config-rules" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+check_command_access "$OUTPUT_FILE" "configservice" "describe-config-rules" "$REGION"
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 permissions_percentage=$(( (passed_checks * 100) / total_checks ))
 
@@ -392,7 +392,7 @@ add_check_item "$OUTPUT_FILE" "warning" "12.3.3 - Cryptographic Suite Reviews" \
 
 # Try to check for AWS Config rules related to TLS/SSL
 echo "Checking for AWS Config rules related to SSL/TLS configurations..."
-CONFIG_RULES=$(aws config describe-config-rules --query "ConfigRules[?Source.SourceIdentifier=='RESTRICTED_INCOMING_TRAFFIC' || Source.SourceIdentifier=='ALB_HTTP_TO_HTTPS_REDIRECTION_CHECK' || Source.SourceIdentifier=='ENCRYPTED_VOLUMES'].ConfigRuleName" --output text --region $REGION 2>/dev/null)
+CONFIG_RULES=$(aws configservice describe-config-rules --query "ConfigRules[?Source.SourceIdentifier=='RESTRICTED_INCOMING_TRAFFIC' || Source.SourceIdentifier=='ALB_HTTP_TO_HTTPS_REDIRECTION_CHECK' || Source.SourceIdentifier=='ENCRYPTED_VOLUMES'].ConfigRuleName" --output text --region $REGION 2>/dev/null)
 
 if [[ ! -z "$CONFIG_RULES" ]]; then
     add_check_item "$OUTPUT_FILE" "info" "12.3.3 - AWS Config Rules for Encryption" \

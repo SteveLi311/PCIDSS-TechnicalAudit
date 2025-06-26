@@ -80,14 +80,15 @@ echo "Verifying access to required AWS services for PCI Requirement $REQUIREMENT
 
 # Check permissions for services needed to evaluate Requirement 3
 check_command_access "$OUTPUT_FILE" "rds" "describe-db-instances" "$REGION"
+ret=$? 
 ((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "dynamodb" "list-tables" "$REGION"
 ((total_checks++))
 [ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
-check_command_access "$OUTPUT_FILE" "s3" "list-buckets" "$REGION"
+check_command_access "$OUTPUT_FILE" "s3api" "list-buckets" "$REGION"
 ((total_checks++))
 [ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 

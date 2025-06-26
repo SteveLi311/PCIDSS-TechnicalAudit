@@ -90,7 +90,7 @@ check_command_access "$OUTPUT_FILE" "cloudtrail" "describe-trails" "$REGION"
 check_command_access "$OUTPUT_FILE" "cloudwatch" "describe-alarms" "$REGION"
 check_command_access "$OUTPUT_FILE" "iam" "list-roles" "$REGION"
 check_command_access "$OUTPUT_FILE" "kms" "list-keys" "$REGION"
-check_command_access "$OUTPUT_FILE" "config" "describe-config-rules" "$REGION"
+check_command_access "$OUTPUT_FILE" "configservice" "describe-config-rules" "$REGION"
 check_command_access "$OUTPUT_FILE" "guardduty" "list-detectors" "$REGION"
 check_command_access "$OUTPUT_FILE" "securityhub" "describe-hub" "$REGION"
 

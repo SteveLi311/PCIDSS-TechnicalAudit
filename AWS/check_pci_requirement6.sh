@@ -81,44 +81,44 @@ echo "Verifying access to required AWS services for PCI Requirement $REQUIREMENT
 
 # Check for required permissions
 check_command_access "$OUTPUT_FILE" "codebuild" "list-projects" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "codepipeline" "list-pipelines" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "ecr" "describe-repositories" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "inspector2" "list-findings" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "guardduty" "list-detectors" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "lambda" "list-functions" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "s3api" "list-buckets" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "wafv2" "list-web-acls" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "securityhub" "get-findings" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 check_command_access "$OUTPUT_FILE" "cloudformation" "list-stacks" "$REGION"
-((total_checks++))
-[ $? -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
+ret=$?; ((total_checks++))
+[ $ret -eq 0 ] && ((passed_checks++)) || ((failed_checks++))
 
 permissions_percentage=$(( (passed_checks * 100) / total_checks ))
 
