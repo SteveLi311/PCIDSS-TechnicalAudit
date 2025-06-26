@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 3 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #4285f4;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 20px;
+            display: none;
+            background-color: #ffffff;
+        }
+        .section-header.active + .section-content {
+            display: block !important;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .green { color: #4CAF50; font-weight: bold; }
+        .red { color: #f44336; font-weight: bold; }
+        .yellow { color: #ff9800; font-weight: bold; }
+        .blue { color: #2196F3; font-weight: bold; }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+        .timestamp {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        /* Print-friendly styles */
+        @media print {
+            body { background-color: white; }
+            .container { box-shadow: none; padding: 0; }
+            .section-content { display: block; }
+            .section-header::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0.1 - Requirement 3 Compliance Assessment</h1>
+        
+        <div class="info-table-container">
+            <table class="info-table">
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 08:57:46 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>GCP Account</th>
+                    <td>pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com</td>
+                </tr>
+                <tr>
+                    <th>Project</th>
+                    <td>collab-testing-orange</td>
+                </tr>
+                <tr>
+                    <th>Permission Coverage</th>
+                    <td>0%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Summary will be added after assessment completion -->
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section" id="section-storage_encryption">
+            <div class="section-header" onclick="toggleSection('storage_encryption')" aria-expanded="false">
+                <h3 style="margin: 0;">Storage Encryption Assessment (3.2-3.3)</h3>
+            </div>
+            <div class="section-content" id="content-storage_encryption">
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-database_encryption">
+            <div class="section-header" onclick="toggleSection('database_encryption')" aria-expanded="false">
+                <h3 style="margin: 0;">Database Encryption Assessment (3.4-3.5)</h3>
+            </div>
+            <div class="section-content" id="content-database_encryption">
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ SQL Instance mysql-gene-test-cloud-sql</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Using default encryption</pre>
+                        </div>
+                    </details>
+                    <div class="recommendation">
+                        <strong>Recommendation:</strong><br>
+                        Consider implementing Customer-Managed Encryption Keys (CMEK) for enhanced security
+                    </div>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ SQL Instance dbsafer-mysql-test</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Using default encryption</pre>
+                        </div>
+                    </details>
+                    <div class="recommendation">
+                        <strong>Recommendation:</strong><br>
+                        Consider implementing Customer-Managed Encryption Keys (CMEK) for enhanced security
+                    </div>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-key_management">
+            <div class="section-header" onclick="toggleSection('key_management')" aria-expanded="false">
+                <h3 style="margin: 0;">Key Management Assessment (3.6-3.7)</h3>
+            </div>
+            <div class="section-content" id="content-key_management">
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Key Management</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 1 KMS keyrings in project collab-testing-orange</pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close final section content -->
+        </div> <!-- Close final section -->
+
+        
+        <div class="summary-section" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #4CAF50;">
+            <h2 style="margin-top: 0; color: #333;">📊 Assessment Summary</h2>
+            
+            <table class="summary-table">
+                <tr>
+                    <td><strong>Total Checks</strong></td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td><strong>Passed</strong></td>
+                    <td class="green">1</td>
+                </tr>
+                <tr>
+                    <td><strong>Failed</strong></td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Warnings/Manual</strong></td>
+                    <td class="yellow">2</td>
+                </tr>
+                <tr>
+                    <td><strong>Compliance Status</strong></td>
+                    <td style="color: #4CAF50; font-weight: bold;">COMPLIANT</td>
+                </tr>
+                <tr>
+                        <td><strong>Permission Coverage</strong></td>
+                        <td>0%</td>
+                    </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">
+                    100% Compliant
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>Note:</strong> Compliance percentage calculated based on passed/failed checks only. 
+                Warnings require manual verification and are excluded from compliance calculation.
+            </p>
+        </div>
+
+        </div> <!-- Close report-content -->
+        
+        <div class="timestamp">
+            <p><strong>Report Generated:</strong> Wed Jun 25 08:57:58 UTC 2025</p>
+            <p><strong>PCI DSS Version:</strong> 4.0.1</p>
+            <p><strong>Requirement:</strong> 3</p>
+        </div>
+    </div> <!-- Close container -->
+    
+    <script>
+        // JavaScript for interactive features
+        function toggleSection(sectionId) {
+            const header = document.querySelector('#section-' + sectionId + ' .section-header');
+            const content = document.querySelector('#content-' + sectionId);
+            
+            if (header && content) {
+                const isActive = header.classList.contains('active');
+                
+                if (isActive) {
+                    header.classList.remove('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'false');
+                } else {
+                    header.classList.add('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            }
+        }
+        
+        // Auto-expand sections with failed checks
+        document.addEventListener('DOMContentLoaded', function() {
+            const failedSections = document.querySelectorAll('.section .fail');
+            failedSections.forEach(function(failedCheck) {
+                const section = failedCheck.closest('.section');
+                if (section) {
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    if (header && content && !header.classList.contains('active')) {
+                        header.classList.add('active');
+                        content.style.removeProperty('display');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+            
+            // Show print-friendly message
+            const style = document.createElement('style');
+            style.textContent = '@media print { .no-print { display: none !important; } }';
+            document.head.appendChild(style);
+        });
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(event) {
+            if (event.target.classList.contains('section-header') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                event.target.click();
+            }
+        });
+        
+        // Summary metrics are added during report generation
+    </script>
+</body>
+</html>

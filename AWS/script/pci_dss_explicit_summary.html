@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Explicit Layout Summary Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        h3 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        h4 {
+            color: #3498db;
+            margin: 15px 0 10px 0;
+        }
+        .report-date {
+            text-align: right;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Explicit layout for requirements */
+        .requirements-container {
+            margin: 30px 0;
+        }
+        .req-box {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        .req-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+        }
+        .req-badge {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 5px;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        .req-content {
+            padding: 15px;
+        }
+        .findings-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .findings-list li {
+            margin-bottom: 8px;
+        }
+        .view-more {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .view-more a {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .view-more a:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Table of contents */
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .toc h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        .toc-list {
+            display: flex;
+            flex-wrap: wrap;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .toc-item {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .toc-link {
+            display: inline-block;
+            background-color: #f0f7fd;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            border: 1px solid #d6eaf8;
+        }
+        .toc-link:hover {
+            background-color: #d6eaf8;
+        }
+        
+        /* Critical findings summary */
+        .critical-summary {
+            background-color: #fdeded;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .critical-summary h3 {
+            color: #c0392b;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Summary Report</h1>
+        
+        <div class="report-date">
+            Generated on: April 25, 2025
+        </div>
+        
+        <div class="critical-summary">
+            <h3>Critical Findings Summary</h3>
+            <p>This report highlights key findings from the PCI DSS 4.0 compliance assessment. Each requirement is shown as a separate section below. Click "View Full Report" on any requirement to see its detailed findings and recommendations.</p>
+        </div>
+        
+        <div class="toc">
+            <h3>Requirements</h3>
+            <ul class="toc-list">
+                <li class="toc-item"><a class="toc-link" href="#req1">Req 1</a></li><li class="toc-item"><a class="toc-link" href="#req2">Req 2</a></li><li class="toc-item"><a class="toc-link" href="#req3">Req 3</a></li><li class="toc-item"><a class="toc-link" href="#req4">Req 4</a></li><li class="toc-item"><a class="toc-link" href="#req5">Req 5</a></li><li class="toc-item"><a class="toc-link" href="#req6">Req 6</a></li><li class="toc-item"><a class="toc-link" href="#req7">Req 7</a></li><li class="toc-item"><a class="toc-link" href="#req8">Req 8</a></li><li class="toc-item"><a class="toc-link" href="#req9">Req 9</a></li><li class="toc-item"><a class="toc-link" href="#req10">Req 10</a></li>
+            </ul>
+        </div>
+        
+        <h2>Requirements Summary</h2>
+        
+        <div class="requirements-container">
+            
+        <div class="req-box" id="req1">
+            <div class="req-header">
+                <span class="req-badge">REQ 1</span>
+                <h3>PCI DSS 4.0 - Requirement 1 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>1.2.6 - Security features for insecure services/protocols</li><li>1.2.7 - NSC configuration monitoring</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 1 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req2">
+            <div class="req-header">
+                <span class="req-badge">REQ 2</span>
+                <h3>PCI DSS 4.0 - Requirement 2 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>Default Security Groups</li><li>RDS Encryption</li><li>RDS Default Ports</li><li>...plus 6 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 2 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req3">
+            <div class="req-header">
+                <span class="req-badge">REQ 3</span>
+                <h3>PCI DSS 4.0 - Requirement 3 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: dynamodb list-tables</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 3 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req4">
+            <div class="req-header">
+                <span class="req-badge">REQ 4</span>
+                <h3>PCI DSS 4.0 - Requirement 4 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>4.2.1 - TLS Implementation</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 4 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req5">
+            <div class="req-header">
+                <span class="req-badge">REQ 5</span>
+                <h3>PCI DSS 4.0 - Requirement 5 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>5.2.1 - Anti-malware protection deployment</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 5 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req6">
+            <div class="req-header">
+                <span class="req-badge">REQ 6</span>
+                <h3>PCI DSS 4.0 - Requirement 6 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: codebuild list-projects</li><li>AWS API Access: codepipeline list-pipelines</li><li>AWS API Access: cloudformation list-stacks</li><li>...plus 2 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 6 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req7">
+            <div class="req-header">
+                <span class="req-badge">REQ 7</span>
+                <h3>PCI DSS 4.0 - Requirement 7 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: accessanalyzer list-analyzers</li><li>7.2.2 - Least Privilege Assignment</li><li>7.2.4 - User Account Reviews</li><li>...plus 3 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 7 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req8">
+            <div class="req-header">
+                <span class="req-badge">REQ 8</span>
+                <h3>PCI DSS v4.0.1 - Requirement 8 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS CLI Access: accessanalyzer list-analyzers</li><li>AWS CLI Access: configservice describe-configuration-recorders</li><li>8.3.6 - Password/Passphrase Requirements</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 8 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req9">
+            <div class="req-header">
+                <span class="req-badge">REQ 9</span>
+                <h3>PCI DSS 4.0 - Requirement 9 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: securityhub describe-hub</li><li>9.3.x - KMS Key Management (equivalent to physical key control)</li><li>9.4.x - S3 Bucket Encryption (for secure media storage)</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 9 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-box" id="req10">
+            <div class="req-header">
+                <span class="req-badge">REQ 10</span>
+                <h3>PCI DSS 4.0 - Requirement 10 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-content">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: dynamodb list-tables</li><li>AWS API Access: securityhub describe-hub</li><li>AWS API Access: configservice describe-config-rules</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 10 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+</body>
+</html>

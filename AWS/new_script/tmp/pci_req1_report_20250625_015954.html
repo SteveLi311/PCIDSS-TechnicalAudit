@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 1 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 1 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 02:00:00 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpcs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-security-groups</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-network-acls</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-subnets</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-route-tables</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpc-endpoints</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpc-peering-connections</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-nat-gateways</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-internet-gateways</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-flow-logs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: wafv2 list-web-acls</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-transit-gateways</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div><p>Sufficient permissions detected. 100% of required permissions are available.</p><p>All necessary AWS API calls can be performed for a comprehensive assessment.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target VPC Environments
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-vpcs">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> VPC Retrieval</h3>
+                        <div>Successfully retrieved 4 VPCs for assessment.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> VPC Environment Identification</h3>
+                        <div><p>All 4 VPCs will be assessed:</p><pre>vpc-069b6cf0ad93fa1b1	vpc-0e6db20697dda10a0	vpc-f25d9f94	vpc-061af85fb2400cae6</pre><p>For an accurate assessment, you should identify which of these VPCs are part of your Cardholder Data Environment (CDE).</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 1.1: Processes and mechanisms for installing and maintaining network security controls are defined and understood
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-1.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.1.1 & 1.1.2 - Network Security Control Processes</h3>
+                        <div>
+<p>Requirement 1.1 focuses on documenting and maintaining processes for network security controls.</p>
+<p>This requirement covers:</p>
+<ul>
+    <li><strong>1.1.1</strong> - Security policies and operational procedures for network security controls must be:
+        <ul>
+            <li>Documented</li>
+            <li>Kept up to date</li>
+            <li>In use</li>
+            <li>Known to all affected parties</li>
+        </ul>
+    </li>
+    <li><strong>1.1.2</strong> - Roles and responsibilities for performing activities in Requirement 1 must be documented, assigned, and understood</li>
+</ul>
+
+<p>This requires manual verification through documentation review and interviews. AWS artifacts that may assist with this assessment include:</p>
+<ul>
+    <li>AWS Organizations Service Control Policies (SCPs) documentation</li>
+    <li>AWS Identity and Access Management (IAM) role documentation</li>
+    <li>Network security control documentation, runbooks, and procedures</li>
+    <li>Change management documentation related to network controls</li>
+</ul>
+</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review network security control documentation to ensure it meets PCI DSS 4.0 requirements 1.1.1 and 1.1.2. Ensure documentation is accessible to all relevant personnel and that roles are clearly defined.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 1.2: Network Security Controls Configuration
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-1.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.1 - Configuration standards for NSC rulesets</h3>
+                        <div><p>This requirement needs manual verification of defined configuration standards for all network security controls.</p>
+<p>Per PCI DSS Requirement 1.2.1, configuration standards for NSC rulesets must be:</p>
+<ul>
+    <li>Defined</li>
+    <li>Implemented</li>
+    <li>Maintained</li>
+</ul>
+<p>AWS resources to examine:</p>
+<ul>
+    <li>Security group policies and standards</li>
+    <li>Network ACL configuration standards</li>
+    <li>VPC configuration documentation</li>
+    <li>AWS WAF rule documentation</li>
+    <li>AWS Config rules for NSC validation</li>
+</ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review documentation to verify configuration standards exist for firewalls (Security Groups, NACLs) and other network security controls. Standards should include default deny rules and documentation of all permitted traffic flows.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.2 - Change control processes for network connections and NSCs</h3>
+                        <div>This requirement needs manual verification of change control processes for network security controls.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review CloudTrail logs for changes to Security Groups, NACLs, and other network controls to verify proper change management processes.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.3 - Network diagrams</h3>
+                        <div>This requirement needs manual verification of network diagrams showing all connections to the CDE.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review network diagrams and compare with actual AWS infrastructure to ensure accuracy and completeness.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.4 - Data-flow diagrams</h3>
+                        <div>This requirement needs manual verification of data-flow diagrams showing account data flows.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review data-flow diagrams and compare with actual AWS infrastructure and data flows to ensure accuracy and completeness.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.5 - Ports, protocols, and services inventory</h3>
+                        <div><p>Findings for allowed ports, protocols, and services:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li>Security Group: sg-0bbd10de99060e9bc (test-sg)</li><ul><li class="red">WARNING: Has 4 public inbound rules (0.0.0.0/0)</li><li><pre>"IpProtocol": "tcp",
+"FromPort": 22,
+"ToPort": 22,</pre></li></ul><li>Security Group: sg-02af473e8e8afce72 (default)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-04b48ad950d31f1bf (openvpn-sg)</li><ul><li class="red">WARNING: Has 2 public inbound rules (0.0.0.0/0)</li><li><pre>"IpProtocol": "icmp",
+"FromPort": -1,
+"ToPort": -1,</pre></li></ul></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li>Security Group: sg-0690c4c05ff583cbe (default)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-0dce88c8ff73cf4c9 (Test-allow-mgmt)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-09b71d1dc244e1ffe (test-kane-connection)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-01d5a1c02e2eae779 (steve-test-01-sg)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul></ul><li>VPC: vpc-f25d9f94</li><ul><li>Security Group: sg-0626f69d7b7e6d581 (CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--1)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-094b1d72fe87ad29c (CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--3)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-04c03639b8ebfe225 (CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--2)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-5344dd1e (default)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-05102058a870d5661 (launch-wizard-2)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-0bb546036c7924b20 (launch-wizard-1)</li><ul><li class="red">WARNING: Has 2 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li>Security Group: sg-04addcce3698f8bf4 (allow-OSSEC-agent-port)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-02e9a954925cb0af5 (prod-allow-asv-source)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-07e254baaf73e3c6c (allow-gvm-scan)</li><ul><li class="green">No public inbound rules (0.0.0.0/0) found</li></ul><li>Security Group: sg-0b986cb40fdbfe862 (openvas-scan)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-062ace242ca45fab1 (default)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-0bc1750e7aba69d4d (Prod-mgmt-to-vm)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul><li>Security Group: sg-0164cf2b2eccbcc04 (prod-allow-office-rdp)</li><ul><li class="red">WARNING: Has 1 public inbound rules (0.0.0.0/0)</li><li><pre></pre></li></ul></ul></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document business justification for all allowed ports, protocols, and services. Ensure all allowed services, protocols, and ports are identified and have defined business needs.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 1.2.6 - Security features for insecure services/protocols</h3>
+                        <div><p class="green">No common insecure services/protocols detected in security groups</p><p>All examined security groups appear to be using secure services and protocols, or have appropriate restrictions in place.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.2.7 - Regular review of NSC configurations</h3>
+                        <div><p>AWS Config is enabled, but no PCI-specific AWS Config Rules were detected.</p><p>Manual verification is required to ensure network security control configurations are reviewed at least once every six months.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Deploy AWS Config Rules specific to PCI DSS compliance. Implement a process for regular review (at least once every six months) of network security control configurations.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 1.2.8 - NSC configuration files security</h3>
+                        <div><p>No obviously overly permissive network security control IAM policies detected.</p><p>In AWS, network security control configurations are protected through IAM permissions.</p><p>Note: Additional manual verification of IAM permissions is recommended.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 1.3: Network access to and from the cardholder data environment is restricted
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-1.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.3.1 - Inbound traffic to CDE restriction</h3>
+                        <div><p>Analysis of inbound traffic controls for potential CDE subnets:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li>Subnet: subnet-0a1e2473c3722d2e5</li><ul><li>Associated NACL: acl-06c7f912189ea624a</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li>Subnet: subnet-0e18e44736c6f31a3</li><ul><li>Associated NACL: acl-03300f958ca151ea5</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul></ul><li>VPC: vpc-f25d9f94</li><ul><li>Subnet: subnet-46932520</li><ul><li>Associated NACL: acl-02671064</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul><li>Subnet: subnet-ba1e73e3</li><ul><li>Associated NACL: acl-02671064</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul><li>Subnet: subnet-75c96f3d</li><ul><li>Associated NACL: acl-02671064</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li>Subnet: subnet-097a5b1df7804fa56</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul><li>Subnet: subnet-0ca451113751002a4</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul><li>Subnet: subnet-0972592f9507d3477</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="red">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li><li><pre>0.0.0.0/0	False	-1	allow	100</pre></li></ul></ul></ul><p class="yellow">NOTE: A complete CDE traffic restriction assessment requires identifying all CDE subnets and detailed traffic flow analysis</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure inbound traffic to the CDE is restricted to only necessary traffic. Identify all CDE subnets and ensure proper traffic restrictions are in place.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.3.2 - Outbound traffic from CDE restriction</h3>
+                        <div><p>Analysis of outbound traffic controls for potential CDE subnets:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li>Subnet: subnet-0a1e2473c3722d2e5</li><ul><li>Associated NACL: acl-06c7f912189ea624a</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li>Subnet: subnet-0e18e44736c6f31a3</li><ul><li>Associated NACL: acl-03300f958ca151ea5</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul></ul><li>VPC: vpc-f25d9f94</li><ul><li>Subnet: subnet-46932520</li><ul><li>Associated NACL: acl-02671064</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul><li>Subnet: subnet-ba1e73e3</li><ul><li>Associated NACL: acl-02671064</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul><li>Subnet: subnet-75c96f3d</li><ul><li>Associated NACL: acl-02671064</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li>Subnet: subnet-097a5b1df7804fa56</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul><li>Subnet: subnet-0ca451113751002a4</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul><li>Subnet: subnet-0972592f9507d3477</li><ul><li>Associated NACL: acl-0732656c1f94c3022</li><li class="yellow">NACL allows all outbound traffic (0.0.0.0/0 allow)</li></ul></ul></ul><p class="yellow">NOTE: A complete CDE outbound traffic assessment requires detailed traffic flow analysis</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure outbound traffic from the CDE is restricted to only necessary traffic. Identify all CDE subnets and ensure proper outbound traffic restrictions are in place.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.3.3 - Wireless networks and CDE</h3>
+                        <div><p>AWS Client VPN and Direct Connect assessment:</p><p class="green">No AWS Client VPN endpoints detected.</p><p class="yellow">NOTE: This requirement primarily applies to on-premises environments but consider AWS Client VPN and Direct Connect connections to your AWS environment</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure proper security controls are in place between any wireless networks and the CDE. If using AWS Client VPN or Direct Connect, verify proper security controls, including security groups and logging.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 1.4: Network Connections Between Trusted/Untrusted Networks
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-1.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.4.1 - NSCs between trusted and untrusted networks</h3>
+                        <div><p>Analysis of connections between trusted and untrusted networks:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li>Internet Gateway detected: igw-0be203ca93f851064</li><li class="yellow">Found instances with public IPs:</li><ul><li>Instance ID: i-08717d827797dd6a5</li><li>Security Groups: sg-0b986cb40fdbfe862	sg-04b48ad950d31f1bf</li><ul><li class="green">Security group sg-0b986cb40fdbfe862 has properly restricted inbound rules</li><li class="red">WARNING: Security group sg-04b48ad950d31f1bf has open ports to the internet (0.0.0.0/0)</li></ul><li>Instance ID: i-01766dfdbb4d58782</li><li>Security Groups: sg-0b986cb40fdbfe862	sg-04b48ad950d31f1bf</li><ul><li class="green">Security group sg-0b986cb40fdbfe862 has properly restricted inbound rules</li><li class="red">WARNING: Security group sg-04b48ad950d31f1bf has open ports to the internet (0.0.0.0/0)</li></ul></ul><li>No VPC Peering connections detected</li><li>No Transit Gateway connections detected</li></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li>Internet Gateway detected: igw-0bf6c46ed6fade9ac</li><li class="yellow">Found instances with public IPs:</li><ul><li>Instance ID: i-0edd1bd69656c0291</li><li>Security Groups: sg-0dce88c8ff73cf4c9</li><ul><li class="green">Security group sg-0dce88c8ff73cf4c9 has properly restricted inbound rules</li></ul><li>Instance ID: i-0830648e8ddd8522e</li><li>Security Groups: sg-01d5a1c02e2eae779</li><ul><li class="green">Security group sg-01d5a1c02e2eae779 has properly restricted inbound rules</li></ul></ul><li>No VPC Peering connections detected</li><li>No Transit Gateway connections detected</li></ul><li>VPC: vpc-f25d9f94</li><ul><li>Internet Gateway detected: igw-39937e5e</li><li class="green">No instances with public IPs found</li><li>No VPC Peering connections detected</li><li>No Transit Gateway connections detected</li></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li>Internet Gateway detected: igw-0e0ef3caae04b3a83</li><li class="yellow">Found instances with public IPs:</li><ul><li>Instance ID: i-0da3583b888d44b66</li><li>Security Groups: sg-0b986cb40fdbfe862	sg-0bc1750e7aba69d4d	sg-04addcce3698f8bf4	sg-07e254baaf73e3c6c</li><ul><li class="green">Security group sg-0b986cb40fdbfe862 has properly restricted inbound rules</li><li class="green">Security group sg-0bc1750e7aba69d4d has properly restricted inbound rules</li><li class="green">Security group sg-04addcce3698f8bf4 has properly restricted inbound rules</li><li class="green">Security group sg-07e254baaf73e3c6c has properly restricted inbound rules</li></ul><li>Instance ID: i-0cbd41e44508eac62</li><li>Security Groups: sg-0bc1750e7aba69d4d</li><ul><li class="green">Security group sg-0bc1750e7aba69d4d has properly restricted inbound rules</li></ul><li>Instance ID: i-080847cc53b47de48</li><li>Security Groups: sg-0164cf2b2eccbcc04	sg-02e9a954925cb0af5	sg-0b986cb40fdbfe862	sg-07e254baaf73e3c6c</li><ul><li class="green">Security group sg-0164cf2b2eccbcc04 has properly restricted inbound rules</li><li class="green">Security group sg-02e9a954925cb0af5 has properly restricted inbound rules</li><li class="green">Security group sg-0b986cb40fdbfe862 has properly restricted inbound rules</li><li class="green">Security group sg-07e254baaf73e3c6c has properly restricted inbound rules</li></ul></ul><li class="yellow">VPC Peering connections detected:</li><ul><li>pcx-02cda0cd42ef7e0d7</li><li>pcx-05e2d35341413d0b3</li><li>pcx-09dcc78ab060ee5e6</li></ul><li>No Transit Gateway connections detected</li></ul></ul><p class="yellow">NOTE: A complete assessment requires understanding of which networks are trusted vs. untrusted</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure proper network security controls are implemented between trusted and untrusted networks. Identify and classify all networks as trusted or untrusted, and verify appropriate security controls at boundaries.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.4.2 - Inbound traffic from untrusted networks</h3>
+                        <div><p>Analysis of inbound traffic from untrusted networks:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li>No Load Balancers detected</li></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li>No Load Balancers detected</li></ul><li>VPC: vpc-f25d9f94</li><ul><li>No Load Balancers detected</li></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li>No Load Balancers detected</li></ul></ul><p class="yellow">NOTE: A complete assessment requires detailed analysis of all public endpoints</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Restrict inbound traffic from untrusted networks to only communications with authorized publicly accessible system components. Consider using AWS WAF for additional protection of internet-facing load balancers.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 1.4.3 - Anti-spoofing measures</h3>
+                        <div><p>AWS VPC provides anti-spoofing by default through source/destination checks on EC2 instances.</p><p>Analysis of source/destination checks on EC2 instances:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li class="green">All instances have source/destination checks enabled</li></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li class="green">All instances have source/destination checks enabled</li></ul><li>VPC: vpc-f25d9f94</li><ul><li>No instances found</li></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li class="green">All instances have source/destination checks enabled</li></ul></ul></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.4.4 - CHD system components not directly accessible from untrusted networks</h3>
+                        <div><p>Analysis of potential direct access to CHD systems from untrusted networks:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li class="yellow">WARNING: 2 instances with public IPs found:</li><ul><li>Instance: i-08717d827797dd6a5 (openvpn-for-portal-user-2) - Type: t2.micro - Public IP: 13.212.54.64</li><li>Instance: i-01766dfdbb4d58782 (openvpn-for-portal-user-3) - Type: t2.micro - Public IP: 13.228.126.249</li></ul><li class="green">No publicly accessible RDS instances found</li></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li class="yellow">WARNING: 2 instances with public IPs found:</li><ul><li>Instance: i-0edd1bd69656c0291 (aws-ec2-test-win-01) - Type: t3.medium - Public IP: 13.228.66.94</li><li>Instance: i-0830648e8ddd8522e (steve-test-01) - Type: t2.micro - Public IP: 54.254.172.221</li></ul><li class="green">No publicly accessible RDS instances found</li></ul><li>VPC: vpc-f25d9f94</li><ul><li class="green">No instances with public IPs found</li><li class="green">No publicly accessible RDS instances found</li></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li class="yellow">WARNING: 3 instances with public IPs found:</li><ul><li>Instance: i-0da3583b888d44b66 (aws-ec2-prod-fim-01) - Type: t3.small - Public IP: 18.142.65.156</li><li>Instance: i-0cbd41e44508eac62 (aws-ec2-prod-gvm-01) - Type: t3a.medium - Public IP: 18.139.65.44</li><li>Instance: i-080847cc53b47de48 (aws-ec2-prod-jump-01) - Type: t3a.medium - Public IP: 54.255.1.29</li></ul><li class="green">No publicly accessible RDS instances found</li></ul></ul><p>According to PCI DSS requirement 1.4.4, system components that store cardholder data must not be directly accessible from untrusted networks such as the Internet.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Verify none of the instances with public IPs store cardholder data. If they do, implement security controls to ensure they are not directly accessible from untrusted networks, such as using a WAF, VPN, or jump box architecture.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.4.5 - Disclosure of internal IP addresses and routing information</h3>
+                        <div><p>Analysis of potential internal IP address disclosure:</p><ul><li class="green">No internet-facing Load Balancers detected</li><li class="green">No public S3 buckets detected</li></ul><p class="yellow">NOTE: A complete assessment requires checking for IP disclosure in application responses</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Limit disclosure of internal IP addresses and routing information to only authorized parties. Verify application responses do not contain internal IP addresses and routing information.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 1.5: CDE Risk Mitigation
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-1.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 1.5.1 - Security controls for computing devices connecting to both untrusted networks and the CDE</h3>
+                        <div><p>Analysis of computing devices that may connect to both untrusted networks and the CDE:</p><ul><li>VPC: vpc-069b6cf0ad93fa1b1</li><ul><li class="yellow">VPC has internet connectivity through gateway: igw-0be203ca93f851064</li><li class="yellow">Instances in this VPC may have connectivity to both CDE and untrusted networks</li><li>Instances: i-0963fb04f890084a2
+openvpn-for-portal-user (disabled)
+i-08717d827797dd6a5
+openvpn-for-portal-user-2
+i-01766dfdbb4d58782
+openvpn-for-portal-user-3
+i-03b3fb3510d5a7bbb
+test
+i-0082ada0851a06fec
+test-wp</li><li class="yellow">No evidence of Systems Manager agent found for these instances</li></ul><li>VPC: vpc-0e6db20697dda10a0</li><ul><li class="yellow">VPC has internet connectivity through gateway: igw-0bf6c46ed6fade9ac</li><li class="yellow">Instances in this VPC may have connectivity to both CDE and untrusted networks</li><li>Instances: i-0edd1bd69656c0291
+aws-ec2-test-win-01
+i-0830648e8ddd8522e
+steve-test-01</li><li class="yellow">No evidence of Systems Manager agent found for these instances</li></ul><li>VPC: vpc-f25d9f94</li><ul><li class="yellow">VPC has internet connectivity through gateway: igw-39937e5e</li><li>No instances found in this VPC</li></ul><li>VPC: vpc-061af85fb2400cae6</li><ul><li class="yellow">VPC has internet connectivity through gateway: igw-0e0ef3caae04b3a83</li><li class="yellow">Instances in this VPC may have connectivity to both CDE and untrusted networks</li><li>Instances: i-0da3583b888d44b66
+aws-ec2-prod-fim-01
+i-0cbd41e44508eac62
+aws-ec2-prod-gvm-01
+i-080847cc53b47de48
+aws-ec2-prod-jump-01</li><li class="yellow">No evidence of Systems Manager agent found for these instances</li></ul></ul><p class="yellow">NOTE: A complete assessment requires identifying all devices that connect to both the CDE and untrusted networks</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement security controls on computing devices that connect to both untrusted networks and the CDE. Consider using AWS Systems Manager, Inspector, or GuardDuty for additional security.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Wed Jun 25 02:03:22 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td><span class="green">3</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">6</span></td>
+                    <td>25%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 25%; background-color: #f44336;">
+                    25%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 1.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

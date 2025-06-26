@@ -1,0 +1,23 @@
+<getinfo>
+  <project>094692261598</project>
+  <region>ap-southeast-1</region>
+  <date>20250619</date>
+  <time>11:02</time>
+  <requirement>1.3.2 - NACL outbound</requirement>
+  <evidence>
+  <vpc id="vpc-0e6db20697dda10a0" name="SecuCollab AWS Blue">
+    <subnet id="subnet-0e18e44736c6f31a3" name="SecuCollab AWS Blue-DMZ">
+      <nacl id="acl-03300f958ca151ea5" name="Unnamed">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  </evidence>
+</getinfo>

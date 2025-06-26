@@ -1,0 +1,27 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-0830648e8ddd8522e</instanceid>
+  <hostname>steve-test-01</hostname>
+  <system>Linux/UNIX</system>
+  <ip>10.201.1.18</ip>
+  <publicip>13.212.250.114</publicip>
+  <instancetype>t2.micro</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <launch_time>2025/04/24 上午 09:57 (UTC+00:00)</launch_time>
+  <current_time>2025/05/21 上午 09:55 (UTC+00:00)</current_time>
+  <requirement>3.6.1 - Key Protection Procedures</requirement>
+  <evidence>
+
+  <key_id>64236ba1-d2d1-49d9-845a-f72e48454ad4</key_id>
+    <alias>alias/test-key-01</alias>
+    <policy>
+      <wildcard_principal>no</wildcard_principal>
+      <condition>yes</condition>
+      <admin_use_separated>no</admin_use_separated>
+    </policy>
+    <usage>
+      <cloudtrail_event_count>50</cloudtrail_event_count>
+    </usage>
+    <rotation>False</rotation>
+  </evidence>
+</getinfo>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 11 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 11 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun  5 03:04:23 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpcs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-security-groups</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-instances</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: guardduty list-detectors</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: inspector2 list-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail describe-trails</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: config describe-config-rules</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div>Sufficient permissions detected. 85% of required permissions are available.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target Resources
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-resources">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> Resource Identification</h3>
+                        <div>All VPCs will be assessed: <pre>vpc-069b6cf0ad93fa1b1	vpc-0e6db20697dda10a0	vpc-f25d9f94	vpc-061af85fb2400cae6</pre></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.1: Processes and mechanisms for regularly testing security of systems and networks
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.1.1 - Security Policies and Procedures Documentation</h3>
+                        <div>This check requires manual verification that all security policies and operational procedures for regularly testing security of systems and networks are documented, kept up to date, in use, and known to all affected parties.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain documented security policies and procedures for regularly testing system and network security. Ensure they are accessible to relevant personnel and regularly reviewed.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.1.2 - Roles and Responsibilities Assignment</h3>
+                        <div>This check requires manual verification that roles and responsibilities for performing activities in Requirement 11 are documented, assigned, and understood.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and assign specific roles and responsibilities for security testing activities, including vulnerability scanning, penetration testing, and intrusion detection monitoring.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.2: Wireless access points are identified and monitored
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.2">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.2.1 - Wireless Access Point Monitoring (VPC: vpc-069b6cf0ad93fa1b1)</h3>
+                        <div><p>GuardDuty is enabled in this region, which can help detect some unusual network activity that might indicate rogue wireless access points.</p><p>Detector IDs: f4bdd236046b8bf4481e3c3961066b80</p><p>VPC Flow Logs are not enabled for VPC vpc-069b6cf0ad93fa1b1. Consider enabling flow logs to monitor network traffic patterns.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.2.2 - Wireless Access Point Inventory (VPC: vpc-069b6cf0ad93fa1b1)</h3>
+                        <div>This check requires manual verification that an inventory of authorized wireless access points is maintained with business justification.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain an up-to-date inventory of all authorized wireless access points. Document business justification for each wireless access point.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.2.1 - Wireless Access Point Monitoring (VPC: vpc-0e6db20697dda10a0)</h3>
+                        <div><p>GuardDuty is enabled in this region, which can help detect some unusual network activity that might indicate rogue wireless access points.</p><p>Detector IDs: f4bdd236046b8bf4481e3c3961066b80</p><p>VPC Flow Logs are not enabled for VPC vpc-0e6db20697dda10a0. Consider enabling flow logs to monitor network traffic patterns.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.2.2 - Wireless Access Point Inventory (VPC: vpc-0e6db20697dda10a0)</h3>
+                        <div>This check requires manual verification that an inventory of authorized wireless access points is maintained with business justification.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain an up-to-date inventory of all authorized wireless access points. Document business justification for each wireless access point.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.2.1 - Wireless Access Point Monitoring (VPC: vpc-f25d9f94)</h3>
+                        <div><p>GuardDuty is enabled in this region, which can help detect some unusual network activity that might indicate rogue wireless access points.</p><p>Detector IDs: f4bdd236046b8bf4481e3c3961066b80</p><p>VPC Flow Logs are not enabled for VPC vpc-f25d9f94. Consider enabling flow logs to monitor network traffic patterns.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.2.2 - Wireless Access Point Inventory (VPC: vpc-f25d9f94)</h3>
+                        <div>This check requires manual verification that an inventory of authorized wireless access points is maintained with business justification.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain an up-to-date inventory of all authorized wireless access points. Document business justification for each wireless access point.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.2.1 - Wireless Access Point Monitoring (VPC: vpc-061af85fb2400cae6)</h3>
+                        <div><p>GuardDuty is enabled in this region, which can help detect some unusual network activity that might indicate rogue wireless access points.</p><p>Detector IDs: f4bdd236046b8bf4481e3c3961066b80</p><p>VPC Flow Logs are not enabled for VPC vpc-061af85fb2400cae6. Consider enabling flow logs to monitor network traffic patterns.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.2.2 - Wireless Access Point Inventory (VPC: vpc-061af85fb2400cae6)</h3>
+                        <div>This check requires manual verification that an inventory of authorized wireless access points is maintained with business justification.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain an up-to-date inventory of all authorized wireless access points. Document business justification for each wireless access point.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.3: External and internal vulnerabilities are regularly identified and addressed
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.3">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.3.1 - Internal Vulnerability Scanning</h3>
+                        <div><p>AWS Inspector is enabled, which provides automated vulnerability assessments:</p><ul><li>Active findings: 0</li><li>Critical vulnerabilities: </li><li>High vulnerabilities: </li><li>Medium vulnerabilities: </li></ul><p class='green'>No critical or high vulnerabilities detected in AWS Inspector findings.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.3.2 - External Vulnerability Scanning</h3>
+                        <div>This check requires manual verification that external vulnerability scans are performed quarterly by a PCI SSC Approved Scanning Vendor (ASV). The scans must meet ASV Program Guide requirements for a passing scan, with vulnerabilities properly resolved and verified through rescans. Per Requirement 11.3.2.1, scans must also be performed after any significant infrastructure or application change.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Engage a PCI SSC Approved Scanning Vendor (ASV) to perform external vulnerability scans at least once every three months and after significant changes. Ensure all vulnerabilities are resolved according to ASV Program Guide requirements, and verified through rescans. For significant changes outside of quarterly scans, ensure vulnerabilities scored 4.0 or higher by CVSS are resolved.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.4: External and internal penetration testing is regularly performed
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.4.1 - Penetration Testing Methodology</h3>
+                        <div>This check requires manual verification that a penetration testing methodology is defined, documented, and implemented. The methodology must include: industry-accepted approaches, coverage for the entire CDE perimeter and critical systems, testing from both inside and outside the network, testing to validate segmentation controls, application-layer testing covering vulnerabilities in Requirement 6.2.4, network-layer testing, review of threats and vulnerabilities from the last 12 months, documented approach for risk assessment, and retention of test results for at least 12 months.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document a penetration testing methodology that includes industry-accepted approaches, covers the entire CDE perimeter and critical systems, includes testing from both inside and outside the network, validates segmentation controls, and includes application-layer and network-layer testing. Review threats from the last 12 months and retain results for at least 12 months.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.4.2 - Internal Penetration Testing</h3>
+                        <div>This check requires manual verification that internal penetration testing is performed at least once every 12 months and after significant changes. AWS does not provide built-in penetration testing services, though AWS does allow penetration testing with prior approval.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Perform internal penetration testing at least once every 12 months and after significant infrastructure or application upgrades or changes. Use qualified testers with organizational independence. For testing on AWS, follow AWS penetration testing guidelines and request permissions: https://aws.amazon.com/security/penetration-testing/
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.4.3/11.4.4 - External Penetration Testing</h3>
+                        <div>This check requires manual verification that external penetration testing is performed at least once every 12 months and after significant changes. AWS does not provide built-in penetration testing services, though AWS does allow penetration testing with prior approval.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Perform external penetration testing at least once every 12 months and after significant infrastructure or application upgrades or changes. Use qualified testers with organizational independence. Correct all exploitable vulnerabilities and security weaknesses, and perform retesting to verify corrections.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.4.5 - Segmentation Controls Testing (VPC: vpc-069b6cf0ad93fa1b1)</h3>
+                        <div><p>No VPC peering connections found for VPC vpc-069b6cf0ad93fa1b1.</p><p>No Transit Gateway attachments found for VPC vpc-069b6cf0ad93fa1b1.</p><p>VPC vpc-069b6cf0ad93fa1b1 has the following Network ACLs:</p><ul><li>NACL ID: acl-06c7f912189ea624a</li><li class='green'>Has default deny rule (32767)</li></ul><p>VPC vpc-069b6cf0ad93fa1b1 has 3 Security Groups.</p><p class='red'>WARNING: The following Security Groups allow traffic from 0.0.0.0/0 (any source):</p><ul><li>sg-0bbd10de99060e9bc</li><pre>Open to 0.0.0.0/0: 80	80	tcp
+22	22	tcp
+443	443	tcp</pre><li>sg-04b48ad950d31f1bf</li><pre>Open to 0.0.0.0/0: 1194	1194	udp</pre></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement network segmentation controls and perform penetration testing to validate them at least once every 12 months and after any changes to segmentation controls/methods.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.4.5 - Segmentation Controls Testing (VPC: vpc-0e6db20697dda10a0)</h3>
+                        <div><p>No VPC peering connections found for VPC vpc-0e6db20697dda10a0.</p><p>No Transit Gateway attachments found for VPC vpc-0e6db20697dda10a0.</p><p>VPC vpc-0e6db20697dda10a0 has the following Network ACLs:</p><ul><li>NACL ID: acl-03300f958ca151ea5</li><li class='green'>Has default deny rule (32767)</li></ul><p>VPC vpc-0e6db20697dda10a0 has 4 Security Groups.</p><p class='green'>No Security Groups with 0.0.0.0/0 sources found.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 11.4.5 - Segmentation Controls Testing (VPC: vpc-f25d9f94)</h3>
+                        <div><p>No VPC peering connections found for VPC vpc-f25d9f94.</p><p>No Transit Gateway attachments found for VPC vpc-f25d9f94.</p><p>VPC vpc-f25d9f94 has the following Network ACLs:</p><ul><li>NACL ID: acl-02671064</li><li class='green'>Has default deny rule (32767)</li></ul><p>VPC vpc-f25d9f94 has 6 Security Groups.</p><p class='red'>WARNING: The following Security Groups allow traffic from 0.0.0.0/0 (any source):</p><ul><li>sg-0bb546036c7924b20</li><pre>Open to 0.0.0.0/0: 22	22	tcp</pre></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review and update network segmentation controls (security groups, NACLs, etc.) to ensure proper isolation of the CDE from other networks. Remove overly permissive rules (e.g., 0.0.0.0/0) where not absolutely necessary. Perform penetration testing to validate segmentation controls at least once every 12 months and after any changes.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.4.5 - Segmentation Controls Testing (VPC: vpc-061af85fb2400cae6)</h3>
+                        <div><p>No VPC peering connections found for VPC vpc-061af85fb2400cae6.</p><p>No Transit Gateway attachments found for VPC vpc-061af85fb2400cae6.</p><p>VPC vpc-061af85fb2400cae6 has the following Network ACLs:</p><ul><li>NACL ID: acl-0732656c1f94c3022</li><li class='green'>Has default deny rule (32767)</li></ul><p>VPC vpc-061af85fb2400cae6 has 7 Security Groups.</p><p class='green'>No Security Groups with 0.0.0.0/0 sources found.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.4.6/11.4.7 - Additional Service Provider Requirements</h3>
+                        <div>These checks apply only to service providers and multi-tenant service providers, requiring more frequent segmentation testing (every six months) and support for customer penetration testing.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If you are a service provider, ensure segmentation testing is performed every six months rather than annually. If you are a multi-tenant service provider, ensure you support customers' external penetration testing requirements.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.5: Network intrusions and unexpected file changes are detected and responded to
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.5">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.5.1 - Intrusion Detection Systems (VPC: vpc-069b6cf0ad93fa1b1)</h3>
+                        <div><p class='green'>Amazon GuardDuty is enabled in this region, which provides intrusion detection capabilities:</p><ul><li>Detector ID: f4bdd236046b8bf4481e3c3961066b80</li><li class='green'>Status: ENABLED</li></ul><p class='green'>AWS Network Firewall is deployed in this region, which can provide network threat detection and prevention:</p><pre>    "Firewalls": []</pre><p>VPC Flow Logs are not enabled for VPC vpc-069b6cf0ad93fa1b1. Consider enabling flow logs to aid in network traffic analysis.</p><p class='green'>AWS CloudTrail is configured, which logs AWS API activity:</p><pre>prod-orange-cloud-trail	ap-southeast-1	True</pre></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.5.1 - Intrusion Detection Systems (VPC: vpc-0e6db20697dda10a0)</h3>
+                        <div><p class='green'>Amazon GuardDuty is enabled in this region, which provides intrusion detection capabilities:</p><ul><li>Detector ID: f4bdd236046b8bf4481e3c3961066b80</li><li class='green'>Status: ENABLED</li></ul><p class='green'>AWS Network Firewall is deployed in this region, which can provide network threat detection and prevention:</p><pre>    "Firewalls": []</pre><p>VPC Flow Logs are not enabled for VPC vpc-0e6db20697dda10a0. Consider enabling flow logs to aid in network traffic analysis.</p><p class='green'>AWS CloudTrail is configured, which logs AWS API activity:</p><pre>prod-orange-cloud-trail	ap-southeast-1	True</pre></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.5.1 - Intrusion Detection Systems (VPC: vpc-f25d9f94)</h3>
+                        <div><p class='green'>Amazon GuardDuty is enabled in this region, which provides intrusion detection capabilities:</p><ul><li>Detector ID: f4bdd236046b8bf4481e3c3961066b80</li><li class='green'>Status: ENABLED</li></ul><p class='green'>AWS Network Firewall is deployed in this region, which can provide network threat detection and prevention:</p><pre>    "Firewalls": []</pre><p>VPC Flow Logs are not enabled for VPC vpc-f25d9f94. Consider enabling flow logs to aid in network traffic analysis.</p><p class='green'>AWS CloudTrail is configured, which logs AWS API activity:</p><pre>prod-orange-cloud-trail	ap-southeast-1	True</pre></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 11.5.1 - Intrusion Detection Systems (VPC: vpc-061af85fb2400cae6)</h3>
+                        <div><p class='green'>Amazon GuardDuty is enabled in this region, which provides intrusion detection capabilities:</p><ul><li>Detector ID: f4bdd236046b8bf4481e3c3961066b80</li><li class='green'>Status: ENABLED</li></ul><p class='green'>AWS Network Firewall is deployed in this region, which can provide network threat detection and prevention:</p><pre>    "Firewalls": []</pre><p>VPC Flow Logs are not enabled for VPC vpc-061af85fb2400cae6. Consider enabling flow logs to aid in network traffic analysis.</p><p class='green'>AWS CloudTrail is configured, which logs AWS API activity:</p><pre>prod-orange-cloud-trail	ap-southeast-1	True</pre></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.5.2 - File Integrity Monitoring</h3>
+                        <div><p>AWS Config is not detected in this region. Config can help with monitoring configuration changes.</p><p class='green'>AWS CloudTrail is configured, which logs AWS API activity including file changes via AWS APIs:</p><pre>prod-orange-cloud-trail	ap-southeast-1	True</pre><p class='green'>Trail prod-orange-cloud-trail is actively logging.</p><p class='red'>Trail ap-southeast-1 is NOT actively logging.</p><p class='red'>Trail True is NOT actively logging.</p><p>No explicit file integrity monitoring configurations found in AWS Systems Manager. Consider implementing file integrity monitoring using SSM or another solution.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a change-detection mechanism (file integrity monitoring) to alert personnel to unauthorized modification of critical files. Configure the system to perform critical file comparisons at least once weekly. Consider using AWS Systems Manager, CloudTrail, or a third-party file integrity monitoring solution.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 11.6: Unauthorized changes on payment pages are detected and responded to
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-11.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 11.6.1 - Payment Page Change and Tamper Detection</h3>
+                        <div>This check requires manual verification that a change- and tamper-detection mechanism is deployed to alert personnel to unauthorized modifications (including indicators of compromise, changes, additions, and deletions) to the HTTP headers and script contents of payment pages as received by the consumer browser. The mechanism must be configured to evaluate the received HTTP headers and payment pages at least weekly (or at a frequency defined in a targeted risk analysis).</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a change- and tamper-detection mechanism to alert personnel to unauthorized modification of payment page contents and HTTP headers as received by consumers. Configure the mechanism to perform checks at least weekly or at a frequency defined in a targeted risk analysis as specified in Requirement 12.3.1.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun  5 03:05:37 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td><span class="green">11</span></td>
+                    <td><span class="red">1</span></td>
+                    <td><span class="yellow">14</span></td>
+                    <td>91%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 91%; background-color: #4CAF50;">
+                    91%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 11.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

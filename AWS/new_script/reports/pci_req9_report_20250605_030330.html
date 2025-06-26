@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 9 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 9 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun  5 03:03:30 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Script Information
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="script-info">
+    
+<p>This script assesses AWS environments against PCI DSS Requirement 9 - Restrict Physical Access to Cardholder Data.</p>
+<p>Some checks require manual verification as they involve physical security controls that cannot be assessed automatically through AWS APIs.</p>
+<p><strong>AWS Region:</strong> ap-southeast-1</p>
+<p><strong>Target VPCs:</strong> all</p>
+<p><strong>Assessment Date:</strong> Thu Jun  5 03:03:32 UTC 2025</p>
+<p><strong>Note:</strong> This assessment follows PCI DSS v4.0.1 requirements.</p>
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="permissions-check">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpcs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: s3 list-buckets</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail describe-trails</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudwatch describe-alarms</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-roles</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: kms list-keys</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: config describe-config-rules</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: guardduty list-detectors</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: securityhub describe-hub</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.1: Processes and mechanisms for restricting physical access to cardholder data are defined and understood
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.1.1 - Security policies and procedures for physical access restrictions</h3>
+                        <div><p>This check requires manual verification. Verify that physical security policies and operational procedures are:</p>
+    <ul>
+        <li>Documented</li>
+        <li>Kept up to date</li>
+        <li>In use</li>
+        <li>Known to all affected parties</li>
+    </ul>
+    <p>For AWS environments, this includes documentation of AWS's physical security controls and your organization's procedures for managing logical access to AWS resources.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Create and maintain documentation that specifically addresses physical security controls in your AWS environment, including the shared responsibility model for physical security.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.1.2 - Roles and responsibilities for physical access control</h3>
+                        <div><p>This check requires manual verification. Verify that roles and responsibilities for performing activities in Requirement 9 are:</p>
+    <ul>
+        <li>Documented</li>
+        <li>Assigned</li>
+        <li>Understood</li>
+    </ul>
+    <p>For AWS environments, this includes documenting which teams are responsible for:</p>
+    <ul>
+        <li>Reviewing AWS physical security compliance documentation</li>
+        <li>Managing logical access controls to AWS resources</li>
+        <li>Implementing and monitoring security configurations</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document specific roles and responsibilities for physical security in your AWS environment, including responsibilities for reviewing AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.2: Physical access controls manage entry into facilities and systems containing cardholder data
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.1.1 - Facility entry controls restrict physical access</h3>
+                        <div><p>This check requires manual verification. AWS facilities are managed by Amazon, and customers must rely on AWS's compliance with physical security standards.</p>
+    <p>AWS data centers are ISO 27001 certified and undergo regular PCI DSS assessments. AWS's physical security controls include:</p>
+    <ul>
+        <li>Professional security staff</li>
+        <li>Two-factor authentication for access</li>
+        <li>Video surveillance</li>
+        <li>Intrusion detection</li>
+    </ul>
+    <p>Action required: Review AWS's Compliance reports in AWS Artifact to verify AWS's physical security controls.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Request and review AWS SOC 2 Type II and PCI DSS Attestation of Compliance (AOC) documents from AWS Artifact. Document these controls in your security policies.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.1.2 - Badge and physical access control systems</h3>
+                        <div><p>This check requires manual verification. As an AWS customer, you do not have direct control over AWS's physical access systems.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's physical access control systems meet PCI DSS requirements.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS manages physical access controls to data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.1.x - AWS Config Rules for Physical Security</h3>
+                        <div><p>No AWS Config rules specifically related to physical security were found.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider creating custom AWS Config rules to monitor aspects of your environment related to physical security compliance.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.2: Physical access controls manage entry and monitor individuals
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.2.1 - Visitor identification and authorization</h3>
+                        <div><p>This check requires manual verification. As an AWS customer, you rely on AWS's visitor management processes.</p>
+    <p>AWS maintains visitor logs and authorization procedures for all data center access by visitors.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's visitor management processes.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS manages visitor access to data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.2.2 - Visitor badges or identification</h3>
+                        <div><p>This check requires manual verification. AWS maintains visitor badge systems for all data centers.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's visitor identification procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS manages visitor identification at data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.2.3 - Visitor logs and audit trails</h3>
+                        <div><p>This check requires manual verification. AWS maintains visitor logs for all data centers.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's visitor logging procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS maintains visitor logs at data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.2.4 - Authorized access management and revocation</h3>
+                        <div><p>This check requires manual verification. AWS maintains strict access control processes for data center personnel.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's access management procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS manages authorized access to data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.3: Physical access to sensitive areas is controlled
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.3.1 - Physical access to sensitive areas</h3>
+                        <div><p>This check requires manual verification. AWS implements strict access controls to sensitive areas within data centers.</p>
+    <p>Action required: Review AWS's Compliance documentation to verify AWS's physical access controls to sensitive areas.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS controls physical access to sensitive areas within data centers, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 9.3.x - KMS Key Management (equivalent to physical key control)</h3>
+                        <div><p>Found 35 customer-managed KMS keys that can be used for encrypting sensitive data.</p><p>Key rotation status:</p><ul><li class="red">Key 64236ba1-d2d1-49d9-845a-f72e48454ad4: Rotation DISABLED</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable automatic key rotation for all customer-managed KMS keys to ensure cryptographic key security.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.4: Media with cardholder data is securely stored, accessed, distributed, and destroyed
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.1 - Physical security of media with cardholder data</h3>
+                        <div><p>This check requires manual verification. In AWS, this relates to:</p>
+    <ul>
+        <li>Electronic media (EBS volumes, S3 buckets, RDS instances, etc.)</li>
+        <li>Protection mechanisms implemented via encryption and access controls</li>
+    </ul>
+    <p>Action required: Verify that:</p>
+    <ul>
+        <li>All EBS volumes containing cardholder data are encrypted</li>
+        <li>S3 buckets containing cardholder data have encryption and proper access controls</li>
+        <li>RDS instances containing cardholder data have encryption enabled</li>
+        <li>Any physical media derived from AWS resources is secured properly</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement comprehensive encryption for all AWS resources containing cardholder data and document procedures for handling any physical media derived from AWS resources.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.1.1 - Offline media backups security</h3>
+                        <div><p>This check requires manual verification. For AWS, this relates to:</p>
+    <ul>
+        <li>Backups exported from AWS (e.g., S3 downloads, exported snapshots)</li>
+        <li>Physical storage location security for these backups</li>
+    </ul>
+    <p>Action required: Verify that any backup data exported from AWS is stored in secure locations.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document procedures for securing any backup data exported from AWS, including physical storage requirements and access restrictions.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.1.2 - Security reviews of backup locations</h3>
+                        <div><p>This check requires manual verification. Confirm that:</p>
+    <ul>
+        <li>Security of offline backup locations is reviewed at least once every 12 months</li>
+        <li>For AWS backups that remain in AWS (e.g., snapshots, S3), reviews include checking encryption settings and access controls</li>
+    </ul>
+    <p>Action required: Document procedures for annual review of backup security.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement annual security reviews for both in-AWS backups (checking encryption and access controls) and any physical backup media derived from AWS resources.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 9.4.x - S3 Bucket Encryption (for secure media storage)</h3>
+                        <div><p>S3 Bucket Encryption Status:</p><ul><li class="red">Bucket aws-cloudtrail-logs-094692261598-dccbadad: Encryption NOT ENABLED</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable default encryption for all S3 buckets, preferably using KMS with customer-managed keys. Verify no cardholder data is stored in unencrypted buckets.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.4 - Media inventory logs</h3>
+                        <div><p>This check requires manual verification. In AWS, this typically relates to inventory of digital assets.</p>
+    <p>Recommendation: Implement AWS Config to maintain an inventory of AWS resources, and tag resources containing cardholder data.</p>
+    <p>Action required: Verify you have mechanisms to track all media/resources containing cardholder data.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement AWS Config inventory and use resource tagging to identify and track all AWS resources that store or process cardholder data.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 9.4.5 - Resource Inventory with AWS Config</h3>
+                        <div><p>AWS Config is set up but not actively recording. This means inventory of AWS resources that may contain cardholder data is not being maintained.</p>
+            <p><strong>Config recorder details:</strong></p>
+            <pre>{
+    "ConfigurationRecorders": []
+}</pre>
+            <p><strong>Recorder status:</strong></p>
+            <pre></pre></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable AWS Config recording immediately to maintain an inventory of AWS resources that may contain cardholder data. Configure it to track all resource types relevant to your cardholder data environment.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.5.1 - Annual inventory verification</h3>
+                        <div><p>This check requires manual verification. PCI DSS requires that:</p>
+    <ul>
+        <li>Inventories of electronic media with cardholder data are conducted at least once every 12 months</li>
+    </ul>
+    <p>For AWS environments, this means:</p>
+    <ul>
+        <li>Annual verification of AWS resource inventory containing cardholder data</li>
+        <li>Confirmation that all resources are accounted for and properly secured</li>
+        <li>Validation that resource tagging accurately identifies cardholder data locations</li>
+    </ul>
+    <p>Action required: Document procedures for annual verification of AWS resource inventory.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement an annual process to verify the inventory of all AWS resources containing cardholder data. Use resource tagging and AWS Config to support this process.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.4.6 - Media destruction</h3>
+                        <div><p>This check requires manual verification. In AWS, this relates to secure deletion of data.</p>
+    <p>AWS provides mechanisms for secure deletion:</p>
+    <ul>
+        <li>S3 Object Deletion with versioning disabled or with delete markers</li>
+        <li>EBS volume deletion with option to wipe</li>
+        <li>RDS instance deletion with final snapshots disabled</li>
+    </ul>
+    <p>Action required: Verify you have procedures for securely destroying cardholder data when no longer needed.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and implement procedures for secure deletion of AWS resources containing cardholder data, including EBS volumes, S3 objects, and RDS instances.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.5: Point of interaction (POI) devices are protected from tampering and unauthorized substitution
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.5.1 - POI device list and location tracking</h3>
+                        <div><p>This check requires manual verification and is typically not applicable to AWS environments unless you're using AWS services to track POI devices.</p>
+    <p>If you maintain POI devices, you need to:</p>
+    <ul>
+        <li>Maintain a list of devices with details including make, model, location, and serial number</li>
+        <li>Perform periodic inventories to verify the list</li>
+    </ul>
+    <p>Action required: Verify if this requirement applies to your environment, and if so, ensure you have appropriate inventory mechanisms.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If your organization manages POI devices, implement and document procedures for maintaining an inventory of these devices.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 9.5.x - AWS IoT Core Usage (potential POI device management)</h3>
+                        <div><p>No AWS IoT Core devices were found, or permissions are insufficient to list them.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If your organization manages POI devices outside of AWS, ensure those devices are properly inventoried and secured.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.5.2 - POI device periodic inspection</h3>
+                        <div><p>This check requires manual verification and is typically not applicable to AWS environments.</p>
+    <p>If you maintain POI devices, you need to periodically inspect them for tampering or substitution.</p>
+    <p>Action required: If applicable, verify you have procedures for POI device inspection.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If your organization manages POI devices, implement and document procedures for periodic inspection of these devices for tampering or substitution.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.6: Racks and cabinets are physically secure
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.6.1 - Rack and cabinet access</h3>
+                        <div><p>This check requires manual verification. AWS manages physical access to data center racks and cabinets.</p>
+    <p>AWS implements strict physical access controls to data center racks, including:</p>
+    <ul>
+        <li>Badge and biometric access controls</li>
+        <li>Cameras and other monitoring systems</li>
+        <li>Strict access policies and procedures</li>
+    </ul>
+    <p>Action required: Document in your policies that AWS manages physical access to data center racks and cabinets.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document in your policies that AWS manages physical access to data center racks and cabinets, and include references to AWS compliance documentation.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.7: Cardholder data is protected during transportation
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.7">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.7.1 - Transportation of media</h3>
+                        <div><p>This check requires manual verification. In AWS, this typically relates to secure data transfer.</p>
+    <p>AWS provides mechanisms for secure data transfer:</p>
+    <ul>
+        <li>TLS encryption for data in transit</li>
+        <li>VPN connections for secure site-to-site connectivity</li>
+        <li>Direct Connect for private connectivity</li>
+    </ul>
+    <p>Action required: Verify you have procedures for securely transferring cardholder data.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and implement procedures for secure transfer of cardholder data, including encryption requirements, approved transfer methods, and logging requirements.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 9.7.x - VPN Connections (for secure data transit)</h3>
+                        <div><p>No VPN connections were found. If cardholder data is transferred between networks, secure methods should be implemented.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider implementing VPN, Direct Connect, or other secure transit methods if cardholder data needs to be transferred between networks.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 9.7.x - Direct Connect (for secure data transit)</h3>
+                        <div><p>No Direct Connect connections were found. This is informational only.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Direct Connect provides a dedicated private connection to AWS, which can be beneficial for secure transfer of sensitive data.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.8: Processes for protecting operational technology
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.8">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.8.1 - Operational technology security</h3>
+                        <div><p>This check requires manual verification. In AWS, this might relate to specialized operational technology deployed in your environment.</p>
+    <p>If you maintain operational technology, you need to:</p>
+    <ul>
+        <li>Document and implement processes to protect this technology from physical attacks</li>
+        <li>Implement an ongoing security awareness program</li>
+    </ul>
+    <p>Action required: Verify if this requirement applies to your environment, and if so, ensure you have appropriate security processes.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If your organization manages operational technology, implement and document processes to protect it from physical attacks that could compromise security.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 9.9: Equipment with cardholder data is protected
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-9.9">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 9.9.1 - Equipment containing cardholder data</h3>
+                        <div><p>This check requires manual verification. In AWS, this typically relates to how you secure your AWS resources.</p>
+    <p>For AWS resources containing cardholder data, you should:</p>
+    <ul>
+        <li>Implement strong IAM policies and roles</li>
+        <li>Use VPC security groups and network ACLs to restrict access</li>
+        <li>Implement encryption for data at rest and in transit</li>
+        <li>Use CloudTrail and CloudWatch for monitoring and alerting</li>
+    </ul>
+    <p>Action required: Verify you have controls to prevent unauthorized access to AWS resources containing cardholder data.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a robust security architecture for AWS resources containing cardholder data, including IAM, VPC security, encryption, and monitoring controls.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 9.9.x - IAM Policies for Cardholder Data Access</h3>
+                        <div><p>Found IAM policies that may be related to PCI compliance:</p><pre>            "PolicyName": "PCI-DSS-Auditor",
+            "Arn": "arn:aws:iam::094692261598:policy/PCI-DSS-Auditor",</pre></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review these IAM policies to ensure they properly restrict access to resources containing cardholder data.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Specific Implementation Considerations
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="aws-specific">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> AWS Shared Responsibility Model for Physical Security</h3>
+                        <div><p>Under the AWS Shared Responsibility Model, AWS is responsible for the physical security of the infrastructure that runs AWS services.</p>
+    <p>Key considerations for AWS customers:</p>
+    <ul>
+        <li>Responsibility for physical security of the cloud infrastructure lies with AWS</li>
+        <li>Customers are responsible for implementing logical security controls for their AWS resources</li>
+        <li>Customers should document AWS's physical security controls in their PCI DSS documentation</li>
+        <li>Customers should obtain and review AWS compliance reports (e.g., SOC 2, PCI AOC)</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document the AWS Shared Responsibility Model in your security policies, clearly delineating AWS's physical security responsibilities and your own logical security responsibilities.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> AWS Artifact Access for Compliance Documentation</h3>
+                        <div><p>AWS Artifact access couldn't be verified through the CLI. AWS Artifact provides access to AWS's compliance documentation.</p>
+        <p>Action required: Verify you have access to AWS Artifact through the AWS Console, and that you've downloaded the relevant compliance reports.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Access AWS Artifact through the AWS Console and download the PCI DSS Attestation of Compliance (AOC) and Responsibility Summary.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Resource Tagging for PCI Scope Identification</h3>
+                        <div><p>No resources tagged with PCI or CDE related tags were found. Tagging is recommended to clearly identify resources within PCI scope.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a tagging strategy for all resources in PCI scope, using tags such as 'PCI-Scope=Yes', 'Environment=CDE', or similar.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun  5 03:03:53 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>32</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">3</span></td>
+                    <td><span class="yellow">24</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 9.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

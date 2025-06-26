@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCI DSS v4.0 Compliance Report</title>
+  <style>
+    :root {
+      --primary-color: #1a56db;
+      --primary-light: #e1effe;
+      --success-color: #046c4e;
+      --success-light: #def7ec;
+      --danger-color: #c81e1e;
+      --danger-light: #fde8e8;
+      --warning-color: #c27803;
+      --warning-light: #fdf6b2;
+      --dark-color: #111827;
+      --gray-color: #6b7280;
+      --light-color: #f3f4f6;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+      color: var(--dark-color);
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .summary-info {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .dashboard-card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dashboard-card h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .dashboard-card.pass {
+      border-left: 4px solid var(--success-color);
+    }
+    
+    .dashboard-card.fail {
+      border-left: 4px solid var(--danger-color);
+    }
+    
+    .status-icon {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      font-weight: bold;
+      text-align: center;
+      line-height: 24px;
+    }
+    
+    .status-icon.pass {
+      background-color: var(--success-light);
+      color: var(--success-color);
+    }
+    
+    .status-icon.fail {
+      background-color: var(--danger-light);
+      color: var(--danger-color);
+    }
+    
+    .requirement-section {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .requirement-section h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+      border-bottom: 1px solid var(--light-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .requirement-item {
+      margin-bottom: 1.5rem;
+    }
+    
+    .requirement-item h3 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .status-pass {
+      background-color: var(--success-light);
+      color: var(--success-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .status-fail {
+      background-color: var(--danger-light);
+      color: var(--danger-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .status-unknown {
+      background-color: var(--warning-light);
+      color: var(--warning-color);
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .details-card {
+      border: 1px solid var(--light-color);
+      border-radius: 0.25rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .details-card h4 {
+      margin-top: 0;
+      color: var(--gray-color);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .details-card pre {
+      background-color: var(--light-color);
+      padding: 1rem;
+      border-radius: 0.25rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+    
+    .collapsible {
+      display: none;
+    }
+    
+    .toggle-btn {
+      background-color: var(--light-color);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-color);
+      margin-top: 0.5rem;
+    }
+    
+    .toggle-btn:hover {
+      background-color: #e5e7eb;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: var(--gray-color);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+    
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 4rem;
+      background-color: white;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--light-color);
+      z-index: 9;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: thin;
+    }
+    
+    .nav-container::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    .nav-container::-webkit-scrollbar-thumb {
+      background-color: var(--gray-color);
+      border-radius: 2px;
+    }
+    
+    .nav-link {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      color: var(--gray-color);
+      text-decoration: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .nav-link:hover {
+      background-color: var(--light-color);
+    }
+    
+    .nav-link.active {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    /* Findings Table */
+    .findings-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      border: 1px solid #eee;
+    }
+    
+    .findings-table th {
+      background-color: var(--light-color);
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 2px solid #ddd;
+    }
+    
+    .findings-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    
+    .findings-table tr:hover {
+      background-color: #f9fafb;
+    }
+    
+    .findings-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      
+      header {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 1rem 0.5rem;
+      }
+      
+      .requirement-section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PCI DSS v4.0 Compliance Report</h1>
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <a href="#summary" class="nav-link active">Summary</a>
+      <a href="#req1" class="nav-link">Req 1: Network Security</a>
+      <a href="#req3" class="nav-link">Req 3: Key Management</a>
+      <a href="#req4" class="nav-link">Req 4: Transfer Security</a>
+      <a href="#req8" class="nav-link">Req 8: Authentication</a>
+      <a href="#req10" class="nav-link">Req 10: Logging</a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div id="summary" class="summary-info">
+      <h2>Audit Summary</h2>
+      <p><strong>AWS Account:</strong> 366205796862</p>
+      <p><strong>Report Generated:</strong> 2025-05-08 10:48:22</p>
+      <p><strong>Regions Checked:</strong>  Current region (ap-northeast-1 only). Use --all-regions for a complete scan.</p>
+    </div>
+    
+    <div class="dashboard">
+      <div onclick="document.location='#req1'" class="dashboard-card fail">
+        <h3>
+          <span class="status-icon fail">f</span>
+          Requirement 1
+        </h3>
+        <p>Network Security Controls</p>
+      </div>
+      
+      <div onclick="document.location='#req3'" class="dashboard-card pass">
+        <h3>
+          <span class="status-icon pass">p</span>
+          Requirement 3
+        </h3>
+        <p>Key Management</p>
+      </div>
+      
+      <div onclick="document.location='#req4'" class="dashboard-card fail">
+        <h3>
+          <span class="status-icon fail">f</span>
+          Requirement 4
+        </h3>
+        <p>Transfer Security</p>
+      </div>
+      
+      <div onclick="document.location='#req8'" class="dashboard-card fail">
+        <h3>
+          <span class="status-icon fail">f</span>
+          Requirement 8
+        </h3>
+        <p>Authentication</p>
+      </div>
+      
+      <div onclick="document.location='#req10'" class="dashboard-card fail">
+        <h3>
+          <span class="status-icon fail">f</span>
+          Requirement 10
+        </h3>
+        <p>Logging & Monitoring</p>
+      </div>
+    </div>
+    
+    <div id="req1" class="requirement-section">
+      <h2>Requirement 1: Install and maintain network security controls</h2>
+      
+      <div class="requirement-item">
+        <h3>1.i Firewall Rules - Unrestricted Access</h3>
+        <div class='status-fail'>✗ FAIL: Found 64 non-compliant security groups with unrestricted access</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req1-details')">
+          Show Details
+        </button>
+        
+        <div id="req1-details" class="collapsible">
+          <div class="details-card">
+            <h4>Security Groups with Open Access</h4>
+            <div class="findings-content">
+<pre>
+Security Groups allowing all IPs on any port:
+- Security Group: sg-8a71ffee (scaling-demo01) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+    * tcp port 443
+
+- Security Group: sg-1bd4787f (allOpen) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+
+- Security Group: sg-5bf7c43f (wordpress_base_test) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8687
+
+- Security Group: sg-0e05fd6a (webservice_linux) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 8085
+    * tcp port 11211
+    * tcp port 9099
+    * tcp port 8088
+    * tcp port 10080
+    * tcp port 22
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3000
+    * tcp port 9292
+    * tcp port 587
+    * tcp port 5001
+    * tcp port 8081
+
+- Security Group: sg-a17ab4c5 (launch-wizard-3) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8888
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 8787
+
+- Security Group: sg-b1518dd6 (idanbean-windows-candleadvpc) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 1433
+    * tcp port 80
+    * tcp port 22
+    * tcp port 3389
+    * tcp port 443
+
+- Security Group: sg-d4d2b2b0 (roamingbar-golang) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-aa93fbce (wordpress_base) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8283
+    * tcp port 22
+
+- Security Group: sg-4641b022 (DevOps) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 22
+
+- Security Group: sg-36048f51 (launch-wizard-7) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * icmp port -1
+
+- Security Group: sg-808484e6 (cheerlife) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8085
+
+- Security Group: sg-1c59307b (rds-launch-wizard-4) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3306
+
+- Security Group: sg-0d07d43e92c7b61fb (launch-wizard-18) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0a943c2292a404971 (launch-wizard-14) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+
+- Security Group: sg-6febb90b (launch-wizard-6) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 22
+
+- Security Group: sg-12df5576 (pingpong-ec2) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 8888
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+
+- Security Group: sg-43137e24 (online) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+    * icmp port -1
+    * tcp port 443
+
+- Security Group: sg-1787be73 (vip security) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-07b02f46e3d0fedcc (Canlead-Internal-ALB-202301111) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+
+- Security Group: sg-247fb140 (launch-wizard-2) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-a35e2fc4 (callcarbar-go) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8087
+    * tcp port 8082
+
+- Security Group: sg-c7d949a3 (star_home) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8283
+    * tcp port 22
+    * tcp port 8282
+    * tcp port 8284
+    * tcp port 443
+    * tcp port 10080
+    * tcp port 9080
+
+- Security Group: sg-025267eb96aa1d2ec (debug) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-5ec94d3a (roamingbar-elb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3838
+    * tcp port 3000
+    * tcp port 443
+    * tcp port 8081
+
+- Security Group: sg-0751da0bbe4b11eb1 (launch-wizard-16) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8006
+
+- Security Group: sg-0567f426b3ae62417 (launch-wizard-15) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-c45e2fa3 (callcarbar-web) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8888
+    * tcp port 10082
+
+- Security Group: sg-0e374168 (idanticket-go) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8184
+
+- Security Group: sg-831b85e4 (launch-wizard-8) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-7e87121a (Roles_PublicWeb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+    * icmp port -1
+
+- Security Group: sg-0f1c8699dd4f51575 (SG-MailServer) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 110
+    * tcp port 995
+    * tcp port 993
+    * tcp port 25
+    * tcp port 143
+    * tcp port 587
+
+- Security Group: sg-0a9228635721bf737 (FORTINET_Mail_Gateway) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 25
+    * tcp port 443
+
+- Security Group: sg-a54576c2 (launch-wizard-10) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-0f83bd9beaa6fe829 (PMG) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8006
+    * icmp port -1
+
+- Security Group: sg-00aa8a38d4b080f32 (launch-wizard-20) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0855e477837672830 (Roles_phpmyadmin) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+
+- Security Group: sg-26249a42 (idanbean) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+    * tcp port 3000
+
+- Security Group: sg-0e11bb5e720d81642 (launch-wizard-13) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-91b712f5 (system-monitor) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 24224
+    * tcp port 22
+    * udp port 24224
+    * tcp port 5601
+    * tcp port 443
+
+- Security Group: sg-0fa30e9feec49f425 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-1) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 443
+
+- Security Group: sg-0f58eb01bc620ebbd (spam-mail) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 22
+
+- Security Group: sg-ac1ad1cb (idanbean-windows-nano) [Region: ap-northeast-1]
+  Open inbound rules:
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 3389
+
+- Security Group: sg-0ffddcd33ce3db48c (Canlead Mail Server) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 81
+    * tcp port 110
+    * tcp port 995
+    * tcp port 993
+    * tcp port 25
+    * tcp port 143
+    * tcp port 587
+    * icmp port -1
+
+- Security Group: sg-0545ed506b8930369 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 21
+    * tcp port 22
+    * udp port 21
+    * tcp port 443
+
+- Security Group: sg-0184e22c4e7b97898 (internal-alb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8888
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-071e3cb143fcaa3e5 (NFS) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 22
+    * tcp port 2049
+
+- Security Group: sg-038e1df7c2f6fb7b0 (SG_EIP) [Region: ap-northeast-1]
+  Open inbound rules:
+    * icmp port -1
+
+- Security Group: sg-e8d2498c (wordpress-scaleout) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-aac8b3cd (launch-wizard-9) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-767d9012 (Roles_WebServer) [Region: ap-northeast-1]
+  Open inbound rules:
+    * icmp port -1
+
+- Security Group: sg-0823d62357976a577 (Windows-Server-AD) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-02da57be4258f2acb (launch-wizard-11) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 3389
+
+- Security Group: sg-6fdb1208 (idanbean_windows) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 22
+    * tcp ports 5000-5999
+    * tcp port 3389
+    * tcp port 443
+    * icmp port -1
+
+- Security Group: sg-022457eb9759867b6 (load-balancer-private-alb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+
+- Security Group: sg-09c6201cd239ff61f (canlead web server) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 443
+
+- Security Group: sg-0eaae4fe28ef8737f (canlead-ECS) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0d9afe37e48a45b47 (HowCoolAPP) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+
+- Security Group: sg-09fc0d98489c025d7 (launch-wizard-21) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * icmp port -1
+
+- Security Group: sg-dfac9bba (launch-wizard-1) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 8085
+    * tcp port 11211
+    * tcp port 9099
+    * tcp port 8088
+    * tcp port 10080
+    * tcp port 22
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3000
+    * tcp port 9292
+    * tcp port 587
+    * tcp port 8081
+
+- Security Group: sg-0293b401387089184 (launch-wizard-17) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-02e9ac019fa860e77 (launch-wizard-19) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-b9e08bdd (launch-wizard-4) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+
+- Security Group: sg-76c49112 (launch-wizard-5) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-6e17f509 (HTTPS and HTTP open) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="requirement-item">
+        <h3>1.ii Publicly Exposed Protocols</h3>
+        <div class='status-fail'>✗ FAIL: Found 51 non-compliant security groups with publicly exposed protocols</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req1-2-details')">
+          Show Details
+        </button>
+        
+        <div id="req1-2-details" class="collapsible">
+          <div class="details-card">
+            <h4>Security Groups with Unrestricted Public Access to Sensitive Protocols</h4>
+            <div class="findings-content">
+<pre>
+Security Groups allowing sensitive protocols with unrestricted public access:
+- Security Group: sg-8a71ffee (scaling-demo01) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-1bd4787f (allOpen) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-5bf7c43f (wordpress_base_test) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0e05fd6a (webservice_linux) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-a17ab4c5 (launch-wizard-3) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-b1518dd6 (idanbean-windows-candleadvpc) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * SSH (tcp/22)
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-d4d2b2b0 (roamingbar-golang) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-aa93fbce (wordpress_base) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-4641b022 (DevOps) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-36048f51 (launch-wizard-7) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-1c59307b (rds-launch-wizard-4) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-0d07d43e92c7b61fb (launch-wizard-18) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0a943c2292a404971 (launch-wizard-14) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-6febb90b (launch-wizard-6) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-12df5576 (pingpong-ec2) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-43137e24 (online) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-1787be73 (vip security) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-07b02f46e3d0fedcc (Canlead-Internal-ALB-202301111) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-247fb140 (launch-wizard-2) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-c7d949a3 (star_home) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-025267eb96aa1d2ec (debug) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0751da0bbe4b11eb1 (launch-wizard-16) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0567f426b3ae62417 (launch-wizard-15) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-831b85e4 (launch-wizard-8) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0f1c8699dd4f51575 (SG-MailServer) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * POP3 (tcp/110)
+    * SMTP (tcp/25)
+    * IMAP (tcp/143)
+
+
+- Security Group: sg-0a9228635721bf737 (FORTINET_Mail_Gateway) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+    * SMTP (tcp/25)
+
+
+- Security Group: sg-a54576c2 (launch-wizard-10) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-0f83bd9beaa6fe829 (PMG) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-00aa8a38d4b080f32 (launch-wizard-20) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-26249a42 (idanbean) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0e11bb5e720d81642 (launch-wizard-13) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-91b712f5 (system-monitor) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0fa30e9feec49f425 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-1) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0f58eb01bc620ebbd (spam-mail) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * SSH (tcp/22)
+
+
+- Security Group: sg-ac1ad1cb (idanbean-windows-nano) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0ffddcd33ce3db48c (Canlead Mail Server) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * POP3 (tcp/110)
+    * SMTP (tcp/25)
+    * IMAP (tcp/143)
+
+
+- Security Group: sg-0545ed506b8930369 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * FTP (tcp/21)
+    * SSH (tcp/22)
+    * FTP (udp/21)
+
+
+- Security Group: sg-0184e22c4e7b97898 (internal-alb) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-071e3cb143fcaa3e5 (NFS) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * SSH (tcp/22)
+
+
+- Security Group: sg-e8d2498c (wordpress-scaleout) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-aac8b3cd (launch-wizard-9) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0823d62357976a577 (Windows-Server-AD) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-02da57be4258f2acb (launch-wizard-11) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-6fdb1208 (idanbean_windows) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0eaae4fe28ef8737f (canlead-ECS) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-09fc0d98489c025d7 (launch-wizard-21) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-dfac9bba (launch-wizard-1) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0293b401387089184 (launch-wizard-17) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-02e9ac019fa860e77 (launch-wizard-19) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-b9e08bdd (launch-wizard-4) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-76c49112 (launch-wizard-5) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="req3" class="requirement-section">
+      <h2>Requirement 3: Protect stored account data</h2>
+      
+      <div class="requirement-item">
+        <h3>3.i Key Rotation Settings</h3>
+        <div class='status-pass'>✓ PASS: keys without rotation enabled</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req3-details')">
+          Show Details
+        </button>
+        
+        <div id="req3-details" class="collapsible">
+          <div class="details-card">
+            <h4>KMS Keys without Rotation Enabled</h4>
+            <div class="findings-content">
+<pre>
+KMS Keys without rotation enabled:
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="requirement-item">
+        <h3>3.ii Unprotected Secrets</h3>
+        <div class='status-pass'>✓ PASS: secrets not protected by custom KMS keys</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req3-2-details')">
+          Show Details
+        </button>
+        
+        <div id="req3-2-details" class="collapsible">
+          <div class="details-card">
+            <h4>Secrets Not Protected by Custom KMS Keys</h4>
+            <div class="findings-content">
+<pre>
+Secrets not protected by a custom KMS key:
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="req4" class="requirement-section">
+      <h2>Requirement 4: Protect cardholder data with strong cryptography</h2>
+      
+      <div class="requirement-item">
+        <h3>4.i Outdated TLS Versions</h3>
+        <div class='status-pass'>✓ PASS: load balancers using TLS 1.0</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req4-details')">
+          Show Details
+        </button>
+        
+        <div id="req4-details" class="collapsible">
+          <div class="details-card">
+            <h4>Load Balancers Using TLS 1.0</h4>
+            <div class="findings-content">
+<pre>
+Load Balancers using TLS 1.0:
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="requirement-item">
+        <h3>4.ii Weak Ciphers</h3>
+        <div class='status-fail'>✗ FAIL: Found 1 non-compliant load balancers using weak ciphers</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req4-2-details')">
+          Show Details
+        </button>
+        
+        <div id="req4-2-details" class="collapsible">
+          <div class="details-card">
+            <h4>Load Balancers Using Weak Ciphers</h4>
+            <div class="findings-content">
+<pre>
+Load Balancers using weak ciphers:
+- Application Load Balancer: canlead [Region: ap-northeast-1]
+  SSL Policy: ELBSecurityPolicy-2016-08
+  Note: This policy may include weak ciphers.
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="req8" class="requirement-section">
+      <h2>Requirement 8: Identify users and authenticate access</h2>
+      
+      <div class="requirement-item">
+        <h3>8.i Password Policy</h3>
+        <div class='status-fail'>✗ FAIL: Found Some non-compliant IAM password policies</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req8-details')">
+          Show Details
+        </button>
+        
+        <div id="req8-details" class="collapsible">
+          <div class="details-card">
+            <h4>IAM Password Policy Settings</h4>
+            <div class="findings-content">
+<pre>
+IAM Password Policy:
+- Minimum password length: 6 characters
+- Require symbols: false
+- Require numbers: false
+- Require uppercase characters: false
+- Require lowercase characters: false
+- Allow users to change password: true
+- Maximum password age: No maximum age
+- Password reuse prevention: No reuse prevention
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="requirement-item">
+        <h3>8.ii MFA Enforcement</h3>
+        <div class='status-fail'>✗ FAIL: Found 11 non-compliant IAM users without MFA</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req8-2-details')">
+          Show Details
+        </button>
+        
+        <div id="req8-2-details" class="collapsible">
+          <div class="details-card">
+            <h4>IAM Users without MFA Enabled</h4>
+            <div class="findings-content">
+<pre>
+IAM Users without MFA enabled:
+- User: callcarbackend
+  ARN: arn:aws:iam::366205796862:user/callcarbackend
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Inactive, Created: 2017-10-25T05:59:01+00:00)
+      Last Used: 2018-08-07T14:53:00+00:00
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2018-08-07T13:00:34+00:00)
+      Last Used: 2021-07-27T04:37:00+00:00
+
+- User: callcarbar
+  ARN: arn:aws:iam::366205796862:user/callcarbar
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2017-03-10T09:55:07+00:00)
+      Last Used: 2024-04-30T04:07:00+00:00
+
+- User: idanticket_backend
+  ARN: arn:aws:iam::366205796862:user/idanticket_backend
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2018-08-08T02:41:40+00:00)
+      Last Used: 2025-05-08T03:45:00+00:00
+
+- User: Johnny_howcool
+  ARN: arn:aws:iam::366205796862:user/Johnny_howcool
+  Console Access: Yes (has password)
+  Last Console Login: 2024-12-10T09:59:29+00:00
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2022-08-10T14:11:53+00:00)
+      Last Used: 2023-03-14T06:46:00+00:00
+
+- User: KMS_USER
+  ARN: arn:aws:iam::366205796862:user/KMS_USER
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2024-02-20T09:44:58+00:00)
+      Last Used: 2025-05-08T02:37:00+00:00
+
+- User: mgc.paul.dev@gmail.com
+  ARN: arn:aws:iam::366205796862:user/mgc.paul.dev@gmail.com
+  Console Access: Yes (has password)
+  Last Console Login: 2024-05-30T10:34:02+00:00
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2023-01-07T07:24:26+00:00)
+      Last Used: None
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2023-12-06T18:51:21+00:00)
+      Last Used: 2024-10-28T13:36:00+00:00
+
+- User: pci_assessor
+  ARN: arn:aws:iam::366205796862:user/pci_assessor
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2025-04-23T09:08:46+00:00)
+      Last Used: 2025-05-08T02:41:00+00:00
+
+- User: roamingbar
+  ARN: arn:aws:iam::366205796862:user/roamingbar
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2016-08-23T15:57:50+00:00)
+      Last Used: 2024-12-11T07:23:00+00:00
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2018-10-11T05:01:06+00:00)
+      Last Used: 2023-01-11T16:00:00+00:00
+
+- User: s3
+  ARN: arn:aws:iam::366205796862:user/s3
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2015-11-18T15:20:48+00:00)
+      Last Used: 2025-05-07T05:04:00+00:00
+
+- User: ses-smtp-user.20191212-202543
+  ARN: arn:aws:iam::366205796862:user/ses-smtp-user.20191212-202543
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2019-12-12T12:26:03+00:00)
+      Last Used: None
+
+- User: SYNC_S3
+  ARN: arn:aws:iam::366205796862:user/SYNC_S3
+  Console Access: No (programmatic access only)
+  Last Console Login: None
+  Access Keys:
+    * Key ID: AKIA[REDACTED-ACCESS-KEY] (Status: Active, Created: 2025-02-26T07:37:31+00:00)
+      Last Used: 2025-05-08T03:42:00+00:00
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="req10" class="requirement-section">
+      <h2>Requirement 10: Log and monitor all access</h2>
+      
+      <div class="requirement-item">
+        <h3>10.i Log Retention</h3>
+        <div class='status-fail'>✗ FAIL: Found 4 non-compliant log buckets without 1-year retention</div>
+        
+        <button class="toggle-btn" onclick="toggleCollapsible('req10-details')">
+          Show Details
+        </button>
+        
+        <div id="req10-details" class="collapsible">
+          <div class="details-card">
+            <h4>Log Buckets without 1-Year Retention</h4>
+            <div class="findings-content">
+<pre>
+Log buckets without 1-year retention:
+- Bucket: aws-cloudtrail-logs-366205796862-993f53a6 [Region likely: ap-northeast-1]
+  Issue: No lifecycle configuration found
+
+- Bucket: aws-cloudtrail-logs-366205796862-993f53a6 [Region likely: ap-northeast-1]
+  Issue: No lifecycle configuration found
+
+- Bucket: callcarbar-log [Region likely: ap-northeast-1]
+  Issue: Insufficient retention period
+    * Retention: 30 days (less than required 365 days)
+
+
+- Bucket: canlead-ecs-log [Region likely: ap-northeast-1]
+  Issue: Insufficient retention period
+    * Retention: 14 days (less than required 365 days)
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>PCI DSS v4.0 Compliance Report Generated on 2025-05-08 10:48:22</p>
+  </footer>
+  
+  <script>
+    function toggleCollapsible(id) {
+      const element = document.getElementById(id);
+      const button = event.target;
+      
+      if (element.style.display === "block") {
+        element.style.display = "none";
+        button.textContent = "Show Details";
+      } else {
+        element.style.display = "block";
+        button.textContent = "Hide Details";
+      }
+    }
+    
+    // Highlight the active navigation item when scrolling
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.requirement-section, .summary-info');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      window.addEventListener('scroll', function() {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          const sectionHeight = section.clientHeight;
+          if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+          }
+          
+          // If we're at the top, highlight summary
+          if (pageYOffset < 100) {
+            document.querySelector('a[href="#summary"]').classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

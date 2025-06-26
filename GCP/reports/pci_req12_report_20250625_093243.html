@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 12 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #4285f4;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 20px;
+            display: none;
+            background-color: #ffffff;
+        }
+        .section-header.active + .section-content {
+            display: block !important;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .green { color: #4CAF50; font-weight: bold; }
+        .red { color: #f44336; font-weight: bold; }
+        .yellow { color: #ff9800; font-weight: bold; }
+        .blue { color: #2196F3; font-weight: bold; }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+        .timestamp {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        /* Print-friendly styles */
+        @media print {
+            body { background-color: white; }
+            .container { box-shadow: none; padding: 0; }
+            .section-content { display: block; }
+            .section-header::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0.1 - Requirement 12 Compliance Assessment Report</h1>
+        
+        <div class="info-table-container">
+            <table class="info-table">
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 09:32:43 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>GCP Account</th>
+                    <td>pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com</td>
+                </tr>
+                <tr>
+                    <th>Project</th>
+                    <td>collab-testing-orange</td>
+                </tr>
+                <tr>
+                    <th>Permission Coverage</th>
+                    <td>0%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Summary will be added after assessment completion -->
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section" id="section-organizational_policies">
+            <div class="section-header" onclick="toggleSection('organizational_policies')" aria-expanded="false">
+                <h3 style="margin: 0;">Organizational Policies and Programs Assessment</h3>
+            </div>
+            <div class="section-content" id="content-organizational_policies">
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-project_collab-testing-orange">
+            <div class="section-header" onclick="toggleSection('project_collab-testing-orange')" aria-expanded="false">
+                <h3 style="margin: 0;">Project: collab-testing-orange</h3>
+            </div>
+            <div class="section-content" id="content-project_collab-testing-orange">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.1.1 - Security policy documentation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify overall information security policy is established, published, maintained, and disseminated to all relevant personnel</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.1.2 - Policy review schedule</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify information security policy is reviewed at least once every 12 months and updated as needed</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.1.3 - Security roles definition</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify security policy defines information security roles and responsibilities for all personnel</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.1.4 - Security executive assignment</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify responsibility for information security is formally assigned to a CISO or security-knowledgeable executive</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Organization policy framework</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No organization policies found - consider implementing organizational policy constraints</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Conditional IAM policies</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 1 conditional IAM policies supporting security governance</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.2.1 - Acceptable use policies</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify acceptable use policies for end-user technologies are documented and implemented</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Technology restriction policies</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No technology restriction policies found - consider implementing usage controls</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Approved service accounts</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 8 service accounts - ensure all are approved per acceptable use policy</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Documented service accounts</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">8 out of 8 service accounts have descriptions</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Custom images</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No custom images found - using standard Google images</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.3.1 - Targeted risk analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify targeted risk analysis is documented for each PCI DSS requirement specifying risk analysis</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.3.2 - Customized approach analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If using customized approach: Verify targeted risk analysis is performed with senior management approval</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.3.3 - Cryptographic review</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify cryptographic cipher suites and protocols are documented and reviewed annually</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Cryptographic key inventory</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No KMS keys found - using Google-managed encryption</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.3.4 - Technology review</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify hardware and software technologies are reviewed annually for security support and compliance</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Compute instance inventory</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 11 compute instances for technology review</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Risk identification (SCC)</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No active Security Command Center findings - environment may be secure or SCC not configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.4.1 - Service provider compliance</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify executive management establishes responsibility for cardholder data protection</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.4.2 - Service provider reviews</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify quarterly reviews of security tasks performance</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item fail">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✗ Audit logging for compliance</strong>
+                        <span class="fail">FAIL</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No audit logs found - critical for compliance monitoring</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Compliance monitoring policies</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 1 monitoring policies supporting compliance oversight</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Security compliance roles</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No custom security/compliance roles found - using predefined roles</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.5.1 - System component inventory</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify inventory of system components in PCI DSS scope is maintained and current</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.5.2 - Scope validation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify PCI DSS scope is documented and confirmed annually and upon significant changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Asset inventory support</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No assets found in Cloud Asset Inventory</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Network topology documentation</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 4 VPC networks for scope and data flow documentation</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.5.2.1 - Service provider scope validation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify scope validation occurs at least every 6 months</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.5.3 - Organizational change review</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify organizational changes trigger scope impact review</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.6.1 - Security awareness program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify formal security awareness program is implemented for all personnel</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.6.2 - Awareness program review</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify security awareness program is reviewed annually and updated for new threats</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.6.3 - Personnel training</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify personnel receive security awareness training upon hire and annually</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.6.3.1 - Threat awareness</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify security training includes phishing and social engineering awareness</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.6.3.2 - Acceptable use training</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify security training includes acceptable use of end-user technologies</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Social engineering threats</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No social engineering threats detected</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Domain restriction policies</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No domain restriction policies found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.7.1 - Personnel screening</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify personnel with CDE access are screened prior to hire per local laws</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Privileged user access</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 6 users with privileged access - ensure all are properly screened</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Service account governance</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 8 service accounts - ensure proper approval process for creation</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.8.1 - TPSP inventory</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify list of all third-party service providers with account data access is maintained</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.8.2 - TPSP agreements</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify written agreements exist with all TPSPs acknowledging security responsibilities</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.8.3 - TPSP due diligence</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify established process for engaging TPSPs with proper due diligence</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.8.4 - TPSP compliance monitoring</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify program to monitor TPSPs' PCI DSS compliance status annually</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.8.5 - TPSP responsibility matrix</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify information is maintained about which PCI DSS requirements are managed by each TPSP</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ External connectivity</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 11 instances with external IPs - review for third-party connections</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Database instances</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 2 SQL instances - ensure TPSP agreements cover database services</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Google Cloud as TPSP</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Ensure Google Cloud is included in TPSP inventory with appropriate agreements</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.9.1 - Customer agreements</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify written agreements with customers acknowledge security responsibilities</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.9.2 - Customer compliance support</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If service provider: Verify support for customer compliance information requests</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.1 - Incident response plan</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response plan exists and includes all required elements</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.2 - Plan testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response plan is reviewed and tested annually</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.3 - 24/7 response capability</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify specific personnel are designated for 24/7 incident response</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.4 - Response personnel training</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response personnel are appropriately trained</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Incident detection capability</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No active Security Command Center findings</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Incident notification channels</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 1 notification channels for incident response</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.5 - Security monitoring alerts</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response plan includes monitoring and responding to security system alerts</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.6 - Plan evolution</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response plan is modified based on lessons learned and industry developments</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 12.10.7 - PAN discovery procedures</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify procedures exist for incidents involving discovery of stored PAN in unexpected locations</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Automated incident response</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No automated incident response functions detected</pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-manual_verification">
+            <div class="section-header" onclick="toggleSection('manual_verification')" aria-expanded="false">
+                <h3 style="margin: 0;">Manual Verification Required</h3>
+            </div>
+            <div class="section-content" id="content-manual_verification">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Information security policy framework</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify comprehensive information security policy is established, maintained, and disseminated</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Acceptable use policy implementation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify acceptable use policies for end-user technologies are documented and enforced</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Risk management program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify formal risk management program with documented risk analyses and annual reviews</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ PCI DSS compliance program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify PCI DSS compliance is managed with appropriate oversight and documentation</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Scope documentation maintenance</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify PCI DSS scope is documented, validated annually, and updated with changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Security awareness training program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify formal security awareness program with annual training and acknowledgments</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Personnel screening program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify personnel with CDE access are screened prior to hire per local laws</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Third-party risk management</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify comprehensive third-party service provider risk management program</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Incident response preparedness</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify incident response plan is comprehensive, tested, and personnel are trained</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Executive security oversight</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify executive management oversight of information security program</pre>
+                        </div>
+                    </details>
+                </div>
+
+
+        
+        <div class="summary-section" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #757575;">
+            <h2 style="margin-top: 0; color: #333;">📊 Assessment Summary</h2>
+            
+            <table class="summary-table">
+                <tr>
+                    <td><strong>Total Checks</strong></td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td><strong>Passed</strong></td>
+                    <td class="green">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Failed</strong></td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Warnings/Manual</strong></td>
+                    <td class="yellow">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Compliance Status</strong></td>
+                    <td style="color: #757575; font-weight: bold;">NO ASSESSABLE CHECKS</td>
+                </tr>
+                <tr>
+                        <td><strong>Permission Coverage</strong></td>
+                        <td>0%</td>
+                    </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #757575;">
+                    0% Compliant
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>Note:</strong> Compliance percentage calculated based on passed/failed checks only. 
+                Warnings require manual verification and are excluded from compliance calculation.
+            </p>
+        </div>
+
+        </div> <!-- Close report-content -->
+        
+        <div class="timestamp">
+            <p><strong>Report Generated:</strong> Wed Jun 25 09:33:48 UTC 2025</p>
+            <p><strong>PCI DSS Version:</strong> 4.0.1</p>
+            <p><strong>Requirement:</strong> 12</p>
+        </div>
+    </div> <!-- Close container -->
+    
+    <script>
+        // JavaScript for interactive features
+        function toggleSection(sectionId) {
+            const header = document.querySelector('#section-' + sectionId + ' .section-header');
+            const content = document.querySelector('#content-' + sectionId);
+            
+            if (header && content) {
+                const isActive = header.classList.contains('active');
+                
+                if (isActive) {
+                    header.classList.remove('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'false');
+                } else {
+                    header.classList.add('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            }
+        }
+        
+        // Auto-expand sections with failed checks
+        document.addEventListener('DOMContentLoaded', function() {
+            const failedSections = document.querySelectorAll('.section .fail');
+            failedSections.forEach(function(failedCheck) {
+                const section = failedCheck.closest('.section');
+                if (section) {
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    if (header && content && !header.classList.contains('active')) {
+                        header.classList.add('active');
+                        content.style.removeProperty('display');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+            
+            // Show print-friendly message
+            const style = document.createElement('style');
+            style.textContent = '@media print { .no-print { display: none !important; } }';
+            document.head.appendChild(style);
+        });
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(event) {
+            if (event.target.classList.contains('section-header') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                event.target.click();
+            }
+        });
+        
+        // Summary metrics are added during report generation
+    </script>
+</body>
+</html>

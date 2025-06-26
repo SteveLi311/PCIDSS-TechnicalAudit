@@ -1,0 +1,33 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-01766dfdbb4d58782</instanceid>
+  <hostname>openvpn-for-portal-user-3</hostname>
+  <system>Linux/UNIX</system>
+  <ip>192.168.0.204</ip>
+  <public_ip>13.228.126.249</public_ip>
+  <instancetype>t2.micro</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <date>20250619</date>
+  <time>10:58</time>
+  <evidence>
+    <instance id="i-01766dfdbb4d58782" name="openvpn-for-portal-user-3">
+
+      <security_group id="sg-0b986cb40fdbfe862" name="openvas-scan">
+        <egress_rule>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </egress_rule>
+      </security_group>
+      <security_group id="sg-04b48ad950d31f1bf" name="openvpn-sg">
+        <egress_rule>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </egress_rule>
+      </security_group>
+    </instance>
+  </evidence>
+</getinfo>

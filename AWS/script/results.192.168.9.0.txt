@@ -1,0 +1,1563 @@
+[1m[38;2;0;255;0m.[38;2;0;255;6m-[38;2;0;255;13m-[38;2;0;255;19m-[38;2;0;255;25m-[38;2;0;255;32m.[38;2;0;255;38m [38;2;0;255;45m.[38;2;0;255;51m-[38;2;0;255;57m.[38;2;0;255;64m [38;2;0;255;70m.[38;2;0;255;76m-[38;2;0;255;83m.[38;2;0;255;89m [38;2;0;255;96m.[38;2;0;255;102m-[38;2;0;255;108m-[38;2;0;255;115m-[38;2;0;255;121m-[38;2;0;255;127m.[38;2;0;255;134m.[38;2;0;255;140m-[38;2;0;255;147m-[38;2;0;255;153m-[38;2;0;255;159m.[38;2;0;255;166m [38;2;0;255;172m [38;2;0;255;178m.[38;2;0;255;185m-[38;2;0;255;191m-[38;2;0;255;198m-[38;2;0;255;204m-[38;2;0;255;210m.[38;2;0;255;217m [38;2;0;255;223m.[38;2;0;255;229m-[38;2;0;255;236m-[38;2;0;255;242m-[38;2;0;255;249m.[38;2;0;255;255m [38;2;0;249;255m [38;2;0;242;255m [38;2;0;236;255m.[38;2;0;230;255m-[38;2;0;223;255m-[38;2;0;217;255m.[38;2;0;210;255m [38;2;0;204;255m [38;2;0;198;255m.[38;2;0;191;255m-[38;2;0;185;255m.[38;2;0;179;255m [38;2;0;172;255m.[38;2;0;166;255m-[38;2;0;159;255m.[0m
+[38;2;0;255;0m|[38;2;0;255;6m [38;2;0;255;13m{[38;2;0;255;19m}[38;2;0;255;25m [38;2;0;255;32m [38;2;0;255;38m}[38;2;0;255;45m|[38;2;0;255;51m [38;2;0;255;57m{[38;2;0;255;64m [38;2;0;255;70m}[38;2;0;255;76m [38;2;0;255;83m|[38;2;0;255;89m{[38;2;0;255;96m [38;2;0;255;102m{[38;2;0;255;108m_[38;2;0;255;115m_[38;2;0;255;121m [38;2;0;255;127m{[38;2;0;255;134m_[38;2;0;255;140m [38;2;0;255;147m [38;2;0;255;153m [38;2;0;255;159m_[38;2;0;255;166m}[38;2;0;255;172m{[38;2;0;255;178m [38;2;0;255;185m{[38;2;0;255;191m_[38;2;0;255;198m_[38;2;0;255;204m [38;2;0;255;210m [38;2;0;255;217m/[38;2;0;255;223m [38;2;0;255;229m [38;2;0;255;236m_[38;2;0;255;242m_[38;2;0;255;249m_[38;2;0;255;255m}[38;2;0;249;255m [38;2;0;242;255m/[38;2;0;236;255m [38;2;0;230;255m{[38;2;0;223;255m}[38;2;0;217;255m [38;2;0;210;255m\[38;2;0;204;255m [38;2;0;198;255m|[38;2;0;191;255m [38;2;0;185;255m [38;2;0;179;255m`[38;2;0;172;255m|[38;2;0;166;255m [38;2;0;159;255m|[0m
+[38;2;0;255;0m|[38;2;0;255;6m [38;2;0;255;13m.[38;2;0;255;19m-[38;2;0;255;25m.[38;2;0;255;32m [38;2;0;255;38m\[38;2;0;255;45m|[38;2;0;255;51m [38;2;0;255;57m{[38;2;0;255;64m_[38;2;0;255;70m}[38;2;0;255;76m [38;2;0;255;83m|[38;2;0;255;89m.[38;2;0;255;96m-[38;2;0;255;102m.[38;2;0;255;108m_[38;2;0;255;115m}[38;2;0;255;121m [38;2;0;255;127m}[38;2;0;255;134m [38;2;0;255;140m|[38;2;0;255;147m [38;2;0;255;153m|[38;2;0;255;159m [38;2;0;255;166m [38;2;0;255;172m.[38;2;0;255;178m-[38;2;0;255;185m.[38;2;0;255;191m_[38;2;0;255;198m}[38;2;0;255;204m [38;2;0;255;210m}[38;2;0;255;217m\[38;2;0;255;223m [38;2;0;255;229m [38;2;0;255;236m [38;2;0;255;242m [38;2;0;255;249m [38;2;0;255;255m}[38;2;0;249;255m/[38;2;0;242;255m [38;2;0;236;255m [38;2;0;230;255m/[38;2;0;223;255m\[38;2;0;217;255m [38;2;0;210;255m [38;2;0;204;255m\[38;2;0;198;255m|[38;2;0;191;255m [38;2;0;185;255m|[38;2;0;179;255m\[38;2;0;172;255m [38;2;0;166;255m [38;2;0;159;255m|[0m
+[38;2;0;255;0m`[38;2;0;255;6m-[38;2;0;255;13m'[38;2;0;255;19m [38;2;0;255;25m`[38;2;0;255;32m-[38;2;0;255;38m'[38;2;0;255;45m`[38;2;0;255;51m-[38;2;0;255;57m-[38;2;0;255;64m-[38;2;0;255;70m-[38;2;0;255;76m-[38;2;0;255;83m'[38;2;0;255;89m`[38;2;0;255;96m-[38;2;0;255;102m-[38;2;0;255;108m-[38;2;0;255;115m-[38;2;0;255;121m'[38;2;0;255;127m [38;2;0;255;134m [38;2;0;255;140m`[38;2;0;255;147m-[38;2;0;255;153m'[38;2;0;255;159m [38;2;0;255;166m [38;2;0;255;172m`[38;2;0;255;178m-[38;2;0;255;185m-[38;2;0;255;191m-[38;2;0;255;198m-[38;2;0;255;204m'[38;2;0;255;210m [38;2;0;255;217m [38;2;0;255;223m`[38;2;0;255;229m-[38;2;0;255;236m-[38;2;0;255;242m-[38;2;0;255;249m'[38;2;0;255;255m [38;2;0;249;255m`[38;2;0;242;255m-[38;2;0;236;255m'[38;2;0;230;255m [38;2;0;223;255m [38;2;0;217;255m`[38;2;0;210;255m-[38;2;0;204;255m'[38;2;0;198;255m`[38;2;0;191;255m-[38;2;0;185;255m'[38;2;0;179;255m [38;2;0;172;255m`[38;2;0;166;255m-[38;2;0;159;255m'[0m
+[38;2;0;255;0mT[38;2;0;255;6mh[38;2;0;255;13me[38;2;0;255;19m [38;2;0;255;25mM[38;2;0;255;32mo[38;2;0;255;38md[38;2;0;255;45me[38;2;0;255;51mr[38;2;0;255;57mn[38;2;0;255;64m [38;2;0;255;70mD[38;2;0;255;76ma[38;2;0;255;83my[38;2;0;255;89m [38;2;0;255;96mP[38;2;0;255;102mo[38;2;0;255;108mr[38;2;0;255;115mt[38;2;0;255;121m [38;2;0;255;127mS[38;2;0;255;134mc[38;2;0;255;140ma[38;2;0;255;147mn[38;2;0;255;153mn[38;2;0;255;159me[38;2;0;255;166mr[38;2;0;255;172m.[0m[0m
+[1m[38;2;255;255;0m_[38;2;249;255;0m_[38;2;242;255;0m_[38;2;236;255;0m_[38;2;230;255;0m_[38;2;223;255;0m_[38;2;217;255;0m_[38;2;210;255;0m_[38;2;204;255;0m_[38;2;198;255;0m_[38;2;191;255;0m_[38;2;185;255;0m_[38;2;179;255;0m_[38;2;172;255;0m_[38;2;166;255;0m_[38;2;159;255;0m_[38;2;153;255;0m_[38;2;147;255;0m_[38;2;140;255;0m_[38;2;134;255;0m_[38;2;128;255;0m_[38;2;121;255;0m_[38;2;115;255;0m_[38;2;108;255;0m_[38;2;102;255;0m_[38;2;96;255;0m_[38;2;89;255;0m_[38;2;83;255;0m_[38;2;77;255;0m_[38;2;70;255;0m_[38;2;64;255;0m_[38;2;57;255;0m_[38;2;51;255;0m_[38;2;45;255;0m_[38;2;38;255;0m_[38;2;32;255;0m_[38;2;26;255;0m_[38;2;19;255;0m_[38;2;13;255;0m_[38;2;6;255;0m_[0m
+[38;2;255;255;0m:[38;2;249;255;0m [38;2;242;255;0mh[38;2;236;255;0mt[38;2;230;255;0mt[38;2;223;255;0mp[38;2;217;255;0m:[38;2;210;255;0m/[38;2;204;255;0m/[38;2;198;255;0md[38;2;191;255;0mi[38;2;185;255;0ms[38;2;179;255;0mc[38;2;172;255;0mo[38;2;166;255;0mr[38;2;159;255;0md[38;2;153;255;0m.[38;2;147;255;0ms[38;2;140;255;0mk[38;2;134;255;0me[38;2;128;255;0mr[38;2;121;255;0mr[38;2;115;255;0mi[38;2;108;255;0mt[38;2;102;255;0mt[38;2;96;255;0m.[38;2;89;255;0mb[38;2;83;255;0ml[38;2;77;255;0mo[38;2;70;255;0mg[38;2;64;255;0m [38;2;57;255;0m [38;2;51;255;0m [38;2;45;255;0m [38;2;38;255;0m [38;2;32;255;0m [38;2;26;255;0m [38;2;19;255;0m [38;2;13;255;0m [38;2;6;255;0m:[0m
+[38;2;255;255;0m:[38;2;249;255;0m [38;2;242;255;0mh[38;2;236;255;0mt[38;2;230;255;0mt[38;2;223;255;0mp[38;2;217;255;0ms[38;2;210;255;0m:[38;2;204;255;0m/[38;2;198;255;0m/[38;2;191;255;0mg[38;2;185;255;0mi[38;2;179;255;0mt[38;2;172;255;0mh[38;2;166;255;0mu[38;2;159;255;0mb[38;2;153;255;0m.[38;2;147;255;0mc[38;2;140;255;0mo[38;2;134;255;0mm[38;2;128;255;0m/[38;2;121;255;0mR[38;2;115;255;0mu[38;2;108;255;0ms[38;2;102;255;0mt[38;2;96;255;0mS[38;2;89;255;0mc[38;2;83;255;0ma[38;2;77;255;0mn[38;2;70;255;0m/[38;2;64;255;0mR[38;2;57;255;0mu[38;2;51;255;0ms[38;2;45;255;0mt[38;2;38;255;0mS[38;2;32;255;0mc[38;2;26;255;0ma[38;2;19;255;0mn[38;2;13;255;0m [38;2;6;255;0m:[0m
+[38;2;255;255;0m [38;2;249;255;0m-[38;2;242;255;0m-[38;2;236;255;0m-[38;2;230;255;0m-[38;2;223;255;0m-[38;2;217;255;0m-[38;2;210;255;0m-[38;2;204;255;0m-[38;2;198;255;0m-[38;2;191;255;0m-[38;2;185;255;0m-[38;2;179;255;0m-[38;2;172;255;0m-[38;2;166;255;0m-[38;2;159;255;0m-[38;2;153;255;0m-[38;2;147;255;0m-[38;2;140;255;0m-[38;2;134;255;0m-[38;2;128;255;0m-[38;2;121;255;0m-[38;2;115;255;0m-[38;2;108;255;0m-[38;2;102;255;0m-[38;2;96;255;0m-[38;2;89;255;0m-[38;2;83;255;0m-[38;2;77;255;0m-[38;2;70;255;0m-[38;2;64;255;0m-[38;2;57;255;0m-[38;2;51;255;0m-[38;2;45;255;0m-[38;2;38;255;0m-[38;2;32;255;0m-[38;2;26;255;0m-[38;2;19;255;0m-[38;2;13;255;0m-[0m[0m
+With RustScan, I scan ports so fast, even my firewall gets whiplash 💨
+
+[1;34m[~][0m The config file is expected to be at "/root/snap/rustscan/208/.rustscan.toml"
+[1;34m[~][0m Automatically increasing ulimit value to 5000.
+Open 192.168.9.190:22
+Open 192.168.9.240:22
+Open 192.168.9.250:22
+Open 192.168.9.190:80
+Open 192.168.9.250:80
+Open 192.168.9.195:135
+Open 192.168.9.195:139
+Open 192.168.9.250:427
+Open 192.168.9.190:443
+Open 192.168.9.250:443
+Open 192.168.9.195:445
+Open 192.168.9.190:514
+Open 192.168.9.250:902
+Open 192.168.9.195:1433
+Open 192.168.9.195:3389
+Open 192.168.9.195:5985
+Open 192.168.9.250:5989
+Open 192.168.9.250:8000
+Open 192.168.9.254:8013
+Open 192.168.9.250:8300
+Open 192.168.9.250:9080
+Open 192.168.9.190:9092
+Open 192.168.9.195:47001
+Open 192.168.9.195:49664
+Open 192.168.9.195:49665
+Open 192.168.9.195:49666
+Open 192.168.9.195:49667
+Open 192.168.9.195:49668
+Open 192.168.9.195:49669
+Open 192.168.9.195:49670
+Open 192.168.9.195:49671
+Open 192.168.9.195:49672
+Open 192.168.9.195:58608
+Open 192.168.9.195:64094
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.0. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.1. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.2. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.3. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.4. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.5. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.6. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.7. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.8. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.9. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.10. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.11. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.12. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.13. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.14. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.15. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.16. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.17. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.18. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.19. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.20. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.21. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.22. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.23. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.24. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.25. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.26. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.27. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.28. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.29. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.30. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.31. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.32. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.33. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.34. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.35. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.36. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.37. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.38. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.39. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.40. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.41. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.42. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.43. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.44. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.45. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.46. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.47. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.48. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.49. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.50. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.51. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.52. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.53. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.54. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.55. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.56. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.57. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.58. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.59. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.60. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.61. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.62. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.63. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.64. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.65. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.66. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.67. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.68. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.69. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.70. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.71. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.72. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.73. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.74. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.75. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.76. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.77. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.78. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.79. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.80. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.81. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.82. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.83. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.84. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.85. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.86. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.87. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.88. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.89. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.90. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.91. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.92. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.93. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.94. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.95. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.96. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.97. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.98. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.99. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.100. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.101. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.102. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.103. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.104. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.105. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.106. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.107. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.108. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.109. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.110. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.111. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.112. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.113. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.114. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.115. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.116. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.117. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.118. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.119. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.120. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.121. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.122. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.123. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.124. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.125. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.126. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.127. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.128. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.129. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.130. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.131. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.132. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.133. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.134. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.135. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.136. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.137. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.138. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.139. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.140. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.141. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.142. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.143. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.144. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.145. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.146. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.147. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.148. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.149. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.150. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.151. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.152. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.153. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.154. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.155. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.156. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.157. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.158. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.159. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.160. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.161. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.162. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.163. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.164. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.165. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.166. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.167. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.168. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.169. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.170. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.171. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.172. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.173. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.174. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.175. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.176. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.177. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.178. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.179. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.180. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.181. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.182. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.183. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.184. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.185. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.186. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.187. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.188. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.189. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.191. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.192. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.193. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.194. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.196. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.197. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.198. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.199. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.200. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.201. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.202. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.203. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.204. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.205. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.206. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.207. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.208. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.209. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.210. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.211. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.212. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.213. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.214. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.215. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.216. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.217. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.218. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.219. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.220. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.221. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.222. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.223. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.224. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.225. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.226. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.227. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.228. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.229. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.230. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.231. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.232. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.233. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.234. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.235. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.236. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.237. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.238. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.239. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.241. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.242. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.243. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.244. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.245. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.246. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.247. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.248. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.249. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.251. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.252. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.253. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;31m[!][0m Looks like I didn't find any open ports for 192.168.9.255. This is usually caused by a high batch size.
+        
+*I used 4500 batch size, consider lowering it with 'rustscan -b <batch_size> -a <ip address>' or a comfortable number for your system.
+        
+ Alternatively, increase the timeout if your ping is high. Rustscan -t 2000 for 2000 milliseconds (2s) timeout.
+
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1

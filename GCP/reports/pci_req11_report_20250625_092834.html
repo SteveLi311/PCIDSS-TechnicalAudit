@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 11 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #4285f4;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 20px;
+            display: none;
+            background-color: #ffffff;
+        }
+        .section-header.active + .section-content {
+            display: block !important;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .green { color: #4CAF50; font-weight: bold; }
+        .red { color: #f44336; font-weight: bold; }
+        .yellow { color: #ff9800; font-weight: bold; }
+        .blue { color: #2196F3; font-weight: bold; }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+        .timestamp {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        /* Print-friendly styles */
+        @media print {
+            body { background-color: white; }
+            .container { box-shadow: none; padding: 0; }
+            .section-content { display: block; }
+            .section-header::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0.1 - Requirement 11 Compliance Assessment Report</h1>
+        
+        <div class="info-table-container">
+            <table class="info-table">
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 09:28:34 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>GCP Account</th>
+                    <td>pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com</td>
+                </tr>
+                <tr>
+                    <th>Project</th>
+                    <td>collab-testing-orange</td>
+                </tr>
+                <tr>
+                    <th>Permission Coverage</th>
+                    <td>0%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Summary will be added after assessment completion -->
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section" id="section-security_testing">
+            <div class="section-header" onclick="toggleSection('security_testing')" aria-expanded="false">
+                <h3 style="margin: 0;">Security Testing Assessment</h3>
+            </div>
+            <div class="section-content" id="content-security_testing">
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-project_collab-testing-orange">
+            <div class="section-header" onclick="toggleSection('project_collab-testing-orange')" aria-expanded="false">
+                <h3 style="margin: 0;">Project: collab-testing-orange</h3>
+            </div>
+            <div class="section-content" id="content-project_collab-testing-orange">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.1.1 - Security policies documentation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify documented security policies for Requirement 11 are maintained, up to date, in use, and known to affected parties</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.1.2 - Roles and responsibilities</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify roles and responsibilities for Requirement 11 activities are documented, assigned, and understood</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Security Command Center sources</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No Security Command Center sources found - consider enabling for automated security testing</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Ongoing security monitoring</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No active security findings - environment may be secure or monitoring not configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Network security control</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Auto VPC network 'default' may have default access rules</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Network firewall rules</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'default' has 4 firewall rules configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Network security control</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Auto VPC network 'test-list-001' may have default access rules</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Network firewall rules</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-list-001' has 0 firewall rules configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Network security control</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Auto VPC network 'test-list-999' may have default access rules</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Network firewall rules</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-list-999' has 0 firewall rules configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Network security control</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Auto VPC network 'test-orange' may have default access rules</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Network firewall rules</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-orange' has 19 firewall rules configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.2.1 - Access point testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">For physical environments: Test for unauthorized wireless access points at least every 3 months</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.2.2 - Access point inventory</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Maintain inventory of authorized wireless access points with business justification</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Cloud network access control</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 4 VPC networks (0 custom) providing controlled network access equivalent to wireless AP controls</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ 11.3.1 - Internal vulnerability scanning</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No vulnerability findings found - verify if vulnerability scanning is configured</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Container vulnerability scanning</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No container vulnerability scan results found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.3.1.1 - Vulnerability risk management</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify non-critical vulnerabilities are managed per targeted risk analysis</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.3.1.2 - Authenticated scanning</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify vulnerability scans use authenticated scanning where possible</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.3.1.3 - Change-based scanning</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify vulnerability scans are performed after significant infrastructure changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.3.2 - External vulnerability scanning</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify external vulnerability scans are performed quarterly by approved scanning vendor (ASV)</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Web Security Scanner</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No Web Security Scanner activity found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4.1 - Penetration testing methodology</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify penetration testing methodology is defined, documented, and implemented with industry-accepted approaches</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4.2 - Internal penetration testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify internal penetration testing is performed at least annually and after significant changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4.3 - External penetration testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify external penetration testing is performed at least annually and after significant changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4.4 - Penetration testing remediation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify exploitable vulnerabilities found in penetration testing are corrected and retested</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4.5 - Segmentation testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If segmentation is used, verify penetration tests validate segmentation controls annually</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Security testing activity</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No security testing activities found in recent audit logs</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Security testing accounts</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No dedicated security testing service accounts found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ 11.5.1 - Intrusion detection system</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No Cloud IDS endpoints found - consider implementing network intrusion detection</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ VPC Flow Logs</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'default' does not have flow logs enabled</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ VPC Flow Logs</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-list-001' does not have flow logs enabled</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ VPC Flow Logs</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-list-999' does not have flow logs enabled</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ VPC Flow Logs</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Network 'test-orange' does not have flow logs enabled</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Network traffic monitoring</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">0 out of 4 networks have flow logs enabled</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ 11.5.2 - Asset change monitoring</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No recent asset change monitoring activity found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Threat detection monitoring</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No threat detection events found in Security Command Center</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Binary Authorization</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Binary Authorization not configured - consider for container environments</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Load balancer configuration</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Found 2 load balancers - ensure payment page monitoring covers all endpoints</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.6.1 - Payment page change detection</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify change and tamper detection mechanism is deployed for payment pages</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Payment page monitoring implementation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If processing payments: Implement monitoring for HTTP headers and script contents of payment pages</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Payment page monitoring frequency</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify payment page monitoring performs evaluations at least weekly or per risk analysis</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Cloud Security Scanner</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No Web Security Scanner activity found - consider for web application testing</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Event Threat Detection</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No Event Threat Detection findings found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Container Threat Detection</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No container threat findings found</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ VM Threat Detection</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">No VM threat detection findings found</pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-manual_verification">
+            <div class="section-header" onclick="toggleSection('manual_verification')" aria-expanded="false">
+                <h3 style="margin: 0;">Manual Verification Required</h3>
+            </div>
+            <div class="section-content" id="content-manual_verification">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.1 - Security testing policy</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify documented processes for regularly testing security of systems and networks</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.2 - Wireless access point testing</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">For physical environments: Test for unauthorized wireless access points quarterly</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.3 - Vulnerability scanning schedule</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify internal vulnerability scans are performed at least quarterly</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.4 - Penetration testing program</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify penetration testing is performed annually and after significant changes</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.5 - IDS/IPS implementation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify intrusion detection/prevention systems monitor network perimeter and critical points</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ 11.6 - Payment page monitoring</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">If processing payments: Verify change detection for payment pages is implemented</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Testing independence</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify organizational independence of security testers from system administrators</pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Test result documentation</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;">Verify security testing results and remediation activities are documented and retained</pre>
+                        </div>
+                    </details>
+                </div>
+
+
+        
+        <div class="summary-section" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #757575;">
+            <h2 style="margin-top: 0; color: #333;">📊 Assessment Summary</h2>
+            
+            <table class="summary-table">
+                <tr>
+                    <td><strong>Total Checks</strong></td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td><strong>Passed</strong></td>
+                    <td class="green">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Failed</strong></td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Warnings/Manual</strong></td>
+                    <td class="yellow">0</td>
+                </tr>
+                <tr>
+                    <td><strong>Compliance Status</strong></td>
+                    <td style="color: #757575; font-weight: bold;">NO ASSESSABLE CHECKS</td>
+                </tr>
+                <tr>
+                        <td><strong>Permission Coverage</strong></td>
+                        <td>0%</td>
+                    </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #757575;">
+                    0% Compliant
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>Note:</strong> Compliance percentage calculated based on passed/failed checks only. 
+                Warnings require manual verification and are excluded from compliance calculation.
+            </p>
+        </div>
+
+        </div> <!-- Close report-content -->
+        
+        <div class="timestamp">
+            <p><strong>Report Generated:</strong> Wed Jun 25 09:30:01 UTC 2025</p>
+            <p><strong>PCI DSS Version:</strong> 4.0.1</p>
+            <p><strong>Requirement:</strong> 11</p>
+        </div>
+    </div> <!-- Close container -->
+    
+    <script>
+        // JavaScript for interactive features
+        function toggleSection(sectionId) {
+            const header = document.querySelector('#section-' + sectionId + ' .section-header');
+            const content = document.querySelector('#content-' + sectionId);
+            
+            if (header && content) {
+                const isActive = header.classList.contains('active');
+                
+                if (isActive) {
+                    header.classList.remove('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'false');
+                } else {
+                    header.classList.add('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            }
+        }
+        
+        // Auto-expand sections with failed checks
+        document.addEventListener('DOMContentLoaded', function() {
+            const failedSections = document.querySelectorAll('.section .fail');
+            failedSections.forEach(function(failedCheck) {
+                const section = failedCheck.closest('.section');
+                if (section) {
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    if (header && content && !header.classList.contains('active')) {
+                        header.classList.add('active');
+                        content.style.removeProperty('display');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+            
+            // Show print-friendly message
+            const style = document.createElement('style');
+            style.textContent = '@media print { .no-print { display: none !important; } }';
+            document.head.appendChild(style);
+        });
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(event) {
+            if (event.target.classList.contains('section-header') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                event.target.click();
+            }
+        });
+        
+        // Summary metrics are added during report generation
+    </script>
+</body>
+</html>

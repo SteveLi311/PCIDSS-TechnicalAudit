@@ -1,0 +1,5 @@
+Load Balancers using weak ciphers:
+- Application Load Balancer: canlead [Region: ap-northeast-1]
+  SSL Policy: ELBSecurityPolicy-2016-08
+  Note: This policy may include weak ciphers.
+

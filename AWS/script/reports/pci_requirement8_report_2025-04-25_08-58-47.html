@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 8 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS v4.0.1 - Requirement 8 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>366205796862</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-northeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Fri Apr 25 08:58:48 +07 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:iam::366205796862:user/pci_assessor</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS CLI Access: iam list-users</h3>
+                        <div><p>Successfully verified access to <code>aws iam list-users</code>.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS CLI Access: iam list-roles</h3>
+                        <div><p>Successfully verified access to <code>aws iam list-roles</code>.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS CLI Access: iam get-account-password-policy</h3>
+                        <div><p>Successfully verified access to <code>aws iam get-account-password-policy</code>.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS CLI Access: accessanalyzer list-analyzers</h3>
+                        <div><p>You do not have sufficient permissions to execute <code>aws accessanalyzer list-analyzers</code>.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS credentials have the necessary permissions to perform this assessment.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS CLI Access: cloudtrail describe-trails</h3>
+                        <div><p>Successfully verified access to <code>aws cloudtrail describe-trails</code>.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS CLI Access: configservice describe-configuration-recorders</h3>
+                        <div><p>You do not have sufficient permissions to execute <code>aws configservice describe-configuration-recorders</code>.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS credentials have the necessary permissions to perform this assessment.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 7.2.5 - Access to Security Functions</h3>
+                        <div><p>Checking IAM policies that grant access to sensitive security functions:</p><p><span class='green'>No custom IAM policies found that grant broad access to sensitive security functions.</span></p><p><span class='green'>No IAM users found with direct Administrator access.</span></p></div>
+    
+                    </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 8.3: Strong authentication is implemented
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-8.3">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 8.3.6 - Password/Passphrase Requirements</h3>
+                        <div><p>Current IAM password policy settings:</p><ul><li>Minimum password length: 6 characters <span class='red'>(FAIL: PCI DSS requires at least 12 characters)</span></li><li>Require symbols:         "RequireSymbols": false, <span class='green'>(PASS)</span></li><li>Require numbers:         "RequireNumbers": false, <span class='green'>(PASS)</span></li><li>Require uppercase characters:         "RequireUppercaseCharacters": false, <span class='green'>(PASS)</span></li><li>Require lowercase characters:         "RequireLowercaseCharacters": false, <span class='green'>(PASS)</span></li><li>Password reuse prevention: Not set <span class='red'>(FAIL: PCI DSS requires remembering at least 4 previous passwords)</span></li><li>Maximum password age: Not set <span class='red'>(FAIL: PCI DSS requires passwords to be changed at least every 90 days)</span></li><li>Require password reset on first login:         "HardExpiry": false <span class='green'>(PASS)</span></li></ul><p><strong>Recommendations:</strong></p><ul><li>Increase minimum password length to at least 12 characters</li><li>Enable password history to remember at least 4 previous passwords</li><li>Set maximum password age to 90 days or less</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Update the IAM password policy to meet all PCI DSS requirements.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 8.4: Multi-factor authentication (MFA) is implemented
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-8.4">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 8.4.2 - Multi-Factor Authentication</h3>
+                        <div><p><span class='green'>✓ Root account has MFA enabled.</span></p><p>IAM User MFA Status:</p><table border='1' cellpadding='5'>
+        <tr>
+            <th>Username</th>
+            <th>MFA Enabled</th>
+            <th>Password Enabled</th>
+            <th>Access Keys</th>
+            <th>Last Activity</th>
+        </tr><tr>
+                <td>brian810065</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>callcarbackend</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Inactive) - Last used: 2018-08-07T14:53:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2021-07-27T04:37:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>callcarbar</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-04-30T04:07:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>daidai9159</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>idanticket_backend</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:56:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>jay</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr class='red'>
+                <td>Johnny_howcool</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2023-03-14T06:46:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>johnson</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:57:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>joyen</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>kao14376</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>KMS_USER</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:21:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr class='red'>
+                <td>mgc.paul.dev@gmail.com</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-10-28T13:36:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>paul_hung</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2019-09-05T03:40:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>pci_assessor</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:01:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>peiyu</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>phlan_chung</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2017-02-21T08:46:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>rayhuang</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>roamingbar</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-12-11T07:23:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2023-01-11T16:00:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>s3</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-24T05:05:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>ses-smtp-user.20191212-202543</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>star_lin</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2017-09-21T03:20:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2020-04-28T01:47:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>SYNC_S3</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:53:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>t0545886</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr></table><p>Summary: 12 out of 23 users have MFA enabled.</p><p><span class='red'>The following users have console access but do not have MFA enabled: Johnny_howcool, mgc.paul.dev@gmail.com</span></p><p>Analyzing IAM roles for MFA enforcement in trust policies:</p><ul><li>Role: adamwarlock-golang-CodePi-CloudFormationExecutionR-DXJAG437XH39 - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodePipel-PipelineExecutionRole-5DJ239Q0BRSE - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodePipeli-CodeBuildServiceRole-11U4ZI9QJSBD5 - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodeRe-LambdaTriggerPipelineExe-OCNTQYI68KMT - Service role, MFA not applicable</li><li>Role: alb_cloudwatch_log - Service role, MFA not applicable</li><li>Role: AmazonEC2RoleForLaunchWizard - Service role, MFA not applicable</li><li>Role: AmazonSSMRoleForInstancesQuickSetup - Service role, MFA not applicable</li><li>Role: amplifyconsole-backend-role - Service role, MFA not applicable</li><li>Role: apocalypse_test - Service role, MFA not applicable</li><li>Role: apple-canlead-production-20200316033534-authRole - Service role, MFA not applicable</li><li>Role: apple-canlead-production-20200316033534-unauthRole - Service role, MFA not applicable</li><li>Role: apple-canlead-stage-20200316030613-authRole - Service role, MFA not applicable</li><li>Role: apple-canlead-stage-20200316030613-unauthRole - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePip-CloudFormationExecutionR-B1A0QM0B9I6M - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePipeli-PipelineExecutionRole-YP4K5KI4410E - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePipelin-CodeBuildServiceRole-1R9S8AVTE9EPF - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodeRep-LambdaTriggerPipelineExe-NQOT1RS1EFUL - Service role, MFA not applicable</li><li>Role: apple-dbs-product-20190703025730-authRole - Service role, MFA not applicable</li><li>Role: apple-dbs-product-20190703025730-unauthRole - Service role, MFA not applicable</li><li>Role: apple-dbs-stage-20190702094009-authRole - Service role, MFA not applicable</li><li>Role: apple-dbs-stage-20190702094009-unauthRole - Service role, MFA not applicable</li><li>Role: applestore-refactor-CodeBuild-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: applestore-refactor-CodePipeline-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeli-CloudFormationExecutionR-1H0V0NX2ESE2B - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeline-L-CodeBuildServiceRole-1WC5M3BV4TK49 - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeline-PipelineExecutionRole-1QVTORIDY6KYE - Service role, MFA not applicable</li><li>Role: applestore-vue-CodeReposi-LambdaTriggerPipelineExe-IQPNHRWL22DM - Service role, MFA not applicable</li><li>Role: apple_product_crawler-role-r07r1lze - Service role, MFA not applicable</li><li>Role: aws-ec2-spot-fleet-role - Service role, MFA not applicable</li><li>Role: aws-ec2-spot-fleet-tagging-role - Service role, MFA not applicable</li><li>Role: aws-elasticbeanstalk-ec2-role - Service role, MFA not applicable</li><li>Role: aws-elasticbeanstalk-service-role - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-DefaultEC2MgmtRole-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableAREX-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableDHMC-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableExplorer-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-LifecycleManagement-LA-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-LocalAdministrationRole - Service role, MFA not applicable</li><li><span class='yellow'>Role: AWS-QuickSetup-SSM-LocalExecutionRole - Used by humans but does not enforce MFA</span></li><li>Role: AWS-QuickSetup-SSM-ManageInstanceProfile-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-ManageResources-LA-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-StackSet-Local-AdministrationRole - Service role, MFA not applicable</li><li><span class='yellow'>Role: AWS-QuickSetup-StackSet-Local-ExecutionRole - Used by humans but does not enforce MFA</span></li><li>Role: aws-quicksight-service-role-v0 - Service role, MFA not applicable</li><li>Role: AWS-SSM-DiagnosisAdminRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-DiagnosisExecutionRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-RemediationAdminRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-RemediationExecutionRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWSBackupDefaultServiceRole - Service role, MFA not applicable</li><li>Role: AWSCodePipelineServiceRole-ap-northeast-1-postoffice-ticket - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonElasticFileSystem - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonGuardDuty - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonGuardDutyMalwareProtection - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonSSM - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAPIGateway - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForApplicationAutoScaling_DynamoDBTable - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForApplicationAutoScaling_ECSService - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAutoScaling - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForCloudFrontLogger - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForCloudTrail - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForConfig - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForDMSServerless - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForEC2Spot - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForEC2SpotFleet - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForECS - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForElastiCache - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForElasticLoadBalancing - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForGlobalAccelerator - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForLambdaReplicator - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForOrganizations - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForRDS - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForResourceExplorer - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForServiceQuotas - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSSMQuickSetup - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSSO - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSupport - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForTrustedAdvisor - Service role, MFA not applicable</li><li>Role: callcarbar - Service role, MFA not applicable</li><li>Role: callcarbar-airport-production-20190723035101-authRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-production-20190723035101-unauthRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-stage-20190723031611-authRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-stage-20190723031611-unauthRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-Co-CloudFormationExecutionR-QIML4BEFRX6L - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-Co-LambdaTriggerPipelineExe-1ULP0WVC1BDS8 - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-CodeP-PipelineExecutionRole-1WR95ZNHHSU6C - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-CodePi-CodeBuildServiceRole-1JUE06LQGMO35 - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-Cod-CloudFormationExecutionR-J9CYX0F39M9J - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-Cod-LambdaTriggerPipelineExe-ID288UWON01B - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-CodePi-PipelineExecutionRole-176100PI71CTJ - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-CodePip-CodeBuildServiceRole-8OJBUTZE2JYY - Service role, MFA not applicable</li><li>Role: canlead-cms-production-20200129094535-authRole - Service role, MFA not applicable</li><li>Role: canlead-cms-production-20200129094535-unauthRole - Service role, MFA not applicable</li><li>Role: canlead-cms-stage-20200129070518-authRole - Service role, MFA not applicable</li><li>Role: canlead-cms-stage-20200129070518-unauthRole - Service role, MFA not applicable</li><li>Role: canlead-ecs-CodeRepositor-LambdaSlackExecutionRole-12JXKUJCZIQ29 - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3Q-ECSDefaultAutoScalingRol-EU5W6MN26L3C - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3Q-EventECSScheduleTaskRole-E68JORIIICBJ - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSG-SNSLambdaExecutionRole-1NMZNKIJ6KXXI - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGI-ECSDefaultServiceRole-1FX1RW0RT1R2B - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIX-ECSServiceRoleForEC2-XS8NLU6H940Y - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL-LambdaExecutionRole-1E2QUXVVCJAAE - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-ECSDefaultTaskRole-1WRF8QHHJCB2 - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-ECSLogTaskRole-17U5R0DKBVACL - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-SNSLambdaRole-ZIG08M0N0Q5D - Service role, MFA not applicable</li><li>Role: canlead-line-demo-role-a5jjdb8n - Service role, MFA not applicable</li><li>Role: canlead-sftp-user - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipeli-CloudFormationExecutionR-1BJZ02VNX615E - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipelineE-PipelineExecutionRole-PPD4SXXC5U4D - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipelineEC-CodeBuildServiceRole-1HMHJMQ5NW24H - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodeReposi-LambdaTriggerPipelineExe-BO81TS39ZRE8 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodeP-CloudFormationExecutionR-4JD96WNRDZH3 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodePipe-PipelineExecutionRole-1GY6ZSHL5SSL5 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodePipel-CodeBuildServiceRole-1AXKM1IJJ6I6S - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodeR-LambdaTriggerPipelineExe-1WHMSEZD5LTEG - Service role, MFA not applicable</li><li>Role: Canlead_TransferFamily_TO_S3 - Service role, MFA not applicable</li><li><span class='yellow'>Role: cc-iam-stack-IamRole-X19VNPOWJVUC - Used by humans but does not enforce MFA</span></li><li>Role: cms-vue-CodePipeline-GKRZ-CloudFormationExecutionR-152KWT1MY8L7H - Service role, MFA not applicable</li><li>Role: cms-vue-CodePipeline-GKRZLIQ-PipelineExecutionRole-1DOK29R9CZPTQ - Service role, MFA not applicable</li><li>Role: cms-vue-CodePipeline-GKRZLIQH-CodeBuildServiceRole-KTE4CA6TULS0 - Service role, MFA not applicable</li><li>Role: cms-vue-CodeRepository-1G-LambdaTriggerPipelineExe-1K76UR9NCF3QW - Service role, MFA not applicable</li><li>Role: codebuild-postoffice-ticket-service-role - Service role, MFA not applicable</li><li>Role: codebuild-postoffice-ticket-stage-role - Service role, MFA not applicable</li><li>Role: codeDeploy - Service role, MFA not applicable</li><li>Role: CodeDeployServiceRole - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarAuth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarTestAuth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarTestUnauth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarUnauth_Role - Service role, MFA not applicable</li><li>Role: cwe-role-ap-northeast-1-postoffice-ticket - Service role, MFA not applicable</li><li>Role: dbmigrate - Service role, MFA not applicable</li><li>Role: demo-function - Service role, MFA not applicable</li><li>Role: detect-alb-ip - Service role, MFA not applicable</li><li>Role: devops - Service role, MFA not applicable</li><li>Role: dms-cloudwatch-logs-role - Service role, MFA not applicable</li><li>Role: dms-vpc-role - Service role, MFA not applicable</li><li>Role: DynamoDBAutoscaleRole - Service role, MFA not applicable</li><li>Role: EC2codeDeploy - Service role, MFA not applicable</li><li>Role: ecsEventsRole - Service role, MFA not applicable</li><li>Role: ecsTaskExecutionRole - Service role, MFA not applicable</li><li>Role: genQRCode-role-8z5knzm2 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePip-CloudFormationExecutionR-D46IYLAGA5QZ - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePipeli-PipelineExecutionRole-UJQ05O22Q6N9 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePipelin-CodeBuildServiceRole-1AJ0Q3I9Y0WX1 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodeRep-LambdaTriggerPipelineExe-1VKB7UU2SPWWU - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CloudFormation-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodeBuild-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodeDeploy-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodePipeline-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-infrastructure-AutoScalingRole-HQT2F22C23X4 - Service role, MFA not applicable</li><li>Role: idanrestorecallcarbar - Service role, MFA not applicable</li><li>Role: idanticket - Service role, MFA not applicable</li><li>Role: iot_to_dynamo - Service role, MFA not applicable</li><li>Role: johnny - Service role, MFA not applicable</li><li>Role: lambda-trigger-codepipeline - Service role, MFA not applicable</li><li>Role: lambdaedge-security-headers-role-w3sgvdak - Service role, MFA not applicable</li><li>Role: lambda_deploy_roamingbar_wp - Service role, MFA not applicable</li><li>Role: lambda_diff_trigger - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipeli-CloudFormationExecutionR-6M1SPDJB88CO - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipelineE-PipelineExecutionRole-15QQE6K8VZ3A2 - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipelineEC-CodeBuildServiceRole-AJWVKGNQAKL5 - Service role, MFA not applicable</li><li>Role: magneto-golang-CodeReposi-LambdaTriggerPipelineExe-1XQ0LRYIB6VXJ - Service role, MFA not applicable</li><li>Role: main-role-3fksdr3p - Service role, MFA not applicable</li><li>Role: MR_SSO_Decrypt-role-pmvxuxt5 - Service role, MFA not applicable</li><li>Role: OpsItem-CWE-Role - Service role, MFA not applicable</li><li>Role: postmortem-timelines-generator-role-5tf6vzov - Service role, MFA not applicable</li><li>Role: postoffice-ticket - Service role, MFA not applicable</li><li>Role: postoffice-ticket-test - Service role, MFA not applicable</li><li>Role: quickSliver-role-ap41hz7c - Service role, MFA not applicable</li><li>Role: quicksliver-serverless-pi-CloudFormationExecutionR-XSRA9Z2MJDTE - Service role, MFA not applicable</li><li>Role: quickSliver_test - Service role, MFA not applicable</li><li>Role: rds-monitoring-role - Service role, MFA not applicable</li><li>Role: RestartEC2ForCCBDBERROR - Service role, MFA not applicable</li><li>Role: s3 - Service role, MFA not applicable</li><li>Role: secure-header-role-06ragtcb - Service role, MFA not applicable</li><li>Role: secureHeader-role-rn0zb4uu - Service role, MFA not applicable</li><li>Role: secureHeader-role-vnp4ewm9 - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-AuthorizeFunctionRole-HBBFPP0QQ4G - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-CaptureFunctionRole-1GBSC8JM2H9HV - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-InstallmentFunctionRole-1L0ATUBCUAS23 - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-RedeemFunctionRole-13VGMYOUWNI5Q - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-ReversalFunctionRole-2OV50YG6AUVX - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeli-CloudFormationExecutionR-6OYJ3GG3A3YD - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeli-CodePipelineExecutionRol-18B6AN2JSTJ48 - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeline-CodeBuildServiceRole-1GFSF6A3VZJWZ - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-AuthorizeFunctionRole-7ITN4LW2PEZY - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-CaptureFunctionRole-13O2X1TABTGM2 - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-InstallmentFunctionRole-FXU355WJFEUM - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-RedeemFunctionRole-OY8MIB6NCJFA - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-ReversalFunctionRole-1HTHHNALLZUDM - Service role, MFA not applicable</li><li>Role: shortcut-production-role-wg36jr2h - Service role, MFA not applicable</li><li>Role: shortcut-role-1lmlm0nm - Service role, MFA not applicable</li><li>Role: shortcut-staging-role-ek8tuxuz - Service role, MFA not applicable</li><li>Role: shortcut_test-role-33yu4kn6 - Service role, MFA not applicable</li><li>Role: showQRCode-role-en3mazj2 - Service role, MFA not applicable</li><li>Role: sns - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-f3toy1fp - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-lgu2dcpk - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-mxntya2n - Service role, MFA not applicable</li><li>Role: sqltest-role-xqron8kq - Service role, MFA not applicable</li><li>Role: test-lambda-edge-role-bjleud0k - Service role, MFA not applicable</li><li>Role: ufirst-production-20200130034524-authRole - Service role, MFA not applicable</li><li>Role: ufirst-production-20200130034524-unauthRole - Service role, MFA not applicable</li><li>Role: ufirst-stage-20200130025615-authRole - Service role, MFA not applicable</li><li>Role: ufirst-stage-20200130025615-unauthRole - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1-CloudFormationExecutionR-1V8X5Q9DUCAEX - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1RSE-PipelineExecutionRole-1F5AT83OBYS31 - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1RSEK-CodeBuildServiceRole-1K71G0E3K3PPJ - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodeRepository-LambdaTriggerPipelineExe-A3HY8SXCVYDB - Service role, MFA not applicable</li></ul><p><span class='yellow'>The following roles may be assumed by users but do not enforce MFA: AWS-QuickSetup-SSM-LocalExecutionRole, AWS-QuickSetup-StackSet-Local-ExecutionRole, cc-iam-stack-IamRole-X19VNPOWJVUC</span></p><p>Note: This is a warning because some role assumptions may happen through trusted services, but you should verify any roles that allow human access.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure MFA is enabled for the root account and all IAM users with console access. Consider enforcing MFA in trust policies for roles used by humans.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 8.6: Access to system components is monitored and controlled
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-8.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 8.6.1-3 - Review User Access</h3>
+                        <div><p><span class='yellow'>AWS IAM Access Analyzer is not enabled in this region. Consider enabling it to help identify resources shared with external entities.</span></p><p>CloudTrail trails that can be used for user activity monitoring:</p><ul></ul><p><span class='yellow'>AWS Config is not enabled in this region. Consider enabling it to track IAM resource configurations and changes.</span></p><h4>Credential Usage Analysis</h4><p>No access keys found in the account.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement access review processes and monitoring tools to periodically validate all access to CDE and resources.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 8.2.3 - Hardcoded Credentials</h3>
+                        <div><p>Checking Lambda functions for potential hardcoded credentials in environment variables:</p><p><span class='green'>No obvious sensitive data found in Lambda environment variables.</span></p><p>No CodeBuild projects found in this region.</p><p>Note: This check only identifies potential areas of risk. A complete review requires manual code examination.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review the identified resources for any hardcoded credentials and remove them in favor of secure storage solutions like AWS Secrets Manager or Parameter Store.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Fri Apr 25 09:10:44 +07 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">0</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 0.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

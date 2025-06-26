@@ -1,0 +1,322 @@
+Security Groups allowing sensitive protocols with unrestricted public access:
+- Security Group: sg-8a71ffee (scaling-demo01) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-1bd4787f (allOpen) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-5bf7c43f (wordpress_base_test) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0e05fd6a (webservice_linux) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-a17ab4c5 (launch-wizard-3) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-b1518dd6 (idanbean-windows-candleadvpc) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * SSH (tcp/22)
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-d4d2b2b0 (roamingbar-golang) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-aa93fbce (wordpress_base) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-4641b022 (DevOps) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-36048f51 (launch-wizard-7) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-1c59307b (rds-launch-wizard-4) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-0d07d43e92c7b61fb (launch-wizard-18) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0a943c2292a404971 (launch-wizard-14) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-6febb90b (launch-wizard-6) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-12df5576 (pingpong-ec2) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-43137e24 (online) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-1787be73 (vip security) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-07b02f46e3d0fedcc (Canlead-Internal-ALB-202301111) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+
+
+- Security Group: sg-247fb140 (launch-wizard-2) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-c7d949a3 (star_home) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-025267eb96aa1d2ec (debug) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0751da0bbe4b11eb1 (launch-wizard-16) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0567f426b3ae62417 (launch-wizard-15) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-831b85e4 (launch-wizard-8) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0f1c8699dd4f51575 (SG-MailServer) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * POP3 (tcp/110)
+    * SMTP (tcp/25)
+    * IMAP (tcp/143)
+
+
+- Security Group: sg-0a9228635721bf737 (FORTINET_Mail_Gateway) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+    * SMTP (tcp/25)
+
+
+- Security Group: sg-a54576c2 (launch-wizard-10) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-0f83bd9beaa6fe829 (PMG) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-00aa8a38d4b080f32 (launch-wizard-20) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-26249a42 (idanbean) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0e11bb5e720d81642 (launch-wizard-13) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-91b712f5 (system-monitor) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0fa30e9feec49f425 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-1) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0f58eb01bc620ebbd (spam-mail) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * SSH (tcp/22)
+
+
+- Security Group: sg-ac1ad1cb (idanbean-windows-nano) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0ffddcd33ce3db48c (Canlead Mail Server) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * POP3 (tcp/110)
+    * SMTP (tcp/25)
+    * IMAP (tcp/143)
+
+
+- Security Group: sg-0545ed506b8930369 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * FTP (tcp/21)
+    * SSH (tcp/22)
+    * FTP (udp/21)
+
+
+- Security Group: sg-0184e22c4e7b97898 (internal-alb) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-071e3cb143fcaa3e5 (NFS) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * SSH (tcp/22)
+
+
+- Security Group: sg-e8d2498c (wordpress-scaleout) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-aac8b3cd (launch-wizard-9) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0823d62357976a577 (Windows-Server-AD) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-02da57be4258f2acb (launch-wizard-11) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * MSSQL (tcp/1433)
+    * POP3 (tcp/110)
+    * RDP (tcp/3389)
+    * IMAP (tcp/143)
+    * SMTP (tcp/25)
+    * Telnet (tcp/23)
+    * SSH (tcp/22)
+    * FTP (tcp/21)
+    * FTP-Data (tcp/20)
+    * MySQL (tcp/3306)
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-6fdb1208 (idanbean_windows) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * ALL TRAFFIC (Including all administrative protocols)
+
+
+- Security Group: sg-0eaae4fe28ef8737f (canlead-ECS) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-09fc0d98489c025d7 (launch-wizard-21) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-dfac9bba (launch-wizard-1) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-0293b401387089184 (launch-wizard-17) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+
+- Security Group: sg-02e9ac019fa860e77 (launch-wizard-19) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-b9e08bdd (launch-wizard-4) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * SSH (tcp/22)
+
+
+- Security Group: sg-76c49112 (launch-wizard-5) [Region: ap-northeast-1]
+  Publicly exposed protocols:
+    * RDP (tcp/3389)
+
+

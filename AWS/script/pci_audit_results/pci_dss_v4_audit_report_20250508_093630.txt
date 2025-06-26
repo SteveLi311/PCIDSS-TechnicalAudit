@@ -1,0 +1,75 @@
+PCI DSS v4.0 AWS Compliance Audit Report
+Generated on: Thu May  8 09:36:33 +07 2025
+AWS Account: 366205796862
+Checking: Current region (ap-northeast-1 only). Use --all-regions for a complete scan.
+-------------------------------------------------------------------
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 1: Network Security Controls[0m
+[0;34m====================================================================[0m
+
+[0;33m1.i Checking for security groups allowing all IPs on any port...[0m
+  Checking region: ap-northeast-1...
+[0;31mFAIL: Found 64 security groups with open access to all IPs.[0m
+      See pci_audit_results/open_security_groups.txt for details.
+
+[0;33m1.ii Checking for insecure protocols in use...[0m
+  Checking region: ap-northeast-1...
+[0;31mFAIL: Found 51 security groups allowing insecure protocols with public access.[0m
+      See pci_audit_results/insecure_protocols.txt for details.
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 3: Key Management[0m
+[0;34m====================================================================[0m
+
+[0;33m3.i Checking for KMS keys without rotation settings...[0m
+  Checking region: ap-northeast-1...
+[0;32mPASS: All customer-managed KMS keys have rotation enabled.[0m
+
+[0;33m3.ii Checking for secrets not protected by KMS...[0m
+  Checking region: ap-northeast-1...
+[0;32mPASS: All secrets are protected by custom KMS keys.[0m
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 4: Open, Public Transfer[0m
+[0;34m====================================================================[0m
+
+[0;33m4.i Checking for load balancers using TLS 1.0...[0m
+  Checking region: ap-northeast-1...
+[0;32mPASS: No load balancers are using TLS 1.0.[0m
+
+[0;33m4.ii Checking for load balancers using weak ciphers...[0m
+  Checking region: ap-northeast-1...
+[0;31mFAIL: Found 1 load balancers using weak ciphers.[0m
+      See pci_audit_results/weak_ciphers.txt for details.
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 8: User Password/2FA[0m
+[0;34m====================================================================[0m
+
+[0;33m8.i Checking IAM password policy for minimum length of 12 characters...[0m
+[0;31mFAIL: IAM password policy minimum length (6) is less than required (12).[0m
+      See pci_audit_results/password_policy.txt for complete password policy details.
+
+[0;33m8.ii Checking for IAM users without MFA enabled...[0m
+[0;31mFAIL: Found 11 IAM users without MFA enabled.[0m
+      See pci_audit_results/users_without_mfa.txt for details.
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 10: Log Management[0m
+[0;34m====================================================================[0m
+
+[0;33m10.i Checking for log buckets without 1-year retention...[0m
+  Checking region: ap-northeast-1...
+[0;31mFAIL: Found 4 log buckets without 1-year retention.[0m
+      See pci_audit_results/log_retention.txt for details.
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS v4.0 Compliance Summary[0m
+[0;34m====================================================================[0m
+
+Audit completed. See detailed results in the 'pci_audit_results' directory.
+Full report saved to: pci_audit_results/pci_dss_v4_audit_report_20250508_093630.txt
+
+You may want to address any failed compliance checks identified in this report.
+Remember that this script provides an initial assessment and is not a substitute for a comprehensive PCI DSS audit.

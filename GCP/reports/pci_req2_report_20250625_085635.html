@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 2 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #4285f4;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.2s;
+        }
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 20px;
+            display: none;
+            background-color: #ffffff;
+        }
+        .section-header.active + .section-content {
+            display: block !important;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info {
+            border-left-color: #2196F3;
+        }
+        .green { color: #4CAF50; font-weight: bold; }
+        .red { color: #f44336; font-weight: bold; }
+        .yellow { color: #ff9800; font-weight: bold; }
+        .blue { color: #2196F3; font-weight: bold; }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+        .timestamp {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        /* Print-friendly styles */
+        @media print {
+            body { background-color: white; }
+            .container { box-shadow: none; padding: 0; }
+            .section-content { display: block; }
+            .section-header::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0.1 - Requirement 2 Compliance Assessment Report</h1>
+        
+        <div class="info-table-container">
+            <table class="info-table">
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 08:56:35 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>GCP Account</th>
+                    <td>pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com</td>
+                </tr>
+                <tr>
+                    <th>Project</th>
+                    <td>collab-testing-orange</td>
+                </tr>
+                <tr>
+                    <th>Permission Coverage</th>
+                    <td>0%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Summary will be added after assessment completion -->
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section" id="section-config-standards">
+            <div class="section-header" onclick="toggleSection('config-standards')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.1 - Configuration Standards</h3>
+            </div>
+            <div class="section-content" id="content-config-standards">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Configuration standards analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of configuration standards implementation:</p><ul><li>Compute instance templates found: 3</li><li class='green'>Instance templates can help enforce configuration standards</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-vendor-defaults">
+            <div class="section-header" onclick="toggleSection('vendor-defaults')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.2 - Vendor Default Accounts</h3>
+            </div>
+            <div class="section-content" id="content-vendor-defaults">
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Vendor default accounts analysis</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of vendor default accounts:</p><ul><li class='green'>No problematic default service accounts detected</li><li class='green'>No instances using default service accounts</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-security-isolation">
+            <div class="section-header" onclick="toggleSection('security-isolation')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.3 - Primary Functions Security Isolation</h3>
+            </div>
+            <div class="section-content" id="content-security-isolation">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Security isolation analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of security function isolation:</p><ul><li class='green'>No obvious mixed-purpose instances detected</li><li>VPC networks for isolation: 3</li><li class='green'>Multiple VPCs can provide network isolation</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-unnecessary-services">
+            <div class="section-header" onclick="toggleSection('unnecessary-services')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.4 - Unnecessary Services Disabled</h3>
+            </div>
+            <div class="section-content" id="content-unnecessary-services">
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Unnecessary services analysis</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of potentially unnecessary services:</p><ul><li class='yellow'>Instances with external IPs: 1</li><ul></ul><li>Review if external access is necessary</li><li class='green'>No high-risk ports exposed to internet</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-insecure-services">
+            <div class="section-header" onclick="toggleSection('insecure-services')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.5 - Insecure Services Mitigation</h3>
+            </div>
+            <div class="section-content" id="content-insecure-services">
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Insecure services analysis</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of potentially insecure services:</p><ul><li>No Cloud SQL instances found</li><li class='green'>No firewall rules allowing common insecure protocols</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-security-parameters">
+            <div class="section-header" onclick="toggleSection('security-parameters')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.6 - System Security Parameters</h3>
+            </div>
+            <div class="section-content" id="content-security-parameters">
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Security parameters analysis</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of system security parameters:</p><ul><li class='yellow'>OS Login not enforced at organization level</li><li class='yellow'>Serial port access not disabled at organization level</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-admin-encryption">
+            <div class="section-header" onclick="toggleSection('admin-encryption')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.7 - Administrative Access Encryption</h3>
+            </div>
+            <div class="section-content" id="content-admin-encryption">
+
+                <div class="check-item pass">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>✓ Administrative access encryption analysis</strong>
+                        <span class="pass">PASS</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of administrative access encryption:</p><ul><li class='green'>No instances explicitly allowing SSH password authentication</li><li class='green'>GCP uses SSH key-based authentication by default (encrypted)</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-storage-security">
+            <div class="section-header" onclick="toggleSection('storage-security')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.4 - Cloud Storage Security</h3>
+            </div>
+            <div class="section-content" id="content-storage-security">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Cloud storage security analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of Cloud Storage bucket configurations:</p><ul><li>No Cloud Storage buckets found or gsutil not available</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-wireless-security">
+            <div class="section-header" onclick="toggleSection('wireless-security')" aria-expanded="false">
+                <h3 style="margin: 0;">2.3.1 & 2.3.2 - Wireless Environment Security</h3>
+            </div>
+            <div class="section-content" id="content-wireless-security">
+
+                <div class="check-item warning">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>⚠ Wireless environment security analysis</strong>
+                        <span class="warning">WARNING</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of wireless environment security:</p><ul><li class='green'>GCP cloud infrastructure doesn't include traditional wireless access points</li><li>Wireless security is the responsibility of client-side infrastructure</li><li>Consider reviewing any hybrid connectivity solutions for wireless security</li><li>VPN gateways found: 3</li><li class='yellow'>Ensure VPN connections have appropriate encryption</li><li class='green'>No instances using default service accounts</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-load-balancer-tls">
+            <div class="section-header" onclick="toggleSection('load-balancer-tls')" aria-expanded="false">
+                <h3 style="margin: 0;">2.2.7 - Load Balancer TLS Configuration</h3>
+            </div>
+            <div class="section-content" id="content-load-balancer-tls">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Load balancer TLS configuration analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of load balancer TLS configurations:</p><ul><li>No load balancers found or all use encrypted protocols</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-audit-logging">
+            <div class="section-header" onclick="toggleSection('audit-logging')" aria-expanded="false">
+                <h3 style="margin: 0;">2.5.1 - Audit Logging for Change Management</h3>
+            </div>
+            <div class="section-content" id="content-audit-logging">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Audit logging analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of audit logging configurations:</p><ul><li class='green'>Project-level audit logging sinks found: 3</li><li class='red'>Cloud Audit Logs API is not enabled</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close previous section content -->
+        </div> <!-- Close previous section -->
+        
+        <div class="section" id="section-resource-cleanup">
+            <div class="section-header" onclick="toggleSection('resource-cleanup')" aria-expanded="false">
+                <h3 style="margin: 0;">2.6.1 - Unused Resources Cleanup</h3>
+            </div>
+            <div class="section-content" id="content-resource-cleanup">
+
+                <div class="check-item info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>ℹ Resource cleanup analysis</strong>
+                        <span class="info">INFO</span>
+                    </div>
+                    <details style="margin-top: 10px;">
+                        <summary>Show Details</summary>
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f9f9f9; border-radius: 3px;">
+                            <pre style="white-space: pre-wrap; margin: 0;"><p>Analysis of potentially unused resources:</p><ul><li class='green'>No obviously unused firewall rules detected</li><li class='green'>No unused static IP addresses found</li></ul></pre>
+                        </div>
+                    </details>
+                </div>
+
+            </div> <!-- Close final section content -->
+        </div> <!-- Close final section -->
+
+        
+        <div class="summary-section" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #4CAF50;">
+            <h2 style="margin-top: 0; color: #333;">📊 Assessment Summary</h2>
+            
+            <table class="summary-table">
+                <tr>
+                    <td><strong>Total Checks</strong></td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td><strong>Passed</strong></td>
+                    <td class="green">11</td>
+                </tr>
+                <tr>
+                    <td><strong>Failed</strong></td>
+                    <td class="red">1</td>
+                </tr>
+                <tr>
+                    <td><strong>Warnings/Manual</strong></td>
+                    <td class="yellow">4</td>
+                </tr>
+                <tr>
+                    <td><strong>Compliance Status</strong></td>
+                    <td style="color: #4CAF50; font-weight: bold;">COMPLIANT</td>
+                </tr>
+                <tr>
+                        <td><strong>Permission Coverage</strong></td>
+                        <td>0%</td>
+                    </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 91%; background-color: #4CAF50;">
+                    91% Compliant
+                </div>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>Note:</strong> Compliance percentage calculated based on passed/failed checks only. 
+                Warnings require manual verification and are excluded from compliance calculation.
+            </p>
+        </div>
+
+        </div> <!-- Close report-content -->
+        
+        <div class="timestamp">
+            <p><strong>Report Generated:</strong> Wed Jun 25 08:56:42 UTC 2025</p>
+            <p><strong>PCI DSS Version:</strong> 4.0.1</p>
+            <p><strong>Requirement:</strong> 2</p>
+        </div>
+    </div> <!-- Close container -->
+    
+    <script>
+        // JavaScript for interactive features
+        function toggleSection(sectionId) {
+            const header = document.querySelector('#section-' + sectionId + ' .section-header');
+            const content = document.querySelector('#content-' + sectionId);
+            
+            if (header && content) {
+                const isActive = header.classList.contains('active');
+                
+                if (isActive) {
+                    header.classList.remove('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'false');
+                } else {
+                    header.classList.add('active');
+                    content.style.removeProperty('display');
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            }
+        }
+        
+        // Auto-expand sections with failed checks
+        document.addEventListener('DOMContentLoaded', function() {
+            const failedSections = document.querySelectorAll('.section .fail');
+            failedSections.forEach(function(failedCheck) {
+                const section = failedCheck.closest('.section');
+                if (section) {
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    if (header && content && !header.classList.contains('active')) {
+                        header.classList.add('active');
+                        content.style.removeProperty('display');
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+            
+            // Show print-friendly message
+            const style = document.createElement('style');
+            style.textContent = '@media print { .no-print { display: none !important; } }';
+            document.head.appendChild(style);
+        });
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(event) {
+            if (event.target.classList.contains('section-header') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                event.target.click();
+            }
+        });
+        
+        // Summary metrics are added during report generation
+    </script>
+</body>
+</html>

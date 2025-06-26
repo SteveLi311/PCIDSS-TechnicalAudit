@@ -1,0 +1,61 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-0edd1bd69656c0291</instanceid>
+  <hostname>aws-ec2-test-win-01</hostname>
+  <system>Windows</system>
+  <ip>10.201.1.217</ip>
+  <public_ip>13.228.66.94</public_ip>
+  <instancetype>t3.medium</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <date>20250619</date>
+  <time>10:56</time>
+  <evidence>
+    <instance id="i-0edd1bd69656c0291" name="aws-ec2-test-win-01">
+
+      <security_group id="sg-0dce88c8ff73cf4c9" name="Test-allow-mgmt">
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>22</from_port>
+          <to_port>22</to_port>
+          <cidr>220.135.202.218/32</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>22</from_port>
+          <to_port>22</to_port>
+          <cidr>60.250.130.225/32</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>443</from_port>
+          <to_port>443</to_port>
+          <cidr>60.250.130.225/32</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>443</from_port>
+          <to_port>443</to_port>
+          <cidr>220.135.202.218/32</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>3389</from_port>
+          <to_port>3389</to_port>
+          <cidr>60.250.130.225/32</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>3389</from_port>
+          <to_port>3389</to_port>
+          <cidr>220.135.202.218/32</cidr>
+        </ingress_rule>
+        <egress_rule>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </egress_rule>
+      </security_group>
+    </instance>
+  </evidence>
+</getinfo>

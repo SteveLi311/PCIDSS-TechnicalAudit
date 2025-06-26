@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 6 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 6 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun  5 02:53:56 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: codebuild list-projects</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: codepipeline list-pipelines</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ecr describe-repositories</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: inspector2 list-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: guardduty list-detectors</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: lambda list-functions</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: s3api list-buckets</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: wafv2 list-web-acls</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: securityhub get-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudformation list-stacks</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div>Sufficient permissions detected. 90% of required permissions are available.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target Resources
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-resources">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> Resource Identification</h3>
+                        <div><h4>Resources identified for assessment:</h4><p><strong>CodeBuild Projects:</strong> None found</p><p><strong>CodePipeline Pipelines:</strong> None found</p><p><strong>ECR Repositories:</strong> None found</p><p><strong>Lambda Functions:</strong> 2 functions</p><ul><li>lambda-internal-zone-funtion</li><li>lambda-hello-world</li></ul><p><strong>S3 Buckets:</strong> 1 buckets</p><ul><li>aws-cloudtrail-logs-094692261598-dccbadad</li></ul><p><strong>WAF Web ACLs:</strong> 1 ACLs</p><ul><li>test</li></ul><p><strong>CloudFormation Stacks:</strong> None found</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.1: Processes and mechanisms for developing and maintaining secure systems and software are defined and understood
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.1.1 - Security policies and operational procedures</h3>
+                        <div><p>Manual verification required: This check requires reviewing documented security policies and procedures.</p>
+    <p>Verify that security policies and operational procedures for developing and maintaining secure systems and software are:</p>
+    <ul>
+        <li>Documented</li>
+        <li>Kept up to date</li>
+        <li>In use</li>
+        <li>Known to all affected parties</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document all security policies and procedures for secure software development, ensure they are kept up to date, and communicate them to all affected personnel. Consider using AWS Systems Manager Documents to store and manage these policies.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.1.2 - Roles and responsibilities</h3>
+                        <div><p>Manual verification required: This check requires reviewing documentation of roles and responsibilities.</p>
+    <p>Verify that roles and responsibilities for secure systems and software development are:</p>
+    <ul>
+        <li>Documented</li>
+        <li>Assigned to qualified personnel</li>
+        <li>Understood by assigned personnel</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and assign roles and responsibilities for secure systems and software development to qualified personnel. Use AWS IAM to implement these roles with appropriate permissions and boundaries.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.2: Bespoke and custom software are developed securely
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.2.1 - Secure development standards</h3>
+                        <div><p>Manual verification required: This check requires reviewing software development standards and processes.</p>
+    <p>Verify that bespoke and custom software are developed securely, as follows:</p>
+    <ul>
+        <li>Based on industry standards and/or best practices for secure development</li>
+        <li>In accordance with PCI DSS (for example, secure authentication and logging)</li>
+        <li>Incorporating information security issues during each stage of the software development lifecycle</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement secure development standards based on industry best practices like OWASP Top 10. Include security considerations at every stage of the software development lifecycle.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.2.1 - CodeBuild Pipeline Analysis</h3>
+                        <div><p>No CodeBuild projects found for analysis.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.2.1 - CodePipeline CI/CD Workflow Analysis</h3>
+                        <div><p>No CodePipeline pipelines found for analysis.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.2.2 - Developer security training</h3>
+                        <div><p>Manual verification required: This check requires reviewing developer training records.</p>
+    <p>Verify that software development personnel working on bespoke and custom software are trained at least once every 12 months as follows:</p>
+    <ul>
+        <li>On software security relevant to their job function and development languages</li>
+        <li>Including secure software design and secure coding techniques</li>
+        <li>Including, if security testing tools are used, how to use the tools for detecting vulnerabilities in software</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement annual security training for developers that covers secure coding practices, security testing tools, and vulnerabilities specific to their development environment and languages. Document completion using AWS Organizations or a centralized training management system.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.2.3 - Code review practices</h3>
+                        <div><p>Manual verification required: This check requires reviewing the code review process.</p>
+    <p>Verify that bespoke and custom software is reviewed prior to being released into production, as follows:</p>
+    <ul>
+        <li>Code reviews ensure code is developed according to secure coding guidelines</li>
+        <li>Code reviews look for both existing and emerging software vulnerabilities</li>
+        <li>Appropriate corrections are implemented prior to release</li>
+    </ul>
+    <p>For manual code reviews (required under 6.2.3.1):</p>
+    <ul>
+        <li>Reviews are performed by individuals other than the originating code author, and who are knowledgeable about code-review techniques and secure coding practices</li>
+        <li>Code changes are reviewed and approved by management prior to release</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement formal code review processes that include security reviews by qualified personnel other than the original author. Include verification against secure coding standards and vulnerability checklists. Use AWS CodeCommit with branch protection and approval rules.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.2.4 - Software engineering techniques</h3>
+                        <div><p>Manual verification required: This check requires reviewing secure coding practices and techniques.</p>
+    <p>Verify that software engineering techniques are defined and in use to prevent or mitigate common software attacks and related vulnerabilities in bespoke and custom software, including but not limited to the following:</p>
+    <ul>
+        <li>Injection attacks, including SQL, LDAP, XPath, or other command, parameter, object, fault, or injection-type flaws</li>
+        <li>Attacks on data and data structures, including attempts to manipulate buffers, pointers, input data, or shared data</li>
+        <li>Attacks on cryptography usage, including attempts to exploit weak, insecure, or inappropriate cryptographic implementations, algorithms, cipher suites, or modes of operation</li>
+        <li>Attacks on business logic, including attempts to abuse or bypass application features and functionalities through the manipulation of APIs, communication protocols and channels, client-side functionality, or other system/application functions and resources. This includes cross-site scripting (XSS) and cross-site request forgery (CSRF)</li>
+        <li>Attacks on access control mechanisms, including attempts to bypass or abuse identification, authentication, or authorization mechanisms, or attempts to exploit weaknesses in the implementation of such mechanisms</li>
+        <li>Attacks via any "high-risk" vulnerabilities identified in the vulnerability identification process, as defined in Requirement 6.3.1</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement secure coding standards that address all common attack vectors. Use automated tools like Amazon CodeGuru Security to check for security vulnerabilities during the development process.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.3: Security vulnerabilities are identified and addressed
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.3.1 - Vulnerability identification and risk ranking</h3>
+                        <div><p>Manual verification required: This check requires reviewing vulnerability management processes.</p>
+    <p>Verify that security vulnerabilities are identified and managed as follows:</p>
+    <ul>
+        <li>New security vulnerabilities are identified using industry-recognized sources for vulnerability information</li>
+        <li>Vulnerabilities are assigned a risk ranking based on industry best practices</li>
+        <li>Risk rankings identify all vulnerabilities considered to be high-risk or critical</li>
+        <li>Vulnerabilities for bespoke and custom, and third-party software are covered</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a vulnerability management process that includes monitoring industry sources for new vulnerabilities, risk ranking, and prioritized remediation. Subscribe to AWS Security Bulletins and consider using AWS Security Hub for centralized vulnerability tracking.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 6.3.1 - Vulnerability scanning with AWS Inspector</h3>
+                        <div><p><span class="red">AWS Inspector is not enabled or configured in this region.</span></p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable AWS Inspector to automatically scan for vulnerabilities in EC2 instances, container images, and Lambda functions. Inspector helps identify software vulnerabilities and network exposure.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.3.2 - Software inventory for vulnerability management</h3>
+                        <div><p>Manual verification required: This check requires reviewing software inventory management.</p>
+    <p>Verify that an inventory of bespoke and custom software, and third-party software components incorporated into bespoke and custom software is maintained to facilitate vulnerability and patch management.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain a comprehensive inventory of all custom software and third-party components used in your applications. Consider using AWS Systems Manager Application Manager to track application components.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.3.2 - Container image vulnerability scanning</h3>
+                        <div><p>No ECR repositories found for analysis.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.3.2 - Infrastructure as Code security</h3>
+                        <div><p>No CloudFormation stacks found for analysis.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.3.3 - Patch management</h3>
+                        <div><p>Manual verification required: This check requires reviewing patch management processes.</p>
+    <p>Verify that all system components are protected from known vulnerabilities by installing applicable security patches/updates as follows:</p>
+    <ul>
+        <li>Critical vulnerability patches/updates are installed within one month of release</li>
+        <li>All other applicable security patches/updates are installed within an appropriate timeframe based on risk assessment</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a formal patch management process with defined SLAs for remediation based on vulnerability severity. Use AWS Systems Manager Patch Manager to automate patching and maintain compliance for EC2 instances.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.4: Public-facing web applications are protected against attacks
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.4.1 - Application vulnerability assessments</h3>
+                        <div><p>Manual verification required: This check requires reviewing web application security testing procedures.</p>
+    <p>Verify that for public-facing web applications, new threats and vulnerabilities are addressed on an ongoing basis and these applications are protected against known attacks as follows:</p>
+    <ul>
+        <li>Option 1: Reviewing public-facing web applications via manual or automated application vulnerability security assessment tools or methods as follows:
+            <ul>
+                <li>At least once every 12 months and after significant changes</li>
+                <li>By an entity that specializes in application security</li>
+                <li>Including, at a minimum, all common software attacks in Requirement 6.2.4</li>
+                <li>All vulnerabilities are ranked in accordance with requirement 6.3.1</li>
+                <li>All vulnerabilities are corrected</li>
+                <li>The application is re-evaluated after the corrections</li>
+            </ul>
+        </li>
+        <li>Option 2: Installing an automated technical solution(s) that continually detects and prevents web-based attacks as follows:
+            <ul>
+                <li>Installed in front of public-facing web applications to detect and prevent web-based attacks</li>
+                <li>Actively running and up to date as applicable</li>
+                <li>Generating audit logs</li>
+                <li>Configured to either block web-based attacks or generate an alert that is immediately investigated</li>
+            </ul>
+        </li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement regular application security testing via a qualified third party or automated security scanning tools. Consider using AWS Marketplace security testing solutions or integrate security testing into your CI/CD pipeline.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.4.2 - Web application firewall implementation</h3>
+                        <div><p>AWS WAF Web ACLs found:</p><ul><li>Web ACL: test<ul><li>Default action: </li><li>Rules configured: 0</li><li><span class="yellow">Default action is not set to BLOCK. Consider using a default deny policy with explicit allow rules.</span></li><li><span class="red">No managed rule groups detected. Consider using AWS WAF managed rules for protection against common vulnerabilities</span></li><li><span class="yellow">Logging is not enabled for this Web ACL</span></li></ul></li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure AWS WAF with managed rule groups that protect against common web application vulnerabilities (OWASP Top 10) including SQL injection, XSS, and CSRF. Enable logging to capture and analyze potential attacks.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.4.3 - Payment page scripts</h3>
+                        <div><p>Manual verification required: This check requires reviewing payment page script management.</p>
+    <p>Verify that all payment page scripts that are loaded and executed in the consumer's browser are managed as follows:</p>
+    <ul>
+        <li>A method is implemented to confirm that each script is authorized</li>
+        <li>A method is implemented to assure the integrity of each script</li>
+        <li>An inventory of all scripts is maintained with business or technical justification</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement subresource integrity (SRI) for payment page scripts. Maintain an inventory of all scripts with justification. Consider using Content Security Policy (CSP) headers via AWS CloudFront response headers policies to restrict script sources.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.5: Changes to all system components are managed securely
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.5.1 - Change management procedures</h3>
+                        <div><p>Manual verification required: This check requires reviewing change management procedures.</p>
+    <p>Verify that changes to all system components in the production environment are made according to established procedures that include:</p>
+    <ul>
+        <li>Reason for, and description of, the change</li>
+        <li>Documentation of security impact</li>
+        <li>Documented change approval by authorized parties</li>
+        <li>Testing to verify the change does not adversely impact system security</li>
+        <li>For custom software changes, testing for compliance with secure coding requirements</li>
+        <li>Procedures to address failures and return to a secure state</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a formal change management process that includes security impact analysis and testing. Use AWS CodePipeline with approval gates and AWS Systems Manager Change Manager for controlled deployments.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.5.2 - Post-change verification</h3>
+                        <div><p>Manual verification required: This check requires reviewing post-change verification procedures.</p>
+    <p>Verify that upon completion of a significant change, all applicable PCI DSS requirements are confirmed to be in place on all new or changed systems and networks, and documentation is updated as applicable.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement post-implementation verification procedures that include security testing and confirmation of PCI DSS compliance requirements. Consider using AWS Config to evaluate compliance after changes.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.5.3 - Environment separation indicators</h3>
+                        <div><p>Analyzing Lambda functions for environment separation indicators:</p><p>Functions grouped by environment naming convention:</p><ul><li>Unknown/other environment: 2 functions</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure clear separation between production and non-production environments. Use separate AWS accounts for production and non-production environments when possible. Consider AWS Organizations for multi-account management.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.5.4 - Role separation</h3>
+                        <div><p>Manual verification required: This check requires reviewing role separation policies.</p>
+    <p>Verify that roles and functions are separated between production and pre-production environments to provide accountability such that only reviewed and approved changes are deployed.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement separation of duties between development and operations roles. Use IAM roles and permissions boundaries to enforce this separation. Consider AWS Organizations Service Control Policies (SCPs) to enforce separation at the account level.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.5.5 - Production data in non-production environments</h3>
+                        <div><p>Manual verification required: This check requires reviewing data handling policies.</p>
+    <p>Verify that live PANs are not used in pre-production environments, except where those environments are included in the CDE and protected in accordance with all applicable PCI DSS requirements.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Do not use live cardholder data in development or test environments. If test data is needed, use data masking, tokenization, or synthetic data generation. Consider AWS DMS with data transformation or AWS Glue for data anonymization.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.5.6 - Test data and accounts</h3>
+                        <div><p>Manual verification required: This check requires reviewing deployment procedures.</p>
+    <p>Verify that test data and test accounts are removed from system components before the system goes into production.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement procedures to remove all test data, accounts, and credentials before promoting systems to production. Include verification steps in your deployment checklist and automate where possible using CI/CD tools.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun  5 02:54:16 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">1</span></td>
+                    <td><span class="yellow">21</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 6.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

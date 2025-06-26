@@ -1,0 +1,33 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-0830648e8ddd8522e</instanceid>
+  <hostname>steve-test-01</hostname>
+  <system>Linux/UNIX</system>
+  <ip>10.201.1.18</ip>
+  <publicip>13.212.250.114</publicip>
+  <instancetype>t2.micro</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <launch_time>2025/04/24 上午 09:57 (UTC+00:00)</launch_time>
+  <current_time>2025/05/26 上午 06:49 (UTC+00:00)</current_time>
+  <requirement>1.2.5 - Ports, protocols, and services inventory</requirement>
+  <evidence>
+
+  <vpc_id>vpc-069b6cf0ad93fa1b1</vpc_id>
+    <sg_id>sg-0bbd10de99060e9bc</sg_id>
+    <sg_name>test-sg</sg_name>
+    <rules>tcp 80→80</rules>
+    <rules>tcp 22→22</rules>
+    <rules>tcp 443→443</rules>
+
+  <vpc_id>vpc-069b6cf0ad93fa1b1</vpc_id>
+    <sg_id>sg-04b48ad950d31f1bf</sg_id>
+    <sg_name>openvpn-sg</sg_name>
+    <rules>udp 1194→1194</rules>
+
+  <vpc_id>vpc-f25d9f94</vpc_id>
+    <sg_id>sg-0bb546036c7924b20</sg_id>
+    <sg_name>launch-wizard-1</sg_name>
+    <rules>tcp 22→22</rules>
+
+  </evidence>
+</getinfo>

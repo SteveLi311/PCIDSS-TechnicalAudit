@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 2 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 2 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 08:51:18 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Permission Checks
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permission-checks">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: ec2 describe-security-groups</h3>
+                        <div>Access to <code>ec2 describe-security-groups</code> is available</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: ec2 describe-instances</h3>
+                        <div>Access to <code>ec2 describe-instances</code> is available</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: rds describe-db-instances</h3>
+                        <div>Access to <code>rds describe-db-instances</code> is available</div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> AWS CLI Capability: s3 list-buckets</h3>
+                        <div>The installed AWS CLI doesn't support <code>s3 list-buckets</code></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Update AWS CLI to the latest version
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: lambda list-functions</h3>
+                        <div>Access to <code>lambda list-functions</code> is available</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: iam list-users</h3>
+                        <div>Access to <code>iam list-users</code> is available</div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> AWS CLI Capability: cloudtrail describe-trails</h3>
+                        <div>The installed AWS CLI doesn't support <code>cloudtrail describe-trails</code></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Update AWS CLI to the latest version
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permissions Check: kms list-keys</h3>
+                        <div>Access to <code>kms list-keys</code> is available</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 2.1: Processes and mechanisms for applying secure configurations
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-2.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Security Policies Documentation</h3>
+                        <div>No security policy documents found in S3 'policies' folders</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure all security policies and operational procedures for Requirement 2 are documented, kept up to date, in use, and known to all affected parties
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Security Roles</h3>
+                        <div>No security or compliance-related IAM roles found</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Consider creating specific IAM roles for security responsibilities and ensure they are documented
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 2.2: System components are configured and managed securely
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-2.2">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> Default Security Groups</h3>
+                        <div>
+            <div class="summary-details">4 default security groups have non-restrictive inbound rules.</div>
+            <div class="detailed-info">
+                <details>
+                    <summary>Click to view detailed information</summary>
+                    <div class="details-content">
+                        <strong>Problem Security Groups:</strong><br><br><strong>Security Group ID:</strong> sg-0690c4c05ff583cbe (VPC: vpc-0e6db20697dda10a0)<br><strong>Inbound Rules:</strong><br>- Rule ID: sgr-0b5508ae654a45f5c, Protocol: All, Ports: All, Source: null<br><br><strong>Security Group ID:</strong> sg-5344dd1e (VPC: vpc-f25d9f94)<br><strong>Inbound Rules:</strong><br>- Rule ID: sgr-0346d1d8c29c78cd4, Protocol: All, Ports: All, Source: null<br><br><strong>Security Group ID:</strong> sg-02af473e8e8afce72 (VPC: vpc-069b6cf0ad93fa1b1)<br><strong>Inbound Rules:</strong><br>- Rule ID: sgr-0a311f1eef62bb532, Protocol: All, Ports: All, Source: null<br><br><strong>Security Group ID:</strong> sg-062ace242ca45fab1 (VPC: vpc-061af85fb2400cae6)<br><strong>Inbound Rules:</strong><br>- Rule ID: sgr-0904682a1bdaa8100, Protocol: All, Ports: All, Source: null<br><br><strong>Risk:</strong> Default security groups with non-restrictive inbound rules can allow unauthorized access to resources.
+                    </div>
+                </details>
+            </div>
+        </div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Modify default security groups to restrict all traffic or avoid using them. Add specific rules only for required traffic.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> RDS Encryption</h3>
+                        <div>All RDS instances are encrypted</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> RDS Default Ports</h3>
+                        <div>No RDS instances using default ports</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> RDS Public Access</h3>
+                        <div>No RDS instances with public access</div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Function Separation</h3>
+                        <div>No EC2 instances detected with multiple functions/roles</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Manual verification required to confirm proper separation of primary functions
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Internet-Exposed Ports</h3>
+                        <div>No instances with high-risk ports exposed to the internet</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> S3 Public Access</h3>
+                        <div>No S3 buckets with public access</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> S3 Encryption</h3>
+                        <div>All S3 buckets have encryption enabled</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 2.2.5 - Insecure Services with Justification</h3>
+                        <div>No insecure services detected in security groups</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Password Policy</h3>
+                        <div>Strong IAM password policy is configured</div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> API Gateway HTTPS</h3>
+                        <div>No API Gateway endpoints found</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> No action needed
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 2.3: Wireless environments are configured and managed securely
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-2.3">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> IoT Wireless Devices</h3>
+                        <div>No AWS IoT devices found or insufficient permissions</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If wireless networks exist in your environment, verify vendor defaults are changed
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> IoT Security Policies</h3>
+                        <div>No IoT policies found or insufficient permissions</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If wireless networks exist, verify encryption keys are rotated when needed
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> IAM Default Usernames</h3>
+                        <div>No IAM users with common default usernames</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Root Account Usage</h3>
+                        <div>No recent Root account usage detected</div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> TLS Configuration</h3>
+                        <div>No load balancers found</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> No action needed
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 2.5: Security policies and documentation
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-2.5">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> CloudTrail Multi-Region</h3>
+                        <div>1 multi-region trail(s) configured</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> CloudTrail Logging</h3>
+                        <div>1 trail(s) actively logging</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 2.6: Unnecessary functionality is removed or disabled
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-2.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Unused Security Groups</h3>
+                        <div>6 unused security groups found<br><br><strong>Risk:</strong> Unused security groups increase complexity, reduce visibility, and may pose a security risk if accidentally used or misconfigured.<br><br><strong>Unused Security Groups:</strong><br><br><strong>Security Group ID:</strong> sg-0626f69d7b7e6d581<br><strong>Name:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--1<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Description:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--1 created 2025-05-28T01:55:31.722Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 122.116.225.155/32<br><br><strong>Security Group ID:</strong> sg-094b1d72fe87ad29c<br><strong>Name:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--3<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Description:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--3 created 2025-05-28T02:18:20.792Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 122.116.225.155/32<br><br><strong>Security Group ID:</strong> sg-0bb546036c7924b20<br><strong>Name:</strong> launch-wizard-1<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Description:</strong> launch-wizard-1 created 2025-05-21T08:19:17.682Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 0.0.0.0/0<br><br><strong>Security Group ID:</strong> sg-09b71d1dc244e1ffe<br><strong>Name:</strong> test-kane-connection<br><strong>VPC:</strong> vpc-0e6db20697dda10a0<br><strong>Description:</strong> test-kane-connection created 2023-07-24T05:48:32.410Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 60.250.130.225/32<br>- Protocol: tcp, Ports: 22, Source: 122.116.225.155/32<br>- Protocol: tcp, Ports: 1516, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 9200, Source: 122.116.225.155/32<br>- Protocol: tcp, Ports: 1514, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 3389, Source: 60.250.130.225/32<br>- Protocol: tcp, Ports: 9392, Source: 60.250.130.225/32<br>- Protocol: tcp, Ports: 9392, Source: 122.116.225.155/32<br>- Protocol: tcp, Ports: 443, Source: 60.250.130.225/32<br>- Protocol: udp, Ports: 514, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 514, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 443, Source: 122.116.225.155/32<br>- Protocol: tcp, Ports: 1515, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 80, Source: 122.116.225.155/32<br>- Protocol: udp, Ports: 1514, Source: 10.201.0.0/16<br>- Protocol: tcp, Ports: 3389, Source: 13.228.126.249/32<br>- Protocol: tcp, Ports: 22, Source: 13.228.126.249/32<br>- Protocol: tcp, Ports: 80, Source: 60.250.130.225/32<br>- Protocol: tcp, Ports: 3389, Source: 122.116.225.155/32<br>- Protocol: tcp, Ports: 9200, Source: 60.250.130.225/32<br><br><strong>Security Group ID:</strong> sg-04c03639b8ebfe225<br><strong>Name:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--2<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Description:</strong> CentOS Stream 9 (x86_64)-CS9-20250327.0-AutogenByAWSMP--2 created 2025-05-28T02:10:08.209Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 122.116.225.155/32<br><br><strong>Security Group ID:</strong> sg-05102058a870d5661<br><strong>Name:</strong> launch-wizard-2<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Description:</strong> launch-wizard-2 created 2025-06-02T01:42:37.718Z<br><strong>Inbound Rules:</strong><br>- Protocol: tcp, Ports: 22, Source: 122.116.225.155/32</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> 1. Delete unused security groups to reduce complexity and attack surface<br>2. Implement a regular cleanup process for security groups<br>3. Consider using AWS Config rules to detect and alert on unused security groups
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> Internet-Exposed Ports</h3>
+                        <div>
+            <div class="summary-details">2 instances of high-risk ports exposed to the internet</div>
+            <div class="detailed-info">
+                <details>
+                    <summary>Click to view detailed information</summary>
+                    <div class="details-content">
+                        <strong>Risk:</strong> High-risk ports exposed to the internet are common targets for attackers and can lead to unauthorized access if not properly secured.<br><br><strong>Exposed Ports Details:</strong><br><br><strong>Security Group ID:</strong> sg-0bb546036c7924b20<br><strong>Name:</strong> launch-wizard-1<br><strong>VPC:</strong> vpc-f25d9f94<br><strong>Exposed Ports:</strong><br>- SSH (Port 22) exposed to 0.0.0.0/0<br><br><strong>Security Group ID:</strong> sg-0bbd10de99060e9bc<br><strong>Name:</strong> test-sg<br><strong>VPC:</strong> vpc-069b6cf0ad93fa1b1<br><strong>Exposed Ports:</strong><br>- SSH (Port 22) exposed to 0.0.0.0/0<br><strong>Affected Resources:</strong><br><strong>EC2 Instances:</strong><br>- i-03b3fb3510d5a7bbb - Public IP: No public IP<br>- i-0082ada0851a06fec - Public IP: No public IP
+                    </div>
+                </details>
+            </div>
+        </div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> 1. Restrict access to high-risk ports to specific IP ranges<br>2. Use VPN or AWS Systems Manager Session Manager for administrative access<br>3. Consider implementing a bastion host for secure access<br>4. Enable enhanced network security with AWS Network Firewall or third-party solutions
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Wed Jun 25 09:24:11 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td><span class="green">16</span></td>
+                    <td><span class="red">2</span></td>
+                    <td><span class="yellow">4</span></td>
+                    <td>88%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 88%; background-color: #ff9800;">
+                    88%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 2.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

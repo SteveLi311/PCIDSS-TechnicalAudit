@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 7 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 7 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>366205796862</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-northeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Fri Apr 25 09:01:13 +07 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:iam::366205796862:user/pci_assessor</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Introduction
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="intro">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> PCI DSS Requirement 7</h3>
+                        <div><p>Requirement 7: Restrict Access to System Components and Cardholder Data by Business Need to Know</p><p>To ensure critical data can only be accessed by authorized personnel, systems and processes must be in place to limit access based on need to know and according to job responsibilities. Need to know is when access rights are granted to only the least amount of data and privileges needed to perform a job.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS API Access Check
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-roles</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-users</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-policies</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: iam list-groups</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-security-groups</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-network-acls</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail lookup-events</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS API Access: accessanalyzer list-analyzers</h3>
+                        <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS account has read permissions for accessanalyzer:list-analyzers
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 7.2: Access to system components and data is appropriately defined and assigned
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-7.2">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 7.2.2 - Least Privilege Assignment</h3>
+                        <div>
+Checking for least privilege principles in IAM policies...
+<p>Analysis of IAM policies for least privilege violations:</p><ul><li style='margin-bottom: 15px;'><strong>Policy:</strong> full_elastic_search (arn:aws:iam::366205796862:policy/full_elastic_search)<br><strong>Violations:</strong> 1<br><ul><li>Policy allows broad actions ('es:*') on all resources ('Resource': '*')</li></ul><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "es:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li><li style='margin-bottom: 15px;'><strong>Policy:</strong> cloudformation_full_access (arn:aws:iam::366205796862:policy/cloudformation_full_access)<br><strong>Violations:</strong> 1<br><ul><li>Policy allows broad actions ('cloudformation:*') on all resources ('Resource': '*')</li></ul><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li></ul><p class='yellow'>Note: This check detects obvious violations of least privilege principles. A complete review should include all policies including inline and AWS managed policies.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Revise IAM policies to follow least privilege principles. Remove broad permissions and restrict access to only what's necessary for each role or function.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 7.2.4 - User Account Reviews</h3>
+                        <div>
+Checking for evidence of access reviews...
+Checking CloudTrail events for DeleteUserPolicy...
+Checking CloudTrail events for DetachUserPolicy...
+Checking CloudTrail events for DetachRolePolicy...
+<p class='yellow'>No clear evidence of access reviews found in CloudTrail events in the last 180 days.</p><p>PCI DSS requires that all user accounts and related access privileges be reviewed at least once every six months.</p><p class='yellow'>AWS IAM Access Analyzer is not enabled.</p><p>IAM Access Analyzer helps identify resources that are shared with external entities and can be used as part of the access review process.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a process to review all user accounts and related access privileges at least once every six months. Document these reviews and ensure management acknowledges that access remains appropriate.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 7.2.5 - System Account Management (Inactive Users)</h3>
+                        <div>
+Checking for inactive IAM users...
+<p>Analysis of inactive IAM users (no login for more than 90 days):</p><table style='width: 100%; border-collapse: collapse; margin-bottom: 15px;'><tr style='background-color: #f0f0f0;'><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>User Name</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Last Activity</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Days Inactive</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Access Keys</th></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>callcarbackend</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2021-07-27T04:37:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>1368</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Inactive)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>callcarbar</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-04-30T04:07:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>360</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>daidai9159</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-07T03:56:42+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>261</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>Johnny_howcool</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-12-10T09:59:29+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>135</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>joyen</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-07T06:22:50+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>261</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>kao14376</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-09-09T08:04:17+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>228</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>mgc.paul.dev@gmail.com</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-10-28T13:36:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>178</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>paul_hung</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-28T11:11:24+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>239</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>peiyu</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-12-25T05:25:40+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>121</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>roamingbar</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-12-11T07:23:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>135</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>ses-smtp-user.20191212-202543</td><td style='padding: 8px; border: 1px solid #ddd;'>Created (never logged in): 2019-12-12T12:26:03+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>1960</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>star_lin</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2023-08-05T10:44:05+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>628</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>t0545886</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-08T01:16:38+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>260</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr></table></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Remove or disable inactive user accounts. Establish a process to regularly review and disable accounts that have been inactive for more than 90 days.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 7.2.5 - System Account Management (Service Accounts)</h3>
+                        <div><p>The following service/system roles were identified:</p><ul><li>adamwarlock-golang-CodePipeli-CodeBuildServiceRole-11U4ZI9QJSBD5</li><li>apple-canlead-vue-CodePipelin-CodeBuildServiceRole-1R9S8AVTE9EPF</li><li>applestore-vue-CodePipeline-L-CodeBuildServiceRole-1WC5M3BV4TK49</li><li>aws-elasticbeanstalk-service-role</li><li>aws-quicksight-service-role-v0</li><li>AWSBackupDefaultServiceRole</li><li>AWSCodePipelineServiceRole-ap-northeast-1-postoffice-ticket</li><li>AWSServiceRoleForAmazonElasticFileSystem</li><li>AWSServiceRoleForAmazonGuardDuty</li><li>AWSServiceRoleForAmazonGuardDutyMalwareProtection</li><li>AWSServiceRoleForAmazonSSM</li><li>AWSServiceRoleForAPIGateway</li><li>AWSServiceRoleForApplicationAutoScaling_DynamoDBTable</li><li>AWSServiceRoleForApplicationAutoScaling_ECSService</li><li>AWSServiceRoleForAutoScaling</li><li>AWSServiceRoleForCloudFrontLogger</li><li>AWSServiceRoleForCloudTrail</li><li>AWSServiceRoleForConfig</li><li>AWSServiceRoleForDMSServerless</li><li>AWSServiceRoleForEC2Spot</li><li>AWSServiceRoleForEC2SpotFleet</li><li>AWSServiceRoleForECS</li><li>AWSServiceRoleForElastiCache</li><li>AWSServiceRoleForElasticLoadBalancing</li><li>AWSServiceRoleForGlobalAccelerator</li><li>AWSServiceRoleForLambdaReplicator</li><li>AWSServiceRoleForOrganizations</li><li>AWSServiceRoleForRDS</li><li>AWSServiceRoleForResourceExplorer</li><li>AWSServiceRoleForServiceQuotas</li><li>AWSServiceRoleForSSMQuickSetup</li><li>AWSServiceRoleForSSO</li><li>AWSServiceRoleForSupport</li><li>AWSServiceRoleForTrustedAdvisor</li><li>callcarbar-airport-vue-CodePi-CodeBuildServiceRole-1JUE06LQGMO35</li><li>callcarbar-edm-golang-CodePip-CodeBuildServiceRole-8OJBUTZE2JYY</li><li>canlead-ecs-EcsAsg-AB5W3QSGI-ECSDefaultServiceRole-1FX1RW0RT1R2B</li><li>canlead-ecs-EcsAsg-AB5W3QSGIX-ECSServiceRoleForEC2-XS8NLU6H940Y</li><li>canlead-ticket-CodePipelineEC-CodeBuildServiceRole-1HMHJMQ5NW24H</li><li>canleadgroup-golang-CodePipel-CodeBuildServiceRole-1AXKM1IJJ6I6S</li><li>cms-vue-CodePipeline-GKRZLIQH-CodeBuildServiceRole-KTE4CA6TULS0</li><li>codebuild-postoffice-ticket-service-role</li><li>CodeDeployServiceRole</li><li>ghostrider-golang-CodePipelin-CodeBuildServiceRole-1AJ0Q3I9Y0WX1</li><li>magneto-golang-CodePipelineEC-CodeBuildServiceRole-AJWVKGNQAKL5</li><li>serverless-payment-pipeline-CodeBuildServiceRole-1GFSF6A3VZJWZ</li><li>ufirst-vue-CodePipeline-1RSEK-CodeBuildServiceRole-1K71G0E3K3PPJ</li></ul><p>These system accounts should be reviewed to ensure they have least privilege access.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review all system and service accounts to ensure they have the minimum privileges necessary for operation.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 7.3: Access to system components and data is managed via an access control system(s)
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-7.3">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 7.3.2 - Access Control System Configuration (Direct Policies)</h3>
+                        <div>
+Checking for direct policy attachments to IAM users...
+<p>Analysis of IAM users with direct policy attachments:</p><ul><li style='margin-bottom: 15px;'><strong>User:</strong> callcarbackend (arn:aws:iam::366205796862:user/callcarbackend)<br><strong>Attached Policies:</strong><ul><li>AWSIoTFullAccess (arn:aws:iam::aws:policy/AWSIoTFullAccess)</li><li>AmazonSESFullAccess (arn:aws:iam::aws:policy/AmazonSESFullAccess)</li><li>AmazonSQSFullAccess (arn:aws:iam::aws:policy/AmazonSQSFullAccess)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> idanticket_backend (arn:aws:iam::366205796862:user/idanticket_backend)<br><strong>Attached Policies:</strong><ul><li>AmazonSQSFullAccess (arn:aws:iam::aws:policy/AmazonSQSFullAccess)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> Johnny_howcool (arn:aws:iam::366205796862:user/Johnny_howcool)<br><strong>Attached Policies:</strong><ul><li>AmazonEC2FullAccess (arn:aws:iam::aws:policy/AmazonEC2FullAccess)</li><li>AmazonRDSFullAccess (arn:aws:iam::aws:policy/AmazonRDSFullAccess)</li><li>AdministratorAccess (arn:aws:iam::aws:policy/AdministratorAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> johnson (arn:aws:iam::366205796862:user/johnson)<br><strong>Attached Policies:</strong><ul><li>AWSWAFConsoleFullAccess (arn:aws:iam::aws:policy/AWSWAFConsoleFullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> KMS_USER (arn:aws:iam::366205796862:user/KMS_USER)<br><strong>Attached Policies:</strong><ul><li>AWSKeyManagementServicePowerUser (arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> mgc.paul.dev@gmail.com (arn:aws:iam::366205796862:user/mgc.paul.dev@gmail.com)<br><strong>Attached Policies:</strong><ul><li>AmazonRoute53FullAccess (arn:aws:iam::aws:policy/AmazonRoute53FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> pci_assessor (arn:aws:iam::366205796862:user/pci_assessor)<br><strong>Attached Policies:</strong><ul><li>PCI_DSS_Assessor (arn:aws:iam::366205796862:policy/PCI_DSS_Assessor)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> s3 (arn:aws:iam::366205796862:user/s3)<br><strong>Attached Policies:</strong><ul><li>AmazonSNSFullAccess (arn:aws:iam::aws:policy/AmazonSNSFullAccess)</li><li>AmazonSNSRole (arn:aws:iam::aws:policy/service-role/AmazonSNSRole)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li><li>AWSCompromisedKeyQuarantine (arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantine)</li></ul><strong>Inline Policies:</strong><ul><li>AWSCompromisedKeyQuarantine_S3<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Deny",
+    "Action": [
+      "s3:*"
+    ],
+    "Resource": "*"
+  }
+}</pre></details></li><li>idancallcarbar<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::586290937385:role/cross-dev"
+    }
+  ]
+}</pre></details></li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> ses-smtp-user.20191212-202543 (arn:aws:iam::366205796862:user/ses-smtp-user.20191212-202543)<br><strong>Inline Policies:</strong><ul><li>AmazonSesSendingAccess<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "ses:SendRawEmail",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> SYNC_S3 (arn:aws:iam::366205796862:user/SYNC_S3)<br><strong>Attached Policies:</strong><ul><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li></ul><p class='yellow'><strong>Note:</strong> Direct policy attachments to users can make access management more difficult. Consider using IAM groups for policy management instead.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Reorganize your IAM structure to use groups for policy management instead of direct user policy attachments. This aligns with job classification and function-based access principles.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 7.3.2 - Access Control System Configuration (Admin Policies)</h3>
+                        <div>
+Checking for IAM policies with administrative privileges...
+<p>Analysis of IAM policies with administrative privileges:</p><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> attifact_accept_argeement<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/attifact_accept_argeement<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "artifact:AcceptAgreement"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-d7019517-b731-440f-8cc6-f8db2486f632<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-d7019517-b731-440f-8cc6-f8db2486f632<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/RestartEC2ForCCBDBERROR:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> artifact_terminate_agreements<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/artifact_terminate_agreements<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "artifact:TerminateAgreement"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> artifact_download<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/artifact_download<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "artifact:Get"
+      ],
+      "Resource": [
+        "arn:aws:artifact:::report-package/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaVPNExecutionRole-5d67da83-00a4-4916-a2a4-4a35c510c3fe<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaVPNExecutionRole-5d67da83-00a4-4916-a2a4-4a35c510c3fe<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:PutMetricData"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeRegions",
+        "ec2:DescribeVpnConnections"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> callcarbar-log-s3FullAccess<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/callcarbar-log-s3FullAccess<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:HeadBucket"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::callcarbar-log",
+        "arn:aws:s3:::callcarbar-log/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> sqlNativeBackup-2018-02-22-09.35.36.770<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/sqlNativeBackup-2018-02-22-09.35.36.770<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::idanrestorecallcarbar"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::idanrestorecallcarbar/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSQuickSightRedshiftPolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSQuickSightRedshiftPolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "redshift:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaS3ExecutionRole-2442f8c6-38ea-43c9-8f0d-d3fc671de588<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaS3ExecutionRole-2442f8c6-38ea-43c9-8f0d-d3fc671de588<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> lifestyle-wordpress-s3<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/lifestyle-wordpress-s3<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:HeadBucket"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::wordpress.lifestyle",
+        "arn:aws:s3:::wordpress.lifestyle/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSQuickSightIAMPolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSQuickSightIAMPolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:List*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> DynamoDBAutoscalePolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/DynamoDBAutoscalePolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:UpdateTable",
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:DescribeAlarms",
+        "cloudwatch:GetMetricStatistics",
+        "cloudwatch:SetAlarmState",
+        "cloudwatch:DeleteAlarms"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSQuickSightRDSPolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSQuickSightRDSPolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "rds:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> S3_fullaccess_idanticketresource<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/S3_fullaccess_idanticketresource<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:HeadBucket"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::idanticketresource",
+        "arn:aws:s3:::idanticketresource/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> roamingbar_s3<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/roamingbar_s3<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:HeadBucket"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::roamingbar.country",
+        "arn:aws:s3:::roamingbar.country/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> EC2codeDeployPolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/EC2codeDeployPolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> lambda_s3_roamingbar_deploy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/lambda_s3_roamingbar_deploy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::buildec2/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> codeDeployPolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/codeDeployPolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "autoscaling:PutLifecycleHook",
+        "autoscaling:DeleteLifecycleHook",
+        "autoscaling:RecordLifecycleActionHeartbeat",
+        "autoscaling:CompleteLifecycleAction",
+        "autoscaling:DescribeAutoscalingGroups",
+        "autoscaling:PutInstanceInStandby",
+        "autoscaling:PutInstanceInService",
+        "ec2:Describe*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> artifact_download_agreements<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/artifact_download_agreements<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "artifact:DownloadAgreement"
+      ],
+      "Resource": [
+        "arn:aws:artifact:::agreement/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> lambda_diff_trigger_roamingbar_wp<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/lambda_diff_trigger_roamingbar_wp<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "lambda:InvokeFunction"
+      ],
+      "Resource": [
+        "arn:aws:lambda:ap-northeast-1:366205796862:function:roamingbar_wp_deploy"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> sqlNativeBackup-2018-02-22-08.38.01.134<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/sqlNativeBackup-2018-02-22-08.38.01.134<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::idanrestorecallcarbar"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::idanrestorecallcarbar/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> Canlead-SFTP<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/Canlead-SFTP<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowListingOfUserFolder",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::canlead-sftp-s3"
+      ]
+    },
+    {
+      "Sid": "HomeDirObjectAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObjectVersion",
+        "s3:DeleteObject",
+        "s3:GetObjectVersion"
+      ],
+      "Resource": "arn:aws:s3:::canlead-sftp-s3/*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-f7de6de3-7ca2-4de2-8f44-21ddce497e28<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-f7de6de3-7ca2-4de2-8f44-21ddce497e28<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:us-east-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:us-east-1:366205796862:log-group:/aws/lambda/lambdaedge-security-headers:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-0cef873c-9e11-41dc-adea-cc4524e4be70<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-0cef873c-9e11-41dc-adea-cc4524e4be70<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/codepipeline-trigger-slack-notification:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-54a8cd9e-59c2-407f-acf8-64bdfcd97487<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-54a8cd9e-59c2-407f-acf8-64bdfcd97487<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/shortcut:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> CodeBuildBasePolicy-postoffice-ticket-ap-northeast-1<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/CodeBuildBasePolicy-postoffice-ticket-ap-northeast-1<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/postoffice-ticket",
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/postoffice-ticket:*"
+      ],
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-northeast-1-*"
+      ],
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:codecommit:ap-northeast-1:366205796862:postoffice-test"
+      ],
+      "Action": [
+        "codecommit:GitPull"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-76bcff34-874f-4cc0-b6c3-9b392ca20060<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-76bcff34-874f-4cc0-b6c3-9b392ca20060<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/canlead-line-demo:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaVPCAccessExecutionRole-bd62a508-a074-43bb-bb6b-0103764cd02e<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaVPCAccessExecutionRole-bd62a508-a074-43bb-bb6b-0103764cd02e<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateNetworkInterface",
+        "ec2:DeleteNetworkInterface",
+        "ec2:DescribeNetworkInterfaces"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> CodeBuildBasePolicy-test-ap-northeast-1<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/CodeBuildBasePolicy-test-ap-northeast-1<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/test",
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/test:*"
+      ],
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-northeast-1-*"
+      ],
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:codecommit:ap-northeast-1:366205796862:postoffice-test"
+      ],
+      "Action": [
+        "codecommit:GitPull"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-56dd2bec-3871-466d-98ad-c0157aca116a<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-56dd2bec-3871-466d-98ad-c0157aca116a<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/secure-header:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> CodeBuildBasePolicy-roamingbar-front-ap-northeast-1<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/CodeBuildBasePolicy-roamingbar-front-ap-northeast-1<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/roamingbar-front",
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/roamingbar-front:*"
+      ],
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-northeast-1-*"
+      ],
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> OpsItem-CWE-RolePolicy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/OpsItem-CWE-RolePolicy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "ssm:CreateOpsItem",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-42f3da38-41df-4751-a513-b9a71e559b96<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-42f3da38-41df-4751-a513-b9a71e559b96<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/genQRCode:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> amplify-test<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/amplify-test<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "appsync:*",
+        "apigateway:POST",
+        "apigateway:DELETE",
+        "apigateway:PATCH",
+        "apigateway:PUT",
+        "cloudformation:CreateStack",
+        "cloudformation:CreateStackSet",
+        "cloudformation:DeleteStack",
+        "cloudformation:DeleteStackSet",
+        "cloudformation:DescribeStackEvents",
+        "cloudformation:DescribeStackResource",
+        "cloudformation:DescribeStackResources",
+        "cloudformation:DescribeStackSet",
+        "cloudformation:DescribeStackSetOperation",
+        "cloudformation:DescribeStacks",
+        "cloudformation:UpdateStack",
+        "cloudformation:UpdateStackSet",
+        "cloudfront:CreateCloudFrontOriginAccessIdentity",
+        "cloudfront:CreateDistribution",
+        "cloudfront:DeleteCloudFrontOriginAccessIdentity",
+        "cloudfront:DeleteDistribution",
+        "cloudfront:GetCloudFrontOriginAccessIdentity",
+        "cloudfront:GetCloudFrontOriginAccessIdentityConfig",
+        "cloudfront:GetDistribution",
+        "cloudfront:GetDistributionConfig",
+        "cloudfront:TagResource",
+        "cloudfront:UntagResource",
+        "cloudfront:UpdateCloudFrontOriginAccessIdentity",
+        "cloudfront:UpdateDistribution",
+        "cognito-identity:CreateIdentityPool",
+        "cognito-identity:DeleteIdentityPool",
+        "cognito-identity:DescribeIdentity",
+        "cognito-identity:DescribeIdentityPool",
+        "cognito-identity:SetIdentityPoolRoles",
+        "cognito-identity:UpdateIdentityPool",
+        "cognito-idp:CreateUserPool",
+        "cognito-idp:CreateUserPoolClient",
+        "cognito-idp:DeleteUserPool",
+        "cognito-idp:DeleteUserPoolClient",
+        "cognito-idp:DescribeUserPool",
+        "cognito-idp:UpdateUserPool",
+        "cognito-idp:UpdateUserPoolClient",
+        "dynamodb:CreateTable",
+        "dynamodb:DeleteItem",
+        "dynamodb:DeleteTable",
+        "dynamodb:DescribeTable",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:UpdateTable",
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:DeleteRolePolicy",
+        "iam:GetRole",
+        "iam:GetUser",
+        "iam:PassRole",
+        "iam:PutRolePolicy",
+        "iam:UpdateRole",
+        "lambda:AddPermission",
+        "lambda:CreateFunction",
+        "lambda:DeleteFunction",
+        "lambda:GetFunction",
+        "lambda:GetFunctionConfiguration",
+        "lambda:InvokeAsync",
+        "lambda:InvokeFunction",
+        "lambda:RemovePermission",
+        "lambda:UpdateFunctionCode",
+        "lambda:UpdateFunctionConfiguration",
+        "s3:*",
+        "amplify:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSCodePipelineServiceRole-ap-northeast-1-postoffice-ticket<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSCodePipelineServiceRole-ap-northeast-1-postoffice-ticket<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Statement": [
+    {
+      "Action": [
+        "iam:PassRole"
+      ],
+      "Resource": "*",
+      "Effect": "Allow",
+      "Condition": {
+        "StringEqualsIfExists": {
+          "iam:PassedToService": [
+            "cloudformation.amazonaws.com",
+            "elasticbeanstalk.amazonaws.com",
+            "ec2.amazonaws.com",
+            "ecs-tasks.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Action": [
+        "codecommit:CancelUploadArchive",
+        "codecommit:GetBranch",
+        "codecommit:GetCommit",
+        "codecommit:GetUploadArchiveStatus",
+        "codecommit:UploadArchive"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "codedeploy:CreateDeployment",
+        "codedeploy:GetApplication",
+        "codedeploy:GetApplicationRevision",
+        "codedeploy:GetDeployment",
+        "codedeploy:GetDeploymentConfig",
+        "codedeploy:RegisterApplicationRevision"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "elasticbeanstalk:*",
+        "ec2:*",
+        "elasticloadbalancing:*",
+        "autoscaling:*",
+        "cloudwatch:*",
+        "s3:*",
+        "sns:*",
+        "cloudformation:*",
+        "rds:*",
+        "sqs:*",
+        "ecs:*"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "lambda:InvokeFunction",
+        "lambda:ListFunctions"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "opsworks:CreateDeployment",
+        "opsworks:DescribeApps",
+        "opsworks:DescribeCommands",
+        "opsworks:DescribeDeployments",
+        "opsworks:DescribeInstances",
+        "opsworks:DescribeStacks",
+        "opsworks:UpdateApp",
+        "opsworks:UpdateStack"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "cloudformation:CreateStack",
+        "cloudformation:DeleteStack",
+        "cloudformation:DescribeStacks",
+        "cloudformation:UpdateStack",
+        "cloudformation:CreateChangeSet",
+        "cloudformation:DeleteChangeSet",
+        "cloudformation:DescribeChangeSet",
+        "cloudformation:ExecuteChangeSet",
+        "cloudformation:SetStackPolicy",
+        "cloudformation:ValidateTemplate"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "devicefarm:ListProjects",
+        "devicefarm:ListDevicePools",
+        "devicefarm:GetRun",
+        "devicefarm:GetUpload",
+        "devicefarm:CreateUpload",
+        "devicefarm:ScheduleRun"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "servicecatalog:ListProvisioningArtifacts",
+        "servicecatalog:CreateProvisioningArtifact",
+        "servicecatalog:DescribeProvisioningArtifact",
+        "servicecatalog:DeleteProvisioningArtifact",
+        "servicecatalog:UpdateProduct"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:ValidateTemplate"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:DescribeImages"
+      ],
+      "Resource": "*"
+    }
+  ],
+  "Version": "2012-10-17"
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> full_elastic_search<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/full_elastic_search<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "es:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-d02f935b-978b-4ee7-8e0c-aa31a4407acf<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-d02f935b-978b-4ee7-8e0c-aa31a4407acf<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:us-east-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:us-east-1:366205796862:log-group:/aws/lambda/secureHeader:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-f7124b5c-009d-4bbe-9b1a-e61ff3691fc4<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-f7124b5c-009d-4bbe-9b1a-e61ff3691fc4<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/sqltest:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-4b4d2d73-ef1a-4ae5-8a7a-724d01e42a1c<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-4b4d2d73-ef1a-4ae5-8a7a-724d01e42a1c<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/MR_SSO_Decrypt:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> CodeDeploy<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/CodeDeploy<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": [
+        "arn:aws:s3:::replace-with-your-s3-bucket-name/*",
+        "arn:aws:s3:::aws-codedeploy-us-east-2/*",
+        "arn:aws:s3:::aws-codedeploy-us-east-1/*",
+        "arn:aws:s3:::aws-codedeploy-us-west-1/*",
+        "arn:aws:s3:::aws-codedeploy-us-west-2/*",
+        "arn:aws:s3:::aws-codedeploy-ca-central-1/*",
+        "arn:aws:s3:::aws-codedeploy-eu-west-1/*",
+        "arn:aws:s3:::aws-codedeploy-eu-west-2/*",
+        "arn:aws:s3:::aws-codedeploy-eu-west-3/*",
+        "arn:aws:s3:::aws-codedeploy-eu-central-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-east-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-northeast-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-northeast-2/*",
+        "arn:aws:s3:::aws-codedeploy-ap-southeast-1/*",
+        "arn:aws:s3:::aws-codedeploy-ap-southeast-2/*",
+        "arn:aws:s3:::aws-codedeploy-ap-south-1/*",
+        "arn:aws:s3:::aws-codedeploy-sa-east-1/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-809b6038-b983-4a27-a5d8-6eb5c0d97949<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-809b6038-b983-4a27-a5d8-6eb5c0d97949<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/apple_product_crawler:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-94039264-a116-4ce5-92d6-b9bddfcd07d6<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-94039264-a116-4ce5-92d6-b9bddfcd07d6<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/postoffice-ticket-test:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-35e81c6e-2f7b-4d96-8e67-622271f329c2<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-35e81c6e-2f7b-4d96-8e67-622271f329c2<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/sns-trigger-slack-notification:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaVPCAccessExecutionRole-337c7eb1-a765-4444-828c-5e493f45539b<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaVPCAccessExecutionRole-337c7eb1-a765-4444-828c-5e493f45539b<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateNetworkInterface",
+        "ec2:DeleteNetworkInterface",
+        "ec2:DescribeNetworkInterfaces"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-8047f943-3d83-41b3-9998-ff36d73647b8<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-8047f943-3d83-41b3-9998-ff36d73647b8<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/shortcut-staging:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> snapExport2022-08-10-11.31.04.169<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/snapExport2022-08-10-11.31.04.169<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ExportPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject*",
+        "s3:ListBucket",
+        "s3:GetObject*",
+        "s3:DeleteObject*",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::how-cool",
+        "arn:aws:s3:::how-cool/*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> ecr_create_repository<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/ecr_create_repository<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:CreateRepository",
+        "ecr:CompleteLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-2172bbe6-72ae-4e40-9a92-ae4c0d523ef2<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-2172bbe6-72ae-4e40-9a92-ae4c0d523ef2<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/showQRCode:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> CodeBuildBasePolicy-postoffice-ticket-stage-ap-northeast-1<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/CodeBuildBasePolicy-postoffice-ticket-stage-ap-northeast-1<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/postoffice-ticket-stage",
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/codebuild/postoffice-ticket-stage:*"
+      ],
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::codepipeline-ap-northeast-1-*"
+      ],
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLocation"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:codecommit:ap-northeast-1:366205796862:postoffice-ticket"
+      ],
+      "Action": [
+        "codecommit:GitPull"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-02b070b8-ca86-4ffb-b5e6-28d32d93c76d<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-02b070b8-ca86-4ffb-b5e6-28d32d93c76d<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/postmortem-timelines-generator:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-39ebaf9a-f444-4f73-84fb-31622446a374<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-39ebaf9a-f444-4f73-84fb-31622446a374<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/sns-trigger-slack-notification:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-d54a2a89-a7fa-46cc-bf3a-e181b3144721<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-d54a2a89-a7fa-46cc-bf3a-e181b3144721<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/quickSliver:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-b6e16b7b-3de1-41ac-b45f-3180657b3061<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-b6e16b7b-3de1-41ac-b45f-3180657b3061<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:us-east-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:us-east-1:366205796862:log-group:/aws/lambda/test-lambda-edge:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-a4dafa63-bff8-4074-88a6-1312e06efd14<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-a4dafa63-bff8-4074-88a6-1312e06efd14<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/shortcut_test:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-6a55ea6c-8305-4361-a1b9-e781c8811ed9<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-6a55ea6c-8305-4361-a1b9-e781c8811ed9<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/shortcut-production:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> SecretsManagerAccessForEC2<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/SecretsManagerAccessForEC2<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": "arn:aws:secretsmanager:ap-northeast-1:366205796862:secret:aspnet/machineKey-*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-2901d2f9-c6e5-4620-a234-a6ea018d109c<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-2901d2f9-c6e5-4620-a234-a6ea018d109c<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/sns-trigger-slack-notification:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> PCI_DSS_Assessor<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/PCI_DSS_Assessor<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "acm:List*",
+        "acm:Describe*",
+        "apigateway:GET",
+        "cloudfront:Get*",
+        "cloudfront:List*",
+        "cloudtrail:Describe*",
+        "cloudtrail:Get*",
+        "cloudtrail:List*",
+        "cloudtrail:LookupEvents",
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*",
+        "config:BatchGetResourceConfig",
+        "config:Get*",
+        "config:List*",
+        "config:SelectResourceConfig",
+        "ec2:Describe*",
+        "ecr:BatchGetImage",
+        "ecr:Describe*",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetLifecyclePolicy",
+        "ecr:GetRepositoryPolicy",
+        "ecr:List*",
+        "ecs:Describe*",
+        "ecs:List*",
+        "eks:Describe*",
+        "eks:List*",
+        "elasticloadbalancing:Describe*",
+        "events:Describe*",
+        "events:List*",
+        "guardduty:Get*",
+        "guardduty:List*",
+        "iam:GenerateCredentialReport",
+        "iam:GenerateServiceLastAccessedDetails",
+        "iam:Get*",
+        "iam:List*",
+        "iam:SimulatePrincipalPolicy",
+        "inspector2:List*",
+        "inspector2:Describe*",
+        "inspector2:Get*",
+        "kms:Describe*",
+        "kms:Get*",
+        "kms:List*",
+        "lambda:GetFunction",
+        "lambda:GetFunctionConfiguration",
+        "lambda:GetPolicy",
+        "lambda:List*",
+        "logs:Describe*",
+        "logs:FilterLogEvents",
+        "logs:Get*",
+        "logs:StartQuery",
+        "logs:StopQuery",
+        "logs:TestMetricFilter",
+        "macie2:Describe*",
+        "macie2:Get*",
+        "macie2:List*",
+        "network-firewall:Describe*",
+        "network-firewall:List*",
+        "organizations:Describe*",
+        "organizations:List*",
+        "rds:Describe*",
+        "redshift:Describe*",
+        "route53:Get*",
+        "route53:List*",
+        "route53domains:GetDomainDetail",
+        "route53domains:List*",
+        "s3:Get*",
+        "s3:List*",
+        "secretsmanager:Describe*",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:List*",
+        "securityhub:BatchGetSecurityControls",
+        "securityhub:Get*",
+        "securityhub:List*",
+        "shield:Describe*",
+        "shield:Get*",
+        "shield:List*",
+        "sns:Get*",
+        "sns:List*",
+        "ssm:Describe*",
+        "ssm:Get*",
+        "ssm:List*",
+        "waf:Get*",
+        "waf:List*",
+        "wafv2:Get*",
+        "wafv2:List*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-b36233b3-3cab-40fe-8698-a953696c2dc8<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-b36233b3-3cab-40fe-8698-a953696c2dc8<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/quickSliver_test:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-9c08191c-cc0b-48b0-a845-88321acaeeea<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-9c08191c-cc0b-48b0-a845-88321acaeeea<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/quickSliver_test:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-06d3b079-236a-4564-8763-71172769e8c1<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-06d3b079-236a-4564-8763-71172769e8c1<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-2:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-2:366205796862:log-group:/aws/lambda/main:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-8b08d4d5-ad05-474a-9cde-914cc68cca9a<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-8b08d4d5-ad05-474a-9cde-914cc68cca9a<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:ap-northeast-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:ap-northeast-1:366205796862:log-group:/aws/lambda/postoffice-ticket:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> AWSLambdaBasicExecutionRole-788314af-f070-4a57-bb72-68ab68ad82b4<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/service-role/AWSLambdaBasicExecutionRole-788314af-f070-4a57-bb72-68ab68ad82b4<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "logs:CreateLogGroup",
+      "Resource": "arn:aws:logs:us-east-1:366205796862:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:us-east-1:366205796862:log-group:/aws/lambda/secureHeader:*"
+      ]
+    }
+  ]
+}</pre></div><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> cloudformation_full_access<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/cloudformation_full_access<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></div></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Revise policies to limit administrative access. Replace wildcard permissions with specific permissions required for each role.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 7.3.2 - Access Control System Configuration (Permission Boundaries)</h3>
+                        <div>
+Checking for permission boundary usage...
+<p class='yellow'>No permission boundary policies were detected in the AWS account.</p><p>Permission boundaries are an important feature for limiting maximum permissions that can be granted, even if policies attached to a user or role have broader permissions. This is especially important for delegated administration.</p><p><strong>Permission Boundary Usage:</strong></p><ul><li>Roles with permission boundaries: 1</li><li>Users with permission boundaries: 0</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement permission boundaries to set maximum permissions for IAM entities, which can help enforce your access control model.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 7.3.3 - Default-Deny Configuration</h3>
+                        <div>
+Checking for default-deny configuration in security groups...
+<p>Analysis of default Security Group configurations:</p><ul><li>VPC: vpc-0a8c26974d77ff661 - Default Security Group: sg-08c04c861a6ee5956<br><span class='red'>⚠️ Default security group has 1 inbound rules. Default security groups should have no inbound rules.</span><br><strong>Inbound Rules:</strong><ul><li>Protocol: All, Ports: All-All, Source Security Groups: sg-08c04c861a6ee5956</li></ul><span class='yellow'>⚠️ Default security group allows all outbound traffic. For stricter security, consider limiting outbound traffic as well.</span></li><li>VPC: vpc-0fd45e6a - Default Security Group: sg-30a39455<br><span class='red'>⚠️ Default security group has 3 inbound rules. Default security groups should have no inbound rules.</span><br><strong>Inbound Rules:</strong><ul><li>Protocol: All, Ports: All-All, Source Security Groups: sg-30a39455</li><li>Protocol: tcp, Ports: 3306-3306, Source: 172.31.21.161/32, 211.75.169.190/32, 52.192.125.126/32, 52.79.73.238/32, 111.185.4.83/32, 3.114.233.98/32, 54.249.182.65/32, 172.31.15.24/32</li><li>Protocol: tcp, Ports: 11211-11211, Source: 10.0.0.151/32, 10.0.0.0/24, 211.75.169.190/32, 52.193.61.239/32</li></ul><span class='yellow'>⚠️ Default security group allows all outbound traffic. For stricter security, consider limiting outbound traffic as well.</span></li></ul><p>Analysis of Network ACL configurations:</p><ul><li>NACL: acl-937231f6 - VPC: vpc-49abc32c (Default: true)<br><span class='green'>✓ Inbound NACL has a default deny rule (Rule #32767).</span><br><span class='green'>✓ Outbound NACL has a default deny rule (Rule #32767).</span></li><li>NACL: acl-0aeeb9745ce784513 - VPC: vpc-0a8c26974d77ff661 (Default: true)<br><span class='green'>✓ Inbound NACL has a default deny rule (Rule #32767).</span><br><span class='green'>✓ Outbound NACL has a default deny rule (Rule #32767).</span></li><li>NACL: acl-2c84e049 - VPC: vpc-0fd45e6a (Default: true)<br><span class='green'>✓ Inbound NACL has a default deny rule (Rule #32767).</span><br><span class='green'>✓ Outbound NACL has a default deny rule (Rule #32767).</span></li></ul></div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Additional Check - Trust Relationships</h3>
+                        <div>
+Checking for IAM roles with suspicious trust relationships...
+<p class='green'>No IAM roles with suspicious trust relationships were detected.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Fri Apr 25 09:19:41 +07 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">0</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 7.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

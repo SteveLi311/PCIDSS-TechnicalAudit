@@ -1,0 +1,23 @@
+<getinfo>
+  <project>094692261598</project>
+  <region>ap-southeast-1</region>
+  <date>20250619</date>
+  <time>11:02</time>
+  <requirement>1.3.2 - NACL outbound</requirement>
+  <evidence>
+  <vpc id="vpc-069b6cf0ad93fa1b1" name="vpc-portal-user-vpn-use-only">
+    <subnet id="subnet-0a1e2473c3722d2e5" name="vpc-portal-user-vpn-use-only">
+      <nacl id="acl-06c7f912189ea624a" name="Portal User">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  </evidence>
+</getinfo>

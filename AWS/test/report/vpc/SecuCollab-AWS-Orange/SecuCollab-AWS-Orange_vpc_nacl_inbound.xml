@@ -1,0 +1,47 @@
+<getinfo>
+  <project>094692261598</project>
+  <region>ap-southeast-1</region>
+  <date>20250619</date>
+  <time>11:02</time>
+  <requirement>1.3.1 - NACL inbound</requirement>
+  <evidence>
+  <vpc id="vpc-061af85fb2400cae6" name="SecuCollab AWS Orange">
+    <subnet id="subnet-097a5b1df7804fa56" name="SecuCollab AWS Orange INT">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-0ca451113751002a4" name="SecuCollab AWS Orange DMZ">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-0972592f9507d3477" name="SecuCollab AWS Orange MGMT">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  </evidence>
+</getinfo>

@@ -1,0 +1,183 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-0830648e8ddd8522e</instanceid>
+  <hostname>steve-test-01</hostname>
+  <system>Linux/UNIX</system>
+  <ip>10.201.1.18</ip>
+  <public_ip>13.212.250.114</public_ip>
+  <instancetype>t2.micro</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <date>20250606</date>
+  <time>11:36</time>
+  <requirement>1.3.1 - NACL inbound</requirement>
+  <evidence>
+  <vpc id="vpc-069b6cf0ad93fa1b1" name="vpc-portal-user-vpn-use-only">
+    <subnet id="subnet-0a1e2473c3722d2e5" name="vpc-portal-user-vpn-use-only">
+      <nacl id="acl-06c7f912189ea624a" name="Portal User">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  <vpc id="vpc-0e6db20697dda10a0" name="SecuCollab AWS Blue">
+    <subnet id="subnet-0e18e44736c6f31a3" name="SecuCollab AWS Blue-DMZ">
+      <nacl id="acl-03300f958ca151ea5" name="Unnamed">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  <vpc id="vpc-f25d9f94" name="Default">
+    <subnet id="subnet-46932520" name="Default">
+      <nacl id="acl-02671064" name="Default">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-ba1e73e3" name="Default">
+      <nacl id="acl-02671064" name="Default">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-75c96f3d" name="Default">
+      <nacl id="acl-02671064" name="Default">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  <vpc id="vpc-061af85fb2400cae6" name="SecuCollab AWS Orange">
+    <subnet id="subnet-097a5b1df7804fa56" name="SecuCollab AWS Orange INT">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-0ca451113751002a4" name="SecuCollab AWS Orange DMZ">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+    <subnet id="subnet-0972592f9507d3477" name="SecuCollab AWS Orange MGMT">
+      <nacl id="acl-0732656c1f94c3022" name="SecuCollab Orange">
+        <rule>
+          <rule_number>100</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>allow</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+        <rule>
+          <rule_number>32767</rule_number>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <rule_action>deny</rule_action>
+          <cidr>0.0.0.0/0</cidr>
+        </rule>
+      </nacl>
+    </subnet>
+  </vpc>
+  </evidence>
+</getinfo>

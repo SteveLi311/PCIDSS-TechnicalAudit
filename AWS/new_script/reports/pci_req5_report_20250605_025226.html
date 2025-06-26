@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 5 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 5 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun  5 02:52:28 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS CLI Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.1: Processes and mechanisms for protecting against malware are defined and understood
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.1.1 - Security policies</h3>
+                        <div><p>Manual verification required: Review all security policies and operational procedures identified in Requirement 5 to ensure they are documented, in use, and known to all affected parties.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure all security policies and operational procedures for protecting systems against malware are documented, in use, and known to all affected parties.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.2: Anti-malware mechanisms and processes to protect all systems against malware are defined and implemented
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.2">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 5.2.1 - Anti-malware protection deployment</h3>
+                        <div>Checking access to aws ssm describe-instance-information...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws guardduty list-detectors...
+Checking access to aws guardduty get-malware-protection-plan...
+<p>Analysis of EC2 instances in region ap-southeast-1 for anti-malware protection:</p><ul><li class="red">Instance i-0da3583b888d44b66 (aws-ec2-prod-fim-01) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0cbd41e44508eac62 (aws-ec2-prod-gvm-01) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0963fb04f890084a2 (openvpn-for-portal-user (disabled)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-080847cc53b47de48 (aws-ec2-prod-jump-01) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0edd1bd69656c0291 (aws-ec2-test-win-01) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-08717d827797dd6a5 (openvpn-for-portal-user-2) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-01766dfdbb4d58782 (openvpn-for-portal-user-3) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-03b3fb3510d5a7bbb (test) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0082ada0851a06fec (test-wp) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0830648e8ddd8522e (steve-test-01) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0d2b303d5454a89bd (php) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li></ul><p>Checking for SSM managed instances with anti-malware:</p><ul><li class="red">Instance i-080847cc53b47de48 (aws-ec2-prod-jump-01) - Platform: windows - No known anti-malware software found in SSM inventory.</li></ul><p>Checking for GuardDuty malware protection:</p><p class="red">GuardDuty Malware Protection plan not found for detector f4bdd236046b8bf4481e3c3961066b80 in region ap-southeast-1.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Deploy anti-malware software on all systems commonly affected by malware, including servers, workstations, and other applicable systems.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.2.2 - Periodic scans and active scanning</h3>
+                        <div>Checking access to aws events list-rules...
+Checking access to aws guardduty list-detectors...
+Checking access to aws guardduty get-detector...
+Checking access to aws ssm list-commands...
+<p>Checking for evidence of periodic malware scans:</p><p class="yellow">No EventBridge rules found with 'Malware' in the name. Consider implementing scheduled malware scans.</p><p>Checking GuardDuty scan settings:</p><ul><li class="red">GuardDuty detector f4bdd236046b8bf4481e3c3961066b80 has malware protection or EBS scanning disabled.</li></ul><p class="yellow">No recent SSM commands found that appear to run malware scans. Verify if scans are being executed through other mechanisms.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure anti-malware mechanisms perform periodic scans and active or real-time scanning. Schedule automatic malware scans and configure real-time protection.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.2.3 - Anti-malware mechanism updates</h3>
+                        <div>Checking access to aws ssm describe-patch-baselines...
+Checking access to aws configservice describe-config-rules...
+Checking access to aws inspector2 list-findings...
+<p>Checking for anti-malware update mechanisms:</p><p class="yellow">No specific anti-virus patch baselines found in SSM Patch Manager. Consider creating dedicated baselines for anti-malware updates.</p><p class="yellow">No patch groups found in SSM Patch Manager. Consider configuring patch groups for anti-malware updates.</p><p class="yellow">No maintenance windows found specifically for anti-malware updates. Consider creating dedicated maintenance windows.</p><p class="yellow">No AWS Config rules found that might enforce anti-malware requirements. Consider implementing rules for approved AMIs and required applications.</p><p class="green">No active Inspector findings related to malware or outdated software.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure anti-malware mechanisms are kept current. Implement automatic updates where possible or establish manual update processes with regular verification.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.3.4 - Anti-malware audit logs</h3>
+                        <div><p>Manual verification required: Review logs or other documentation to verify that anti-malware mechanisms are generating audit logs and that logs are retained in accordance with Requirement 10.5.1.</p><p>Specific checks to perform include:</p><ul>
+    <li>Verify that anti-malware logs are being generated for each anti-malware solution detected</li>
+    <li>Confirm if logs are stored centrally via a SIEM or log management solution</li>
+    <li>Verify retention periods meet the 12-month requirement as per 10.5.1</li>
+    <li>Check if logs include detection events, scan completion status, definition updates, and configuration changes</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure anti-malware mechanisms generate audit logs which are retained in accordance with Requirement 10.5.1.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.3.3 - Removable media scanning</h3>
+                        <div><p>Manual verification required: Verify that anti-malware solutions are configured to automatically scan removable electronic media when inserted, connected, or mounted.</p><p>This check requires manual verification of anti-malware policies and configurations since AWS doesn't directly manage endpoint removable media controls. Review documentation for:</p><ul>
+    <li>Policies for scanning removable media</li>
+    <li>Configuration settings for automatic scanning of USB drives, external hard drives, etc.</li>
+    <li>Documentation of any continuous behavioral analysis that is used instead of on-demand scanning</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure anti-malware solutions perform automatic scans of removable electronic media when inserted, connected, or mounted, or implement continuous behavioral analysis.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.3: Anti-malware mechanisms and processes are active, maintained, and monitored
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.3.1 - Automatic anti-malware updates</h3>
+                        <div><p>Manual verification required: Verify that anti-malware solutions are configured to receive automatic updates.</p>
+    <p>For AWS systems, check:</p>
+    <ul>
+      <li>SSM State Manager associations that deploy and update anti-malware</li>
+      <li>Auto-update settings for anti-malware installed on EC2 instances</li>
+      <li>GuardDuty settings for automatic signature/detection updates</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure the anti-malware solution(s) is kept current via automatic updates.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.3.2 - Periodic scans and active scanning</h3>
+                        <div>Checking access to aws events list-rules...
+Checking access to aws guardduty list-detectors...
+Checking access to aws guardduty get-detector...
+Checking access to aws ssm list-commands...
+<p>Checking for evidence of periodic malware scans:</p><p class="yellow">No EventBridge rules found with 'Malware' in the name. Consider implementing scheduled malware scans.</p><p>Checking GuardDuty scan settings:</p><ul><li class="red">GuardDuty detector f4bdd236046b8bf4481e3c3961066b80 has malware protection or EBS scanning disabled.</li></ul><p class="yellow">No recent SSM commands found that appear to run malware scans. Verify if scans are being executed through other mechanisms.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure anti-malware mechanisms perform periodic scans and active or real-time scanning OR perform continuous behavioral analysis of systems or processes. Schedule automatic malware scans and configure real-time protection.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.3.5 - Anti-malware alteration restrictions</h3>
+                        <div><p>Manual verification required: Review system configurations to verify that anti-malware mechanisms are actively running and cannot be disabled or altered by users, unless specifically authorized by management on a case-by-case basis.</p>
+    <p>Specific items to check:</p>
+    <ul>
+      <li>EC2 instance security configurations that prevent users from disabling anti-malware</li>
+      <li>IAM policies restricting who can modify GuardDuty or Inspector settings</li>
+      <li>Documentation of access control processes for anti-malware management</li>
+      <li>Exception documentation for cases where anti-malware must be temporarily disabled</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure that anti-malware mechanisms cannot be disabled or altered by users, unless specifically documented and authorized by management on a case-by-case basis for a limited time period.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.4: Anti-phishing mechanisms protect users against phishing attacks
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.4.1 - Anti-phishing mechanisms</h3>
+                        <div><p>Manual verification required: Review processes and automated mechanisms that are in place to detect and protect personnel against phishing attacks.</p>
+    <p>This check requires manual verification of the following:</p>
+    <ul>
+      <li>Email security solutions used to filter suspicious emails</li>
+      <li>URL/link scanning capabilities in email and web traffic</li>
+      <li>Security awareness training specific to phishing identification</li>
+      <li>Simulated phishing campaigns to test user awareness</li>
+      <li>Policies for reporting suspicious emails</li>
+      <li>Boundary controls at email gateways and web proxies</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement processes and automated mechanisms to detect and protect personnel against phishing attacks.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Malware Protection at CDE Boundaries
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="cde-boundaries">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> Malware Protection at CDE Boundaries</h3>
+                        <div>Checking access to aws wafv2 list-web-acls...
+Checking access to aws shield describe-subscription...
+Checking access to aws network-firewall list-firewalls...
+<p>Checking for anti-malware mechanisms at CDE boundaries:</p><p>Found WAF Web ACLs in region ap-southeast-1:</p><ul></ul><p class="yellow">AWS Shield Advanced is not enabled. Consider enabling it for enhanced protection.</p><p class="yellow">No AWS Network Firewalls found in region ap-southeast-1. Network Firewalls can provide additional protection.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement anti-malware mechanisms at system components that provide entry and exit points to/from the CDE, and at data transfer locations.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.5: Malware awareness training is regularly conducted
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.5.1 - Malware awareness program</h3>
+                        <div>Checking access to aws lambda list-functions...
+<p>Checking for malware awareness mechanisms:</p><p class="warning">Manual verification required: Review documentation for malware awareness and training procedures. The following areas should be covered:</p><ul>
+        <li>Formal security awareness training program that includes malware risks and prevention</li>
+        <li>User education on not installing unauthorized software</li>
+        <li>Training materials on recognizing and reporting malware incidents</li>
+        <li>Periodic refresher training for all personnel</li>
+    </ul><p class="yellow">No Lambda functions found with names suggesting security awareness or training purposes.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement a formal security awareness program to educate personnel about malware and the importance of appropriate protection mechanisms.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 5.5.1 - Additional malware awareness information</h3>
+                        <div><p>Review the following aspects of the malware awareness program:</p>
+    <ul>
+      <li>Training content specific to malware threats, including phishing, social engineering, and unauthorized software</li>
+      <li>Frequency of training (should be at least annually)</li>
+      <li>Training completion and tracking mechanisms</li>
+      <li>Procedures for informing personnel about new malware threats</li>
+      <li>Instructions for reporting suspected malware</li>
+      <li>Awareness materials visible in work areas or distributed electronically</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure that the malware awareness program includes content on current threats, prevention measures, and reporting procedures.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 5.6: A formal incident response process is established for malware
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-5.6">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 5.6.1 - Malware incident response procedures</h3>
+                        <div>Checking access to aws cloudwatch describe-alarms...
+Checking access to aws sns list-topics...
+Checking access to aws securityhub get-findings...
+<p>Checking for malware incident response mechanisms:</p><p class="warning">Manual verification required: Review documentation for malware incident response procedures.</p><p class="yellow">No CloudWatch alarms found specifically for malware or general security. Consider implementing alarms for malware detection events.</p><p class="yellow">No SNS topics found specifically for malware or general security alerts. Consider implementing notification topics for malware incidents.</p><p class="green">No recent malware-related findings in Security Hub.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Maintain a formal incident response process for malware events. This should include notification processes, containment, recovery, and restoration procedures.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 5.6.1 - Malware incident response details</h3>
+                        <div><p>During manual verification, ensure the incident response process for malware includes:</p>
+    <ul>
+      <li>Documented procedures for responding to malware alerts</li>
+      <li>Roles and responsibilities for malware incident response</li>
+      <li>Contact information for the incident response team</li>
+      <li>Steps for containing and eradicating malware</li>
+      <li>Recovery and system restoration procedures</li>
+      <li>Procedures for preserving evidence</li>
+      <li>Communication plan for stakeholders</li>
+      <li>Requirements for testing malware incident response procedures at least annually</li>
+      <li>Documentation of lessons learned after malware incidents</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure the malware incident response process is formally documented, regularly tested, and covers all necessary elements.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun  5 02:53:56 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">1</span></td>
+                    <td><span class="yellow">12</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 5.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

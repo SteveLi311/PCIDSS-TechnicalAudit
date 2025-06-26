@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 10 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 10 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Jun  5 03:03:54 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS CLI Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail describe-trails</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail get-trail-status --name prod-orange-cloud-trail</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: logs describe-log-groups</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: logs describe-metric-filters</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudwatch describe-alarms</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-vpcs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-flow-logs</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: rds describe-db-instances</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: dynamodb list-tables</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: guardduty list-detectors</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: securityhub describe-hub</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: configservice describe-config-rules</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.1: Audit logging mechanisms are in place
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="req-10.1">
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+pass">
+                        <h3><span class="">[]</span> 10.1.1 - Implementation of audit trails</h3>
+                        <div> check_cloudtrail_enabled
+ pass
+<p>CloudTrail trails found in region ap-southeast-1:</p><ul><li class="green">Trail: prod-orange-cloud-trail (Home Region: ap-southeast-1, Multi-Region: true) - <strong>Logging is enabled</strong></li></ul><p class="green">Multi-region trail(s) found, providing coverage across all AWS regions.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure CloudTrail is enabled in all regions with at least one multi-region trail.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+pass">
+                        <h3><span class="">[]</span> 10.2.1.1-10.2.1.7 - Specific audit log requirements</h3>
+                        <div> check_cloudwatch_alarms
+ pass
+<p>CloudWatch metric filters and alarms for security events:</p><ul><li class="yellow">Trail: prod-orange-cloud-trail - <strong>Not configured to send logs to CloudWatch</strong></li></ul><p>PCI DSS requires automated monitoring and alerting for suspicious activities, unauthorized access, and modification of critical system files.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure CloudWatch metric filters and alarms for all required security events including: individual user access to cardholder data, administrative actions, access to audit logs, invalid access attempts, changes to authentication credentials, initialization/stopping of audit logs, and creation/deletion of system-level objects.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+fail">
+                        <h3><span class="">[]</span> 10.2.1.a - Network access is logged</h3>
+                        <div> check_vpc_flow_logs
+ fail
+<p>VPC Flow Logs status for each VPC:</p><ul><li class="red">VPC: vpc-069b6cf0ad93fa1b1 (192.168.0.0/16) - <strong>Flow logs not enabled</strong></li><li class="red">VPC: vpc-0e6db20697dda10a0 (10.201.0.0/16) - <strong>Flow logs not enabled</strong></li><li class="red">VPC: vpc-f25d9f94 (172.31.0.0/16) - <strong>Flow logs not enabled</strong></li><li class="red">VPC: vpc-061af85fb2400cae6 (10.169.0.0/16) - <strong>Flow logs not enabled</strong></li></ul><p>VPC Flow Logs capture information about the IP traffic going to and from network interfaces in your VPC, which is crucial for network monitoring and security analysis.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable VPC Flow Logs for all VPCs to capture network traffic information.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+pass">
+                        <h3><span class="">[]</span> 10.2.1.b - Database access is logged</h3>
+                        <div> check_database_logging
+ pass
+<p>Database audit logging configuration:</p><p>No RDS database instances found in region ap-southeast-1.</p><h4>DynamoDB Tables:</h4><p>No DynamoDB tables found in region ap-southeast-1.</p><p>PCI DSS requires logging of all user access to cardholder data, which includes database access.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable appropriate logging for all database systems that may contain cardholder data.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.3: Audit logs record specific details
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-10.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 10.3.1-10.3.2 - Required audit log content and format</h3>
+                        <div><p class="yellow">Manual verification required. CloudTrail logs should contain all required audit trail entries.</p>
+        <p>Verify that your CloudTrail and other AWS logs include the following for each event (per Requirement 10.2.2):</p>
+        <ul>
+            <li>User identification</li>
+            <li>Type of event</li>
+            <li>Date and time</li>
+            <li>Success or failure indication</li>
+            <li>Origination of event</li>
+            <li>Identity or name of affected data, system component, or resource</li>
+        </ul>
+        <p>CloudTrail logs typically include these elements by default, but custom applications may require additional configuration.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Review CloudTrail log structure to ensure all required elements are captured. For custom applications, implement logging that captures all required elements.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.4: Log storage and integrity
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-10.4">
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+pass">
+                        <h3><span class="">[]</span> 10.4.1.b - Log file integrity validation</h3>
+                        <div> check_cloudtrail_validation
+ pass
+<p>CloudTrail log file validation status:</p><ul><li class="green">Trail: prod-orange-cloud-trail - <strong>Log file validation is enabled</strong></li></ul><p>File validation creates a digitally signed digest file containing hashes of log files, enabling detection of log file modification, deletion, or forgery after delivery.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable log file validation for all CloudTrail trails.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+warning">
+                        <h3><span class="">[]</span> 10.3.4 - File integrity monitoring for logs</h3>
+                        <div> check_log_integrity_monitoring
+ warning
+<p>Log file integrity monitoring:</p><ul><li class="green">CloudTrail log file validation is enabled for trail: prod-orange-cloud-trail</li><li class="yellow">No AWS Config rules found specifically for CloudTrail monitoring. Consider implementing Config rules to continuously monitor log integrity.</li></ul><p>PCI DSS Requirement 10.3.4 requires file integrity monitoring or change-detection mechanisms to alert personnel to unauthorized modification of audit log files.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement file integrity monitoring or change-detection mechanisms for audit logs.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+fail">
+                        <h3><span class="">[]</span> 10.3.1-10.3.2 - Log access controls</h3>
+                        <div> check_cloudtrail_s3_access
+ fail
+<p>CloudTrail S3 bucket access control:</p><ul><li class="red">Trail: prod-orange-cloud-trail - S3 bucket: aws-cloudtrail-logs-094692261598-dccbadad - <strong>No bucket policy found</strong></li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure S3 bucket policies and ACLs to prevent unauthorized access to log files. According to Requirement 10.3.1 and 10.3.2, read access must be limited to those with a job-related need, and logs must be protected from modifications by individuals.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+fail">
+                        <h3><span class="">[]</span> 10.4.3 - Audit log retention</h3>
+                        <div> check_log_retention
+ fail
+<p>CloudWatch log groups retention settings:</p><ul><li class="red">Log Group: /aws/lambda/lambda-hello-world - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: /aws/lambda/test - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: /var/log/clamav - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: /var/log/messages - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: /var/log/syslog - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: System - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: amazon-cloudwatch-agent.log - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: clamavscan-log - <strong>No retention period set (logs never expire)</strong></li><li class="red">Log Group: clamavscan.log - <strong>No retention period set (logs never expire)</strong></li></ul><p>PCI DSS requires log retention for at least 90 days with at least the most recent 3 months available for analysis.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure CloudWatch Log Groups to retain logs for at least 90 days, with at least 3 months immediately available for analysis.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.5: Time synchronization
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-10.5">
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+warning">
+                        <h3><span class="">[]</span> 10.6.1-10.6.3 - Time synchronization</h3>
+                        <div> check_time_synchronization
+ warning
+<p class="yellow">Time synchronization settings require manual verification on each system.</p><p>PCI DSS requires that:</p><ul><li>Time synchronization technology is used and kept current on all systems.</li><li>Time data is protected and received from industry-accepted time sources.</li><li>Systems have the correct and consistent time (critical for security, log analysis, and audit trails).</li></ul><p>Verify the following in your AWS environment:</p><ul><li>EC2 instances are configured to use NTP with appropriate time sources</li><li>Systems are synchronized to the correct time zone</li><li>Time settings are configured in a way that they cannot be altered by users</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure all systems to use NTP or similar technology for time synchronization. Requirement 10.6.1 requires time-synchronization technology. Requirement 10.6.2 requires correct and consistent time settings using designated time servers. Requirement 10.6.3 requires protecting time data and monitoring changes to time settings.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.6: Log monitoring and anomaly detection
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-10.6">
+    
+
+                    <div class="check-item Running check
+  ✓ Check completed with status
+warning">
+                        <h3><span class="">[]</span> 10.4.1-10.4.3 - Log review and monitoring process</h3>
+                        <div> check_log_anomaly_detection
+ warning
+<p class="green">GuardDuty is enabled in region ap-southeast-1, which provides log anomaly detection and threat monitoring.</p><p class="green">GuardDuty detector f4bdd236046b8bf4481e3c3961066b80 is enabled and actively monitoring.</p><p class="green">AWS Security Hub is enabled in region ap-southeast-1, which helps aggregate security findings, including log-based alerts.</p><p>PCI DSS requires mechanisms to detect unauthorized modifications to logs and alerts for anomalous or suspicious activities.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable GuardDuty and Security Hub for automated log analysis and threat detection. Requirement 10.4.1 requires daily review of security events and logs from critical systems. Requirement 10.4.1.1 requires using automated mechanisms for log reviews. Requirement 10.4.2 requires periodic review of all other logs. Requirement 10.4.3 requires addressing exceptions and anomalies.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 10.7: Detection and response to security control failures
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-10.7">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 10.7.1 - 10.7.3 - Detection and response processes</h3>
+                        <div><p class="yellow">Manual verification required. These requirements relate to organizational processes.</p>
+        <p>PCI DSS requires:</p>
+        <ul>
+            <li>A process to respond to critical security control failures promptly</li>
+            <li>Restoring security functions</li>
+            <li>Identifying and documenting the duration of the security failure</li>
+            <li>Identifying and addressing causes of the failure</li>
+            <li>Implementing corrective actions</li>
+            <li>Resuming monitoring of security controls</li>
+        </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Develop and document processes for detecting and responding to security control failures. Ensure these processes are tested periodically.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Jun  5 03:04:23 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">12</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 10.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

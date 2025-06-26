@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Filtered PCI DSS Summary</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; padding: 20px; color: #333; }
+    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { border-bottom: 2px solid #4285f4; padding-bottom: 10px; }
+    .section { margin-bottom: 30px; border: 1px solid #ddd; border-radius: 5px; }
+    .section-header { background: #f8f9fa; padding: 15px 20px; }
+    .section-content { padding: 20px; }
+    .check-item { border-left: 4px solid #ccc; background: #f9f9f9; padding: 10px; margin: 10px 0; }
+    .fail { color: #f44336; font-weight: bold; border-left-color: #f44336; }
+    .warning { color: #ff9800; font-weight: bold; border-left-color: #ff9800; }
+    .pass { color: #4caf50; font-weight: bold; border-left-color: #4caf50; }
+    .info { color: #2196F3; font-weight: bold; border-left-color: #2196F3; }
+    a { color: #1565c0; }
+    details summary { cursor: pointer; font-weight: bold; background: #f0f0f0; padding: 5px; border-radius: 4px; }
+    pre, .pre-wrap { white-space: pre-wrap; background: #fff; padding: 10px; border-radius: 4px; line-height: 1.4; border: 1px solid #ddd; font-family: monospace; }
+    .red { color: #f44336; font-weight: bold; }
+    .green { color: #4caf50; font-weight: bold; }
+    .yellow { color: #ff9800; font-weight: bold; }
+    .blue { color: #2196F3; font-weight: bold; }
+    .gray { color: #333; font-weight: bold; }
+    .bold { color: #333; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PCI DSS GCP Assessment Summary (Selected Items)</h1>
+
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold; width: 220px;">Assessment Date</td><td style="padding: 8px;">Wed Jun 25 17:59:56 CST 2025</td></tr>
+      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">GCP Account</td><td style="padding: 8px;">pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com</td></tr>
+      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">Project</td><td style="padding: 8px;">collab-testing-orange</td></tr>
+    </table>
+    
+    <div class="section" id="section-req1">
+      <div class="section-header">
+        <h3>Requirement 1 — 50% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 1 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req1_report_20250625_083905.html" target="_blank">View full report: pci_req1_report_20250625_083905.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✗ 1.2.6 - Security features for insecure services/protocols</strong> <span class='fail' style='margin-left: 10px;'>FAIL</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><p>Analysis of insecure services/protocols in firewall rules:</p><ul><li class="yellow">Rule allow-office-to-gene-dev allows MySQL (port 3306) - Ensure encryption is in use</li></ul></div></div></details></div><div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>⚠ 1.3.1 - Inbound traffic to CDE restriction</strong> <span class='warning' style='margin-left: 10px;'>WARNING</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><p>Analysis of inbound traffic controls for CDE networks:</p><ul><li><strong>Network:</strong> default</li><ul><li><strong>Ingress firewall rules:</strong></li><ul><li>default-allow-icmp</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>default-allow-internal</li><li class="green">Restricted sources: 10.128.0.0/9</li><li>default-allow-rdp</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>default-allow-ssh</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li></ul></ul><li><strong>Network:</strong> test-list-001</li><ul><li class="green">No permissive ingress rules found</li></ul><li><strong>Network:</strong> test-list-999</li><ul><li class="green">No permissive ingress rules found</li></ul><li><strong>Network:</strong> test-orange</li><ul><li><strong>Ingress firewall rules:</strong></li><ul><li>abel-n8n-port</li><li class="green">Restricted sources: 35.235.240.0/20,122.116.225.155</li><li>allow-lb-proxy</li><li class="green">Restricted sources: 10.200.10.0/23</li><li>allow-office-admin</li><li class="green">Restricted sources: 35.235.240.0/20,122.116.225.155,13.228.126.249</li><li>allow-office-to-gene-dev</li><li class="green">Restricted sources: 122.116.225.155</li><li>allow-office-to-john-dev</li><li class="green">Restricted sources: 122.116.225.155,13.228.126.249</li><li>allow-tcp-lb-and-health</li><li class="green">Restricted sources: 35.191.0.0/16,130.211.0.0/22</li><li>customer-test</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>dbsafer-control-all-allow</li><li class="green">Restricted sources: 10.200.1.18,10.200.1.17,10.200.1.20</li><li>dbsafer-int-3389-allow</li><li class="green">Restricted sources: 10.200.1.20</li><li>dbsafer-int-ssh-allow</li><li class="green">Restricted sources: 10.200.1.20,10.200.1.15</li><li>dbsafer-office-ssh-allow</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>gene-inbound-test</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>openvas-scan-all-allow</li><li class="green">Restricted sources: 10.9.0.14</li><li>room-res-nam</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>sviti-web</li><li class="red">WARNING: Allows traffic from anywhere (0.0.0.0/0)</li><li>test-orange-allow-http</li><li class="green">Restricted sources: 122.116.225.155</li><li>test-orange-allow-https</li><li class="green">Restricted sources: 122.116.225.155</li><li>windows-ad</li><li class="green">Restricted sources: 10.200.1.0/24</li></ul></ul></ul></div></div></details></div><div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>⚠ 1.3.2 - Outbound traffic from CDE restriction</strong> <span class='warning' style='margin-left: 10px;'>WARNING</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><p>Analysis of outbound traffic controls for CDE networks:</p><ul><li><strong>Network:</strong> default</li><ul><li class="yellow">No explicit egress rules found (default allow all)</li></ul><li><strong>Network:</strong> test-list-001</li><ul><li class="yellow">No explicit egress rules found (default allow all)</li></ul><li><strong>Network:</strong> test-list-999</li><ul><li class="yellow">No explicit egress rules found (default allow all)</li></ul><li><strong>Network:</strong> test-orange</li><ul><li><strong>Egress firewall rules:</strong></li><ul><li>gene-outbound-test</li><li class="yellow">Allows traffic to anywhere (0.0.0.0/0)</li></ul></ul></ul></div></div></details></div><div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>ℹ 1.3.3 - Private IP filtering</strong> <span class='info' style='margin-left: 10px;'>INFO</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><p>Analysis of potential private IP exposure:</p><ul><li class="yellow">VPC peering connections detected:</li><ul><li>test-list-999:  ↔ </li><li>test-orange:  ↔ </li></ul><li class="green">No VPN gateways detected</li></ul></div></div></details></div></div></div>
+    <div class="section" id="section-req2">
+      <div class="section-header">
+        <h3>Requirement 2 — 91% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 2 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req2_report_20250625_085635.html" target="_blank">View full report: pci_req2_report_20250625_085635.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✓ Vendor default accounts analysis</strong> <span class='pass' style='margin-left: 10px;'>PASS</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><p>Analysis of vendor default accounts:</p><ul><li class="green">No problematic default service accounts detected</li><li class="green">No instances using default service accounts</li></ul></div></div></details></div></div></div>
+    <div class="section" id="section-req3">
+      <div class="section-header">
+        <h3>Requirement 3 — 100% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 3 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req3_report_20250625_085710.html" target="_blank">View full report: pci_req3_report_20250625_085710.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✓ Key Management</strong> <span class='pass' style='margin-left: 10px;'>PASS</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'>Found 1 KMS keyrings in project collab-testing-orange</div></div></details></div></div></div>
+    <div class="section" id="section-req4">
+      <div class="section-header">
+        <h3>Requirement 4 — N/A</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 4 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req4_report_20250625_091502.html" target="_blank">View full report: pci_req4_report_20250625_091502.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>⚠ TLS/SSL Configuration Analysis</strong> <span class='warning' style='margin-left: 10px;'>WARNING</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><h4>Analysis of TLS/SSL configurations in project collab-testing-orange:</h4><ul><li><strong>SSL Policies Found:</strong><ul><li>Policy: ssl-policy-gene-test, Profile: CUSTOM, Min TLS: TLS_1_1 <span class="warning">⚠️ Warning: Weak TLS version</span></li><li>Policy: test-nextcloud-sslpolicy, Profile: COMPATIBLE, Min TLS: TLS_1_2 ✅ Strong TLS version</li></ul></li><li><strong>HTTPS Load Balancers:</strong><ul><li>Proxy: gene-test-target-proxy - SSL Policy: https://www.googleapis.com/compute/v1/projects/collab-testing-orange/global/sslPolicies/ssl-policy-gene-test ✅</li><li>Proxy: test-nextcloud-lb-target-proxy - SSL Policy: https://www.googleapis.com/compute/v1/projects/collab-testing-orange/global/sslPolicies/test-nextcloud-sslpolicy ✅</li></ul></li></ul><p><strong>Findings:</strong> 1 TLS configuration issues require attention.</p></div></div></details></div><div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✗ Firewall Rules for Unencrypted Protocols</strong> <span class='fail' style='margin-left: 10px;'>FAIL</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'><h4>Analysis of firewall rules allowing unencrypted protocols in project collab-testing-orange:</h4><ul><li><span class="warning">⚠️ Warning:</span> Rule 'abel-n8n-port' allows port 80 from restricted sources</li><li><span class="warning">⚠️ Warning:</span> Rule 'allow-office-to-gene-dev' allows port 80 from restricted sources</li><li><span class="fail">❌ RISK:</span> Rule 'room-res-nam' allows port 80 from internet (0.0.0.0/0)</li><li><span class="fail">❌ RISK:</span> Rule 'sviti-web' allows port 80 from internet (0.0.0.0/0)</li><li><span class="warning">⚠️ Warning:</span> Rule 'test-orange-allow-http' allows port 80 from restricted sources</li><li><span class="warning">⚠️ Warning:</span> Rule 'windows-ad' allows port 23 from restricted sources</li></ul><p><strong>Critical:</strong> 2 firewall rules allow unencrypted protocols from the internet.</p></div></div></details></div></div></div>
+    <div class="section" id="section-req7">
+      <div class="section-header">
+        <h3>Requirement 7 — 0% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 7 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req7_report_20250625_090814.html" target="_blank">View full report: pci_req7_report_20250625_090814.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✗ Project owner role assignment</strong> <span class='fail' style='margin-left: 10px;'>FAIL</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'>Project has 6 owners (recommend ≤2) - excessive administrative privileges violate least privilege principle</div></div></details></div></div></div>
+    <div class="section" id="section-req8">
+      <div class="section-header">
+        <h3>Requirement 8 — 0% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 8 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req8_report_20250625_091209.html" target="_blank">View full report: pci_req8_report_20250625_091209.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>ℹ 8.4.2 - Identity-Aware Proxy MFA</strong> <span class='info' style='margin-left: 10px;'>INFO</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'>No Identity-Aware Proxy configuration detected. Consider IAP for application-level MFA.</div></div></details></div></div></div>
+    <div class="section" id="section-req10">
+      <div class="section-header">
+        <h3>Requirement 10 — 85% Compliant</h3>
+      </div>
+      <div class="section-content">
+        <p><strong>PCI DSS 4.0 - Requirement 10 Assessment Report</strong></p>
+        <p>🔗 <a href="reports\pci_req10_report_20250625_095831.html" target="_blank">View full report: pci_req10_report_20250625_095831.html</a></p>
+    <div class='check-item'><div style='display: flex; justify-content: space-between; align-items: center;'><strong>✓ Cloud Logging enabled</strong> <span class='pass' style='margin-left: 10px;'>PASS</span></div><details style='margin-top: 10px;'><summary>Show Details</summary><div><div class='pre-wrap'>Cloud Logging is enabled and operational in project collab-testing-orange</div></div></details></div></div></div></div></body></html>

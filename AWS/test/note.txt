@@ -1,0 +1,11 @@
+<vpc id="..." name="...">
+  <subnet id="..." name="...">
+    <nacl id="..." name="...">
+      <rule>
+        <rule_number>32767</rule_number>
+        <protocol>-1</protocol>
+	<from_port>All</from_port>
+	<to_port>All</to_port>
+        <rule_action>deny</rule_action>
+        <cidr>0.0.0.0/0</cidr>
+<key id="..." name="...">

@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Interactive Summary Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        h4 {
+            color: #3498db;
+            margin: 15px 0 10px 0;
+            font-size: 14px;
+        }
+        .report-date {
+            text-align: right;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Card-based layout */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .grid-item {
+            /* Explicit wrapper for each card to prevent parent-child relationship appearance */
+        }
+        .req-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .req-card-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+        }
+        .req-badge {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-right: 15px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .req-title {
+            font-size: 16px;
+        }
+        .req-card-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Statistics styling */
+        .req-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .req-stat {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .compliant {
+            color: #2ecc71;
+        }
+        .non-compliant {
+            color: #e74c3c;
+        }
+        .partial {
+            color: #f39c12;
+        }
+        
+        /* Clickable expandable content */
+        .findings-section {
+            margin-top: auto;
+        }
+        .section-header, .finding-header {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .section-header:hover, .finding-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-content, .finding-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .toggle-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .section-title {
+            flex-grow: 1;
+            font-weight: bold;
+        }
+        .finding-item {
+            margin-bottom: 10px;
+        }
+        .finding-details, .finding-recommendation {
+            margin-bottom: 15px;
+        }
+        .no-findings {
+            color: #2ecc71;
+            font-style: italic;
+        }
+        
+        /* Executive summary */
+        .summary {
+            background-color: #f0f7fd;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .summary h3 {
+            color: #3498db;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .summary-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .summary-stat {
+            background: white;
+            border-radius: 5px;
+            padding: 15px;
+            width: 22%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .summary-stat-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .summary-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* Critical findings styling */
+        .critical-findings {
+            background-color: #fdeded;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .critical-findings h3 {
+            color: #c0392b;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .critical-list {
+            margin: 10px 0;
+            padding-left: 0;
+            list-style-type: none;
+        }
+        .critical-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #fad7d7;
+        }
+        .critical-list li:last-child {
+            border-bottom: none;
+        }
+        .finding-req {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 10px;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation */
+        .req-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .req-nav a {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .req-nav a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Interactive Summary Report</h1>
+        
+        <div class="report-date">
+            Generated on: April 25, 2025
+        </div>
+        
+        <div class="summary">
+            <h3>PCI DSS 4.0 Compliance Summary</h3>
+            <p>This interactive report summarizes compliance with PCI DSS 4.0 requirements. Click on the "View Findings" bars to expand each section and see detailed findings. Each finding can be further expanded to show specific details and recommendations.</p>
+            
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="summary-stat-label">Overall Compliance</div>
+                    <div class="summary-stat-value non-compliant">55.6%</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-label">Total Checks</div>
+                    <div class="summary-stat-value">133</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-label">Passed</div>
+                    <div class="summary-stat-value compliant">74</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-label">Failed</div>
+                    <div class="summary-stat-value non-compliant">37</div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="critical-findings">
+            <h3>Critical Findings</h3>
+            <ul class="critical-list">
+                <li><span class="finding-req">Req 2</span> [FAIL] Default Security Groups</li><li><span class="finding-req">Req 2</span> [FAIL] RDS Encryption</li><li><span class="finding-req">Req 3</span> [FAIL] AWS API Access: dynamodb list-tables</li><li><span class="finding-req">Req 4</span> [FAIL] 4.2.1 - TLS Implementation</li><li><span class="finding-req">Req 5</span> [FAIL] 5.2.1 - Anti-malware protection deployment</li><li><span class="finding-req">Req 6</span> [FAIL] AWS API Access: codebuild list-projects</li><li><span class="finding-req">Req 6</span> [FAIL] AWS API Access: codepipeline list-pipelines</li><li><span class="finding-req">Req 7</span> [FAIL] AWS API Access: accessanalyzer list-analyzers</li><li><span class="finding-req">Req 7</span> [FAIL] 7.2.2 - Least Privilege Assignment</li><li><span class="finding-req">Req 8</span> [FAIL] AWS CLI Access: accessanalyzer list-analyzers</li>
+            </ul>
+        </div>
+        
+        
+        <h2>Quick Navigation</h2>
+        <div class="req-nav">
+            <a href="#req-card-1">REQ 1</a><a href="#req-card-2">REQ 2</a><a href="#req-card-3">REQ 3</a><a href="#req-card-4">REQ 4</a><a href="#req-card-5">REQ 5</a><a href="#req-card-6">REQ 6</a><a href="#req-card-7">REQ 7</a><a href="#req-card-8">REQ 8</a><a href="#req-card-9">REQ 9</a><a href="#req-card-10">REQ 10</a>
+        </div>
+        
+        <h2>Requirements Summary</h2>
+        <div class="requirements-grid">
+            <div class="grid-item">
+        <div class="req-card" id="req-card-1">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 1</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 1 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value partial">Partially Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">78.9%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">15/19</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-1')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (2)</span>
+                    </div>
+                    <div class="section-content" id="section-1">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-1-0')">
+                        <span class="toggle-icon">+</span> [FAIL] 1.2.6 - Security features for insecure services/protocols
+                    </div>
+                    <div class="finding-content" id="finding-1-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>Analysis of insecure services/protocols in security groups:</p><ul><li>VPC: vpc-0a8c26974d77ff661</li><ul></ul><li>VPC: vpc-0fd45e6a</li><ul><li>Security Group: sg-0545ed506b8930369 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-)<ul><li class="red">Allows FTP (port 21) - Insecure cleartext protocol from:</li><ul></ul></ul></li><li>Security Group: sg-dfac9bba (launch-wizard-1)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-30a39455 (default)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-3222b656 (rds-launch-wizard-2)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0522b661 (rds-launch-wizard-3)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li></ul><li>VPC: vpc-49abc32c</li><ul><li>Security Group: sg-f9ee5a9d (company)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-b1518dd6 (idanbean-windows-candleadvpc)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-fd37da99 (default)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-05d37ad09ee243196 (idanticket_rds)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-1c59307b (rds-launch-wizard-4)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0f40b827b57e9d7a0 (howcool-db-security-group)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-045229517cfc9e25f (howcool-db-instance)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-02009d08d275f787a (callcarbar_rds)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-038e1df7c2f6fb7b0 (SG_EIP)<ul><li class="red">Allows FTP (port 21) - Insecure cleartext protocol from:</li><ul></ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-05b067742a04a9e46 (SG_WebData)<ul><li class="red">Allows FTP (port 21) - Insecure cleartext protocol from:</li><ul></ul></ul></li><li>Security Group: sg-03970624c95e95b42 (ec2-rds-1)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0c701ec9315ee121c (CathaylifeServer)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0be7cff8ceb56063a (SC_IT_ACCESS_DB)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-ac796ccb (peering-vpn)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-4677b922 (rds-launch-wizard-1)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-03d0b10673fe15909 (rds-ec2-1)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0b84eee5cf22ebad5 (ai-data-db)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-0d9afe37e48a45b47 (HowCoolAPP)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-8d7c91e9 (Roles_DBServer)<ul><li class="yellow">Allows SQL Server (port 1433) - Ensure encryption is in use from:</li><ul></ul></ul></li><li>Security Group: sg-01369e79dc868e290 (howcool-db)<ul><li class="yellow">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul></ul></ul></li></ul></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-1-1')">
+                        <span class="toggle-icon">+</span> [FAIL] 1.2.7 - NSC configuration monitoring
+                    </div>
+                    <div class="finding-content" id="finding-1-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>AWS Config is not enabled in this region.</p><p>Automated configuration monitoring is recommended.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-2">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 2</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 2 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">50.0%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">9/18</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-2')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (9)</span>
+                    </div>
+                    <div class="section-content" id="section-2">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-0')">
+                        <span class="toggle-icon">+</span> [FAIL] Default Security Groups
+                    </div>
+                    <div class="finding-content" id="finding-2-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><div class="summary-details">3 default security groups have non-restrictive inbound rules.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-1')">
+                        <span class="toggle-icon">+</span> [FAIL] RDS Encryption
+                    </div>
+                    <div class="finding-content" id="finding-2-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>3 RDS instances are not encrypted</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-2')">
+                        <span class="toggle-icon">+</span> [FAIL] RDS Default Ports
+                    </div>
+                    <div class="finding-content" id="finding-2-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>4 RDS instances using default ports</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-3')">
+                        <span class="toggle-icon">+</span> [FAIL] S3 Public Access
+                    </div>
+                    <div class="finding-content" id="finding-2-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><div class="summary-details">12 S3 buckets have public access</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-4')">
+                        <span class="toggle-icon">+</span> [FAIL] 2.2.5 - Insecure Services with Justification
+                    </div>
+                    <div class="finding-content" id="finding-2-4">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><div class="summary-details">Insecure services detected in security groups</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-5')">
+                        <span class="toggle-icon">+</span> [FAIL] Password Policy
+                    </div>
+                    <div class="finding-content" id="finding-2-5">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>IAM password policy does not meet PCI DSS requirements</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-6')">
+                        <span class="toggle-icon">+</span> [FAIL] TLS Configuration
+                    </div>
+                    <div class="finding-content" id="finding-2-6">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>1 load balancers using insecure TLS policies</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-7')">
+                        <span class="toggle-icon">+</span> [FAIL] Unused Security Groups
+                    </div>
+                    <div class="finding-content" id="finding-2-7">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><div class="summary-details">82 unused security groups found</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-2-8')">
+                        <span class="toggle-icon">+</span> [FAIL] Internet-Exposed Ports
+                    </div>
+                    <div class="finding-content" id="finding-2-8">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><div class="summary-details">62 instances of high-risk ports exposed to the internet</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-3">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 3</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 3 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">42.9%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">9/21</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-3')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (1)</span>
+                    </div>
+                    <div class="section-content" id="section-3">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-3-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: dynamodb list-tables
+                    </div>
+                    <div class="finding-content" id="finding-3-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-4">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 4</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 4 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">66.7%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">2/3</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-4')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (1)</span>
+                    </div>
+                    <div class="section-content" id="section-4">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-4-0')">
+                        <span class="toggle-icon">+</span> [FAIL] 4.2.1 - TLS Implementation
+                    </div>
+                    <div class="finding-content" id="finding-4-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>According to PCI DSS Requirement 4.2.1 [cite: 1232-1236], strong cryptography and security protocols must be implemented to safeguard PAN during transmission over open, public networks, including:</p><ul><li>Only trusted keys and certificates are accepted</li><li>The protocol supports only secure versions or configurations</li><li>The encryption strength is appropriate for the encryption methodology in use</li></ul>Checking Classic Load Balancers...
+Checking Application Load Balancers...
+Checking Network Load Balancers...
+Checking CloudFront Distributions...
+Checking API Gateway APIs...
+<p>No Classic Load Balancers found in region ap-northeast-1.</p><p>Analysis of Application Load Balancers:</p><ul><li>Application Load Balancer: roamingbar-callcarbar - Not using HTTPS (not applicable)</li><li>Application Load Balancer: canlead - Not using HTTPS (not applicable)</li><li>Application Load Balancer: Canlead-Prod-alb - Not using HTTPS (not applicable)</li><li>Application Load Balancer: Canlead-Internal-ALB - Not using HTTPS (not applicable)</li></ul><p>Analysis of Network Load Balancers:</p><ul><li>Network Load Balancer: canleadfix - Not using TLS (not applicable)</li></ul><p>Analysis of CloudFront Distributions:</p><ul><li>CloudFront Distribution: E26T37XKY7C72Z<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E23T5T6VAGPOZT<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E1QX8JGZW82OB6<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E2DJCU9T0HM45T<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E11VVW7CYPBO3Y<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E3I1GEGDYIVT2Y<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E2A73HAO27ORO1<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E2EDYNOCBMDDIP<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E1OWQJZVEDMA0L<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E2XE1FT5F5TNPM<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E3Q9F4Y53EOCAL<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E1TSTVIV1W9GAU<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: EIUESTCVYDT3N<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E34RFURD0DLB6R<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E6SFGTKPPGTV6<ul><li class="red">Uses deprecated minimum protocol version: TLSv1</li></ul></li><li>CloudFront Distribution: EPQ3LVLDDQ21E<ul><li class="yellow">Uses deprecated minimum protocol version: TLSv1.1_2016 (TLSv1.1)</li></ul></li><li>CloudFront Distribution: E2RIZIM7E9HHJF - Using secure TLS configuration</li></ul><p>Analysis of API Gateway APIs:</p><ul><li>API Gateway: serverless-payment-Prod (190o8yjvf5)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: qrcodev2api (1sexq4kaff)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: serverless-payment-Beta (42fqt6qhih)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: REST_API_For_ELK (9kwbddn119)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: QRCodeAPI (a5f9dkq1fd)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: quicksliver (c9gjcrgj7k)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: sqltest (kubd7pytx6)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: quickSliver_test (l21t7zwsfb)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: quickSliverTest (ls74qd8knf)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: canlead-line-demo (lxst8spzc9)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: vpctest (pz78kkqw59)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: postoffice-ticket (qau2seosmc)<ul><li class="yellow">Unknown security policy: None</li></ul></li><li>API Gateway: postoffice-ticket-test (wofbl6cf1j)<ul><li class="yellow">Unknown security policy: None</li></ul></li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-5">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 5</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 5 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">0.0%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">0/5</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-5')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (1)</span>
+                    </div>
+                    <div class="section-content" id="section-5">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-5-0')">
+                        <span class="toggle-icon">+</span> [FAIL] 5.2.1 - Anti-malware protection deployment
+                    </div>
+                    <div class="finding-content" id="finding-5-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking access to aws ssm describe-instance-information...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws ssm list-inventory-entries...
+Checking access to aws guardduty list-detectors...
+Checking access to aws guardduty get-malware-protection-plan...
+<p>Analysis of EC2 instances in region ap-northeast-1 for anti-malware protection:</p><ul><li class="red">Instance i-a127543e (roamingbar_test_A) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-071d0f249b9107b34 (TC_MAIL SERVER 2019) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0320d6958f1130cc4 (TC2020_WebService .Net 4.7(Win2019) - 121) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-07832b92e07a9d791 (TC2020_Web_Data_Server(Win2019)) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0ac24b6e0e1d365d9 (HOWCOOLAPP(會員註冊相關的api)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0c801c589ae47238b (howcool-ec2(API及後台)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-00f9c35644f571e4e (*.canlead.com.tw) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0066f11a50c8f9a30 (callcarbar-roamingbar-1a-2(主機重啟服務要重啟)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0120901c8f66ccbd4 (DevOps(叫車吧官網)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-035d346d5fa8238ec (callcarbar-roamingbar-1d-2(主機重啟服務要重啟)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-064dc50f987741eeb (MR) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0215f322323767519 (TC2023_API1) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-016cdf24e5f52fe96 (TC2023_API2) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0020697bb29dafe9e (TC2023_Encryption_Server) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0553e1e45bfbf5ec0 (TC2023_EIP(Win2022)) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0f45a06ebf9928cb8 (TC_AD SERVER) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0df0d2441bfebc149 (TC_2FA) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-09396cc89ec3c5304 (TC2024_DB1) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-03512dcd394d19ee1 (TC2024_Web4) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-02a11b269a0b653ac (TC_SoncarQube) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0e305ff787a4f68ea (TC_LogServer(ELK)) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-09760762c31b5d00d (TC_FTP_SERVER_2022) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0c5c5efd673e05f8a (TC2024_DB2(Win2022、SQL2022)) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-003a56f91b524dafb (TC_JUMP SERVER) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0bfe6ca258f5c31fd (TC2024_API3) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0680df0fb6169316a (TC_FIM) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0559255fb00d02179 (canlead-ecs-EcsAsg-AB5W3QSGIXL7-ecs-instance) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0439cbd773b750d31 (TC2024_Web3) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0cfca153a67edf2b6 (TC2024_Web2) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0a4dba48e35d9a332 (TC2024_Web1) - Platform: windows - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-09a2f05548be02294 (canlead-ecs-EcsAsg-AB5W3QSGIXL7-ecs-instance) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-06913a4d546e38fef (PCI-DSS_Audit) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li><li class="red">Instance i-0efdd28fd2e9e9ab8 (Proxy-Server) - Platform: Linux/UNIX - No anti-malware tag found. Unable to determine if anti-malware is installed.</li></ul><p>Checking for SSM managed instances with anti-malware:</p><ul><li class="red">Instance i-00f9c35644f571e4e (*.canlead.com.tw) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-071d0f249b9107b34 (TC_MAIL SERVER 2019) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-09760762c31b5d00d (TC_FTP_SERVER_2022) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-064dc50f987741eeb (MR) - Platform: Linux/UNIX - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-09396cc89ec3c5304 (TC2024_DB1) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0c5c5efd673e05f8a (TC2024_DB2(Win2022、SQL2022)) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-016cdf24e5f52fe96 (TC2023_API2) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0a4dba48e35d9a332 (TC2024_Web1) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0bfe6ca258f5c31fd (TC2024_API3) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-07832b92e07a9d791 (TC2020_Web_Data_Server(Win2019)) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0020697bb29dafe9e (TC2023_Encryption_Server) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-003a56f91b524dafb (TC_JUMP SERVER) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-03512dcd394d19ee1 (TC2024_Web4) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0439cbd773b750d31 (TC2024_Web3) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0cfca153a67edf2b6 (TC2024_Web2) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0553e1e45bfbf5ec0 (TC2023_EIP(Win2022)) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-06913a4d546e38fef (PCI-DSS_Audit) - Platform: Linux/UNIX - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0215f322323767519 (TC2023_API1) - Platform: windows - No known anti-malware software found in SSM inventory.</li><li class="red">Instance i-0f45a06ebf9928cb8 (TC_AD SERVER) - Platform: windows - No known anti-malware software found in SSM inventory.</li></ul><p>Checking for GuardDuty malware protection:</p><p class="red">GuardDuty Malware Protection plan not found for detector 1ac543cd88948d65f809813b91366c78 in region ap-northeast-1.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-6">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 6</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 6 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">57.1%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">8/14</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-6')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (5)</span>
+                    </div>
+                    <div class="section-content" id="section-6">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-6-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: codebuild list-projects
+                    </div>
+                    <div class="finding-content" id="finding-6-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-6-1')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: codepipeline list-pipelines
+                    </div>
+                    <div class="finding-content" id="finding-6-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-6-2')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: cloudformation list-stacks
+                    </div>
+                    <div class="finding-content" id="finding-6-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-6-3')">
+                        <span class="toggle-icon">+</span> [FAIL] 6.3.1 - Vulnerability scanning with AWS Inspector
+                    </div>
+                    <div class="finding-content" id="finding-6-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p><span class="red">AWS Inspector is not enabled or configured in this region.</span></p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-6-4')">
+                        <span class="toggle-icon">+</span> [FAIL] 6.3.2 - Container image vulnerability scanning
+                    </div>
+                    <div class="finding-content" id="finding-6-4">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>Analyzing vulnerability scanning configuration for ECR repositories:</p><ul><li><span class="red">Repository 'callcarbar_admin_scratch' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'callcarbar_admin_scratch' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'postoffice-ticket-log-backup' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'postoffice-ticket-log-backup' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'idanline-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'idanline-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'idanline-golang-builder' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'idanline-golang-builder' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'adamwarlock-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'adamwarlock-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'detect-alb-ip' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'detect-alb-ip' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'canlead-ticket' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'canlead-ticket' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'cyclops' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'cyclops' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'applestore/vue-amplify' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'applestore/vue-amplify' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-staging' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-staging' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'webservice-develop' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'webservice-develop' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-golang-builder' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-golang-builder' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ecs-task-log-backup' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ecs-task-log-backup' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'magneto-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'magneto-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'callcarbar-edm' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'callcarbar-edm' has mutable image tags, which can introduce security risks</span></li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-7">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 7</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 7 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">52.9%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">9/17</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-7')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (6)</span>
+                    </div>
+                    <div class="section-content" id="section-7">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: accessanalyzer list-analyzers
+                    </div>
+                    <div class="finding-content" id="finding-7-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-1')">
+                        <span class="toggle-icon">+</span> [FAIL] 7.2.2 - Least Privilege Assignment
+                    </div>
+                    <div class="finding-content" id="finding-7-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking for least privilege principles in IAM policies...
+<p>Analysis of IAM policies for least privilege violations:</p><ul><li style='margin-bottom: 15px;'><strong>Policy:</strong> full_elastic_search (arn:aws:iam::366205796862:policy/full_elastic_search)<br><strong>Violations:</strong> 1<br><ul><li>Policy allows broad actions ('es:*') on all resources ('Resource': '*')</li></ul><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "es:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li><li style='margin-bottom: 15px;'><strong>Policy:</strong> cloudformation_full_access (arn:aws:iam::366205796862:policy/cloudformation_full_access)<br><strong>Violations:</strong> 1<br><ul><li>Policy allows broad actions ('cloudformation:*') on all resources ('Resource': '*')</li></ul><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": "cloudformation:*",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li></ul><p class='yellow'>Note: This check detects obvious violations of least privilege principles. A complete review should include all policies including inline and AWS managed policies.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-2')">
+                        <span class="toggle-icon">+</span> [FAIL] 7.2.4 - User Account Reviews
+                    </div>
+                    <div class="finding-content" id="finding-7-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking for evidence of access reviews...
+Checking CloudTrail events for DeleteUserPolicy...
+Checking CloudTrail events for DetachUserPolicy...
+Checking CloudTrail events for DetachRolePolicy...
+<p class='yellow'>No clear evidence of access reviews found in CloudTrail events in the last 180 days.</p><p>PCI DSS requires that all user accounts and related access privileges be reviewed at least once every six months.</p><p class='yellow'>AWS IAM Access Analyzer is not enabled.</p><p>IAM Access Analyzer helps identify resources that are shared with external entities and can be used as part of the access review process.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-3')">
+                        <span class="toggle-icon">+</span> [FAIL] 7.2.5 - System Account Management (Inactive Users)
+                    </div>
+                    <div class="finding-content" id="finding-7-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking for inactive IAM users...
+<p>Analysis of inactive IAM users (no login for more than 90 days):</p><table style='width: 100%; border-collapse: collapse; margin-bottom: 15px;'><tr style='background-color: #f0f0f0;'><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>User Name</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Last Activity</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Days Inactive</th><th style='padding: 8px; border: 1px solid #ddd; text-align: left;'>Access Keys</th></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>callcarbackend</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2021-07-27T04:37:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>1368</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Inactive)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>callcarbar</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-04-30T04:07:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>360</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>daidai9159</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-07T03:56:42+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>261</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>Johnny_howcool</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-12-10T09:59:29+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>135</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>joyen</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-07T06:22:50+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>261</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>kao14376</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-09-09T08:04:17+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>228</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>mgc.paul.dev@gmail.com</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-10-28T13:36:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>178</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>paul_hung</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-28T11:11:24+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>239</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>peiyu</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-12-25T05:25:40+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>121</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>roamingbar</td><td style='padding: 8px; border: 1px solid #ddd;'>Access Key (AKIA[REDACTED-ACCESS-KEY]) last used: 2024-12-11T07:23:00+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>135</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>ses-smtp-user.20191212-202543</td><td style='padding: 8px; border: 1px solid #ddd;'>Created (never logged in): 2019-12-12T12:26:03+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>1960</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>star_lin</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2023-08-05T10:44:05+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>628</td><td style='padding: 8px; border: 1px solid #ddd;'>AKIA[REDACTED-ACCESS-KEY] (Active)<br>AKIA[REDACTED-ACCESS-KEY] (Active)<br></td></tr><tr style='background-color: #ffebee;'><td style='padding: 8px; border: 1px solid #ddd;'>t0545886</td><td style='padding: 8px; border: 1px solid #ddd;'>Last login: 2024-08-08T01:16:38+00:00</td><td style='padding: 8px; border: 1px solid #ddd;'>260</td><td style='padding: 8px; border: 1px solid #ddd;'>No access keys</td></tr></table></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-4')">
+                        <span class="toggle-icon">+</span> [FAIL] 7.3.2 - Access Control System Configuration (Direct Policies)
+                    </div>
+                    <div class="finding-content" id="finding-7-4">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking for direct policy attachments to IAM users...
+<p>Analysis of IAM users with direct policy attachments:</p><ul><li style='margin-bottom: 15px;'><strong>User:</strong> callcarbackend (arn:aws:iam::366205796862:user/callcarbackend)<br><strong>Attached Policies:</strong><ul><li>AWSIoTFullAccess (arn:aws:iam::aws:policy/AWSIoTFullAccess)</li><li>AmazonSESFullAccess (arn:aws:iam::aws:policy/AmazonSESFullAccess)</li><li>AmazonSQSFullAccess (arn:aws:iam::aws:policy/AmazonSQSFullAccess)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> idanticket_backend (arn:aws:iam::366205796862:user/idanticket_backend)<br><strong>Attached Policies:</strong><ul><li>AmazonSQSFullAccess (arn:aws:iam::aws:policy/AmazonSQSFullAccess)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> Johnny_howcool (arn:aws:iam::366205796862:user/Johnny_howcool)<br><strong>Attached Policies:</strong><ul><li>AmazonEC2FullAccess (arn:aws:iam::aws:policy/AmazonEC2FullAccess)</li><li>AmazonRDSFullAccess (arn:aws:iam::aws:policy/AmazonRDSFullAccess)</li><li>AdministratorAccess (arn:aws:iam::aws:policy/AdministratorAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> johnson (arn:aws:iam::366205796862:user/johnson)<br><strong>Attached Policies:</strong><ul><li>AWSWAFConsoleFullAccess (arn:aws:iam::aws:policy/AWSWAFConsoleFullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> KMS_USER (arn:aws:iam::366205796862:user/KMS_USER)<br><strong>Attached Policies:</strong><ul><li>AWSKeyManagementServicePowerUser (arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> mgc.paul.dev@gmail.com (arn:aws:iam::366205796862:user/mgc.paul.dev@gmail.com)<br><strong>Attached Policies:</strong><ul><li>AmazonRoute53FullAccess (arn:aws:iam::aws:policy/AmazonRoute53FullAccess)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> pci_assessor (arn:aws:iam::366205796862:user/pci_assessor)<br><strong>Attached Policies:</strong><ul><li>PCI_DSS_Assessor (arn:aws:iam::366205796862:policy/PCI_DSS_Assessor)</li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> s3 (arn:aws:iam::366205796862:user/s3)<br><strong>Attached Policies:</strong><ul><li>AmazonSNSFullAccess (arn:aws:iam::aws:policy/AmazonSNSFullAccess)</li><li>AmazonSNSRole (arn:aws:iam::aws:policy/service-role/AmazonSNSRole)</li><li>AmazonDynamoDBFullAccess (arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess)</li><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li><li>AWSCompromisedKeyQuarantine (arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantine)</li></ul><strong>Inline Policies:</strong><ul><li>AWSCompromisedKeyQuarantine_S3<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Deny",
+    "Action": [
+      "s3:*"
+    ],
+    "Resource": "*"
+  }
+}</pre></details></li><li>idancallcarbar<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::586290937385:role/cross-dev"
+    }
+  ]
+}</pre></details></li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> ses-smtp-user.20191212-202543 (arn:aws:iam::366205796862:user/ses-smtp-user.20191212-202543)<br><strong>Inline Policies:</strong><ul><li>AmazonSesSendingAccess<br><details><summary>View Policy JSON</summary><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "ses:SendRawEmail",
+      "Resource": "*"
+    }
+  ]
+}</pre></details></li></ul></li><li style='margin-bottom: 15px;'><strong>User:</strong> SYNC_S3 (arn:aws:iam::366205796862:user/SYNC_S3)<br><strong>Attached Policies:</strong><ul><li>AmazonS3FullAccess (arn:aws:iam::aws:policy/AmazonS3FullAccess)</li></ul></li></ul><p class='yellow'><strong>Note:</strong> Direct policy attachments to users can make access management more difficult. Consider using IAM groups for policy management instead.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-7-5')">
+                        <span class="toggle-icon">+</span> [FAIL] 7.3.2 - Access Control System Configuration (Admin Policies)
+                    </div>
+                    <div class="finding-content" id="finding-7-5">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Checking for IAM policies with administrative privileges...
+<p>Analysis of IAM policies with administrative privileges:</p><div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'><strong>Policy Name:</strong> attifact_accept_argeement<br><strong>Policy ARN:</strong> arn:aws:iam::366205796862:policy/attifact_accept_argeement<br><strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br><strong>Policy Document:</strong><br><pre style='background-color: #f5f5f5; padding: 10px; overflow: auto;'>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "artifact:AcceptAgreement"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}</pre></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-8">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 8</span>
+                <h3 class="req-title">PCI DSS v4.0.1 - Requirement 8 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">50.0%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">5/10</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-8')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (4)</span>
+                    </div>
+                    <div class="section-content" id="section-8">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-8-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS CLI Access: accessanalyzer list-analyzers
+                    </div>
+                    <div class="finding-content" id="finding-8-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>You do not have sufficient permissions to execute <code>aws accessanalyzer list-analyzers</code>.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-8-1')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS CLI Access: configservice describe-configuration-recorders
+                    </div>
+                    <div class="finding-content" id="finding-8-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>You do not have sufficient permissions to execute <code>aws configservice describe-configuration-recorders</code>.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-8-2')">
+                        <span class="toggle-icon">+</span> [FAIL] 8.3.6 - Password/Passphrase Requirements
+                    </div>
+                    <div class="finding-content" id="finding-8-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>Current IAM password policy settings:</p><ul><li>Minimum password length: 6 characters <span class='red'>(FAIL: PCI DSS requires at least 12 characters)</span></li><li>Require symbols:         "RequireSymbols": false, <span class='green'>(PASS)</span></li><li>Require numbers:         "RequireNumbers": false, <span class='green'>(PASS)</span></li><li>Require uppercase characters:         "RequireUppercaseCharacters": false, <span class='green'>(PASS)</span></li><li>Require lowercase characters:         "RequireLowercaseCharacters": false, <span class='green'>(PASS)</span></li><li>Password reuse prevention: Not set <span class='red'>(FAIL: PCI DSS requires remembering at least 4 previous passwords)</span></li><li>Maximum password age: Not set <span class='red'>(FAIL: PCI DSS requires passwords to be changed at least every 90 days)</span></li><li>Require password reset on first login:         "HardExpiry": false <span class='green'>(PASS)</span></li></ul><p><strong>Recommendations:</strong></p><ul><li>Increase minimum password length to at least 12 characters</li><li>Enable password history to remember at least 4 previous passwords</li><li>Set maximum password age to 90 days or less</li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-8-3')">
+                        <span class="toggle-icon">+</span> [FAIL] 8.4.2 - Multi-Factor Authentication
+                    </div>
+                    <div class="finding-content" id="finding-8-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p><span class='green'>✓ Root account has MFA enabled.</span></p><p>IAM User MFA Status:</p><table border='1' cellpadding='5'>
+        <tr>
+            <th>Username</th>
+            <th>MFA Enabled</th>
+            <th>Password Enabled</th>
+            <th>Access Keys</th>
+            <th>Last Activity</th>
+        </tr><tr>
+                <td>brian810065</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>callcarbackend</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Inactive) - Last used: 2018-08-07T14:53:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2021-07-27T04:37:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>callcarbar</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-04-30T04:07:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>daidai9159</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>idanticket_backend</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:56:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>jay</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr class='red'>
+                <td>Johnny_howcool</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2023-03-14T06:46:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>johnson</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:57:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>joyen</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>kao14376</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>KMS_USER</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:21:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr class='red'>
+                <td>mgc.paul.dev@gmail.com</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-10-28T13:36:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>paul_hung</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2019-09-05T03:40:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>pci_assessor</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:01:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>peiyu</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>phlan_chung</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2017-02-21T08:46:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>rayhuang</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>roamingbar</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2024-12-11T07:23:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2023-01-11T16:00:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>s3</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-24T05:05:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>ses-smtp-user.20191212-202543</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: Never used</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>star_lin</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2017-09-21T03:20:00+00:00<br>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2020-04-28T01:47:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>SYNC_S3</td>
+                <td>No</td>
+                <td>No</td>
+                <td>AKIA[REDACTED-ACCESS-KEY] (Active) - Last used: 2025-04-25T01:53:00+00:00</td>
+                <td>Unknown</td>
+            </tr><tr>
+                <td>t0545886</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>None</td>
+                <td>Unknown</td>
+            </tr></table><p>Summary: 12 out of 23 users have MFA enabled.</p><p><span class='red'>The following users have console access but do not have MFA enabled: Johnny_howcool, mgc.paul.dev@gmail.com</span></p><p>Analyzing IAM roles for MFA enforcement in trust policies:</p><ul><li>Role: adamwarlock-golang-CodePi-CloudFormationExecutionR-DXJAG437XH39 - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodePipel-PipelineExecutionRole-5DJ239Q0BRSE - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodePipeli-CodeBuildServiceRole-11U4ZI9QJSBD5 - Service role, MFA not applicable</li><li>Role: adamwarlock-golang-CodeRe-LambdaTriggerPipelineExe-OCNTQYI68KMT - Service role, MFA not applicable</li><li>Role: alb_cloudwatch_log - Service role, MFA not applicable</li><li>Role: AmazonEC2RoleForLaunchWizard - Service role, MFA not applicable</li><li>Role: AmazonSSMRoleForInstancesQuickSetup - Service role, MFA not applicable</li><li>Role: amplifyconsole-backend-role - Service role, MFA not applicable</li><li>Role: apocalypse_test - Service role, MFA not applicable</li><li>Role: apple-canlead-production-20200316033534-authRole - Service role, MFA not applicable</li><li>Role: apple-canlead-production-20200316033534-unauthRole - Service role, MFA not applicable</li><li>Role: apple-canlead-stage-20200316030613-authRole - Service role, MFA not applicable</li><li>Role: apple-canlead-stage-20200316030613-unauthRole - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePip-CloudFormationExecutionR-B1A0QM0B9I6M - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePipeli-PipelineExecutionRole-YP4K5KI4410E - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodePipelin-CodeBuildServiceRole-1R9S8AVTE9EPF - Service role, MFA not applicable</li><li>Role: apple-canlead-vue-CodeRep-LambdaTriggerPipelineExe-NQOT1RS1EFUL - Service role, MFA not applicable</li><li>Role: apple-dbs-product-20190703025730-authRole - Service role, MFA not applicable</li><li>Role: apple-dbs-product-20190703025730-unauthRole - Service role, MFA not applicable</li><li>Role: apple-dbs-stage-20190702094009-authRole - Service role, MFA not applicable</li><li>Role: apple-dbs-stage-20190702094009-unauthRole - Service role, MFA not applicable</li><li>Role: applestore-refactor-CodeBuild-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: applestore-refactor-CodePipeline-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeli-CloudFormationExecutionR-1H0V0NX2ESE2B - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeline-L-CodeBuildServiceRole-1WC5M3BV4TK49 - Service role, MFA not applicable</li><li>Role: applestore-vue-CodePipeline-PipelineExecutionRole-1QVTORIDY6KYE - Service role, MFA not applicable</li><li>Role: applestore-vue-CodeReposi-LambdaTriggerPipelineExe-IQPNHRWL22DM - Service role, MFA not applicable</li><li>Role: apple_product_crawler-role-r07r1lze - Service role, MFA not applicable</li><li>Role: aws-ec2-spot-fleet-role - Service role, MFA not applicable</li><li>Role: aws-ec2-spot-fleet-tagging-role - Service role, MFA not applicable</li><li>Role: aws-elasticbeanstalk-ec2-role - Service role, MFA not applicable</li><li>Role: aws-elasticbeanstalk-service-role - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-DefaultEC2MgmtRole-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableAREX-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableDHMC-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-EnableExplorer-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-LifecycleManagement-LA-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-LocalAdministrationRole - Service role, MFA not applicable</li><li><span class='yellow'>Role: AWS-QuickSetup-SSM-LocalExecutionRole - Used by humans but does not enforce MFA</span></li><li>Role: AWS-QuickSetup-SSM-ManageInstanceProfile-8v0jn - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-SSM-ManageResources-LA-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-QuickSetup-StackSet-Local-AdministrationRole - Service role, MFA not applicable</li><li><span class='yellow'>Role: AWS-QuickSetup-StackSet-Local-ExecutionRole - Used by humans but does not enforce MFA</span></li><li>Role: aws-quicksight-service-role-v0 - Service role, MFA not applicable</li><li>Role: AWS-SSM-DiagnosisAdminRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-DiagnosisExecutionRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-RemediationAdminRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWS-SSM-RemediationExecutionRole-366205796862-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: AWSBackupDefaultServiceRole - Service role, MFA not applicable</li><li>Role: AWSCodePipelineServiceRole-ap-northeast-1-postoffice-ticket - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonElasticFileSystem - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonGuardDuty - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonGuardDutyMalwareProtection - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAmazonSSM - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAPIGateway - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForApplicationAutoScaling_DynamoDBTable - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForApplicationAutoScaling_ECSService - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForAutoScaling - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForCloudFrontLogger - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForCloudTrail - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForConfig - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForDMSServerless - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForEC2Spot - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForEC2SpotFleet - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForECS - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForElastiCache - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForElasticLoadBalancing - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForGlobalAccelerator - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForLambdaReplicator - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForOrganizations - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForRDS - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForResourceExplorer - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForServiceQuotas - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSSMQuickSetup - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSSO - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForSupport - Service role, MFA not applicable</li><li>Role: AWSServiceRoleForTrustedAdvisor - Service role, MFA not applicable</li><li>Role: callcarbar - Service role, MFA not applicable</li><li>Role: callcarbar-airport-production-20190723035101-authRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-production-20190723035101-unauthRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-stage-20190723031611-authRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-stage-20190723031611-unauthRole - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-Co-CloudFormationExecutionR-QIML4BEFRX6L - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-Co-LambdaTriggerPipelineExe-1ULP0WVC1BDS8 - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-CodeP-PipelineExecutionRole-1WR95ZNHHSU6C - Service role, MFA not applicable</li><li>Role: callcarbar-airport-vue-CodePi-CodeBuildServiceRole-1JUE06LQGMO35 - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-Cod-CloudFormationExecutionR-J9CYX0F39M9J - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-Cod-LambdaTriggerPipelineExe-ID288UWON01B - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-CodePi-PipelineExecutionRole-176100PI71CTJ - Service role, MFA not applicable</li><li>Role: callcarbar-edm-golang-CodePip-CodeBuildServiceRole-8OJBUTZE2JYY - Service role, MFA not applicable</li><li>Role: canlead-cms-production-20200129094535-authRole - Service role, MFA not applicable</li><li>Role: canlead-cms-production-20200129094535-unauthRole - Service role, MFA not applicable</li><li>Role: canlead-cms-stage-20200129070518-authRole - Service role, MFA not applicable</li><li>Role: canlead-cms-stage-20200129070518-unauthRole - Service role, MFA not applicable</li><li>Role: canlead-ecs-CodeRepositor-LambdaSlackExecutionRole-12JXKUJCZIQ29 - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3Q-ECSDefaultAutoScalingRol-EU5W6MN26L3C - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3Q-EventECSScheduleTaskRole-E68JORIIICBJ - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSG-SNSLambdaExecutionRole-1NMZNKIJ6KXXI - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGI-ECSDefaultServiceRole-1FX1RW0RT1R2B - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIX-ECSServiceRoleForEC2-XS8NLU6H940Y - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL-LambdaExecutionRole-1E2QUXVVCJAAE - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-ECSDefaultTaskRole-1WRF8QHHJCB2 - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-ECSLogTaskRole-17U5R0DKBVACL - Service role, MFA not applicable</li><li>Role: canlead-ecs-EcsAsg-AB5W3QSGIXL7-SNSLambdaRole-ZIG08M0N0Q5D - Service role, MFA not applicable</li><li>Role: canlead-line-demo-role-a5jjdb8n - Service role, MFA not applicable</li><li>Role: canlead-sftp-user - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipeli-CloudFormationExecutionR-1BJZ02VNX615E - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipelineE-PipelineExecutionRole-PPD4SXXC5U4D - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodePipelineEC-CodeBuildServiceRole-1HMHJMQ5NW24H - Service role, MFA not applicable</li><li>Role: canlead-ticket-CodeReposi-LambdaTriggerPipelineExe-BO81TS39ZRE8 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodeP-CloudFormationExecutionR-4JD96WNRDZH3 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodePipe-PipelineExecutionRole-1GY6ZSHL5SSL5 - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodePipel-CodeBuildServiceRole-1AXKM1IJJ6I6S - Service role, MFA not applicable</li><li>Role: canleadgroup-golang-CodeR-LambdaTriggerPipelineExe-1WHMSEZD5LTEG - Service role, MFA not applicable</li><li>Role: Canlead_TransferFamily_TO_S3 - Service role, MFA not applicable</li><li><span class='yellow'>Role: cc-iam-stack-IamRole-X19VNPOWJVUC - Used by humans but does not enforce MFA</span></li><li>Role: cms-vue-CodePipeline-GKRZ-CloudFormationExecutionR-152KWT1MY8L7H - Service role, MFA not applicable</li><li>Role: cms-vue-CodePipeline-GKRZLIQ-PipelineExecutionRole-1DOK29R9CZPTQ - Service role, MFA not applicable</li><li>Role: cms-vue-CodePipeline-GKRZLIQH-CodeBuildServiceRole-KTE4CA6TULS0 - Service role, MFA not applicable</li><li>Role: cms-vue-CodeRepository-1G-LambdaTriggerPipelineExe-1K76UR9NCF3QW - Service role, MFA not applicable</li><li>Role: codebuild-postoffice-ticket-service-role - Service role, MFA not applicable</li><li>Role: codebuild-postoffice-ticket-stage-role - Service role, MFA not applicable</li><li>Role: codeDeploy - Service role, MFA not applicable</li><li>Role: CodeDeployServiceRole - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarAuth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarTestAuth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarTestUnauth_Role - Service role, MFA not applicable</li><li>Role: Cognito_callcarbarUnauth_Role - Service role, MFA not applicable</li><li>Role: cwe-role-ap-northeast-1-postoffice-ticket - Service role, MFA not applicable</li><li>Role: dbmigrate - Service role, MFA not applicable</li><li>Role: demo-function - Service role, MFA not applicable</li><li>Role: detect-alb-ip - Service role, MFA not applicable</li><li>Role: devops - Service role, MFA not applicable</li><li>Role: dms-cloudwatch-logs-role - Service role, MFA not applicable</li><li>Role: dms-vpc-role - Service role, MFA not applicable</li><li>Role: DynamoDBAutoscaleRole - Service role, MFA not applicable</li><li>Role: EC2codeDeploy - Service role, MFA not applicable</li><li>Role: ecsEventsRole - Service role, MFA not applicable</li><li>Role: ecsTaskExecutionRole - Service role, MFA not applicable</li><li>Role: genQRCode-role-8z5knzm2 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePip-CloudFormationExecutionR-D46IYLAGA5QZ - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePipeli-PipelineExecutionRole-UJQ05O22Q6N9 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodePipelin-CodeBuildServiceRole-1AJ0Q3I9Y0WX1 - Service role, MFA not applicable</li><li>Role: ghostrider-golang-CodeRep-LambdaTriggerPipelineExe-1VKB7UU2SPWWU - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CloudFormation-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodeBuild-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodeDeploy-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-CodePipeline-ap-northeast-1 - Service role, MFA not applicable</li><li>Role: ghostrider-staging-infrastructure-AutoScalingRole-HQT2F22C23X4 - Service role, MFA not applicable</li><li>Role: idanrestorecallcarbar - Service role, MFA not applicable</li><li>Role: idanticket - Service role, MFA not applicable</li><li>Role: iot_to_dynamo - Service role, MFA not applicable</li><li>Role: johnny - Service role, MFA not applicable</li><li>Role: lambda-trigger-codepipeline - Service role, MFA not applicable</li><li>Role: lambdaedge-security-headers-role-w3sgvdak - Service role, MFA not applicable</li><li>Role: lambda_deploy_roamingbar_wp - Service role, MFA not applicable</li><li>Role: lambda_diff_trigger - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipeli-CloudFormationExecutionR-6M1SPDJB88CO - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipelineE-PipelineExecutionRole-15QQE6K8VZ3A2 - Service role, MFA not applicable</li><li>Role: magneto-golang-CodePipelineEC-CodeBuildServiceRole-AJWVKGNQAKL5 - Service role, MFA not applicable</li><li>Role: magneto-golang-CodeReposi-LambdaTriggerPipelineExe-1XQ0LRYIB6VXJ - Service role, MFA not applicable</li><li>Role: main-role-3fksdr3p - Service role, MFA not applicable</li><li>Role: MR_SSO_Decrypt-role-pmvxuxt5 - Service role, MFA not applicable</li><li>Role: OpsItem-CWE-Role - Service role, MFA not applicable</li><li>Role: postmortem-timelines-generator-role-5tf6vzov - Service role, MFA not applicable</li><li>Role: postoffice-ticket - Service role, MFA not applicable</li><li>Role: postoffice-ticket-test - Service role, MFA not applicable</li><li>Role: quickSliver-role-ap41hz7c - Service role, MFA not applicable</li><li>Role: quicksliver-serverless-pi-CloudFormationExecutionR-XSRA9Z2MJDTE - Service role, MFA not applicable</li><li>Role: quickSliver_test - Service role, MFA not applicable</li><li>Role: rds-monitoring-role - Service role, MFA not applicable</li><li>Role: RestartEC2ForCCBDBERROR - Service role, MFA not applicable</li><li>Role: s3 - Service role, MFA not applicable</li><li>Role: secure-header-role-06ragtcb - Service role, MFA not applicable</li><li>Role: secureHeader-role-rn0zb4uu - Service role, MFA not applicable</li><li>Role: secureHeader-role-vnp4ewm9 - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-AuthorizeFunctionRole-HBBFPP0QQ4G - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-CaptureFunctionRole-1GBSC8JM2H9HV - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-InstallmentFunctionRole-1L0ATUBCUAS23 - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-RedeemFunctionRole-13VGMYOUWNI5Q - Service role, MFA not applicable</li><li>Role: serverless-payment-Beta-ReversalFunctionRole-2OV50YG6AUVX - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeli-CloudFormationExecutionR-6OYJ3GG3A3YD - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeli-CodePipelineExecutionRol-18B6AN2JSTJ48 - Service role, MFA not applicable</li><li>Role: serverless-payment-pipeline-CodeBuildServiceRole-1GFSF6A3VZJWZ - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-AuthorizeFunctionRole-7ITN4LW2PEZY - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-CaptureFunctionRole-13O2X1TABTGM2 - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-InstallmentFunctionRole-FXU355WJFEUM - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-RedeemFunctionRole-OY8MIB6NCJFA - Service role, MFA not applicable</li><li>Role: serverless-payment-Prod-ReversalFunctionRole-1HTHHNALLZUDM - Service role, MFA not applicable</li><li>Role: shortcut-production-role-wg36jr2h - Service role, MFA not applicable</li><li>Role: shortcut-role-1lmlm0nm - Service role, MFA not applicable</li><li>Role: shortcut-staging-role-ek8tuxuz - Service role, MFA not applicable</li><li>Role: shortcut_test-role-33yu4kn6 - Service role, MFA not applicable</li><li>Role: showQRCode-role-en3mazj2 - Service role, MFA not applicable</li><li>Role: sns - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-f3toy1fp - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-lgu2dcpk - Service role, MFA not applicable</li><li>Role: sns-trigger-slack-notification-role-mxntya2n - Service role, MFA not applicable</li><li>Role: sqltest-role-xqron8kq - Service role, MFA not applicable</li><li>Role: test-lambda-edge-role-bjleud0k - Service role, MFA not applicable</li><li>Role: ufirst-production-20200130034524-authRole - Service role, MFA not applicable</li><li>Role: ufirst-production-20200130034524-unauthRole - Service role, MFA not applicable</li><li>Role: ufirst-stage-20200130025615-authRole - Service role, MFA not applicable</li><li>Role: ufirst-stage-20200130025615-unauthRole - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1-CloudFormationExecutionR-1V8X5Q9DUCAEX - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1RSE-PipelineExecutionRole-1F5AT83OBYS31 - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodePipeline-1RSEK-CodeBuildServiceRole-1K71G0E3K3PPJ - Service role, MFA not applicable</li><li>Role: ufirst-vue-CodeRepository-LambdaTriggerPipelineExe-A3HY8SXCVYDB - Service role, MFA not applicable</li></ul><p><span class='yellow'>The following roles may be assumed by users but do not enforce MFA: AWS-QuickSetup-SSM-LocalExecutionRole, AWS-QuickSetup-StackSet-Local-ExecutionRole, cc-iam-stack-IamRole-X19VNPOWJVUC</span></p><p>Note: This is a warning because some role assumptions may happen through trusted services, but you should verify any roles that allow human access.</p></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-9">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 9</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 9 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">61.5%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">8/13</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-9')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (4)</span>
+                    </div>
+                    <div class="section-content" id="section-9">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-9-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: securityhub describe-hub
+                    </div>
+                    <div class="finding-content" id="finding-9-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-9-1')">
+                        <span class="toggle-icon">+</span> [FAIL] 9.3.x - KMS Key Management (equivalent to physical key control)
+                    </div>
+                    <div class="finding-content" id="finding-9-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>Found      113 customer-managed KMS keys that can be used for encrypting sensitive data.</p><p>Key rotation status:</p><ul><li class="red">Key 4e445a81-0778-40ca-8079-21162a56fbd0: Rotation DISABLED</li><li class="red">Key 852ba11a-cf60-421e-b000-9b2ffc1da86c: Rotation DISABLED</li><li class="red">Key 8db11ec0-d714-472f-9e04-68e3b685896d: Rotation DISABLED</li><li class="red">Key 8fd10c27-60bd-4058-b714-ce474aebd47e: Rotation DISABLED</li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-9-2')">
+                        <span class="toggle-icon">+</span> [FAIL] 9.4.x - S3 Bucket Encryption (for secure media storage)
+                    </div>
+                    <div class="finding-content" id="finding-9-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>S3 Bucket Encryption Status:</p><ul><li>Bucket adamwarlock-golang-codepipel-buildartifactsbucket-1lskek87gfzjr: Encryption ENABLED</li><li>Bucket alb-roamingbar-callcarbar: Encryption ENABLED</li><li>Bucket apple-canlead-20200316030756-hostingbucket-production: Encryption ENABLED</li><li>Bucket apple-canlead-20200316030756-hostingbucket-stage: Encryption ENABLED</li><li>Bucket apple-canlead-production-20200316033534-deployment: Encryption ENABLED</li><li>Bucket apple-canlead-stage-20200316030613-deployment: Encryption ENABLED</li><li>Bucket apple-canlead-vue-codepipeli-buildartifactsbucket-w9xpo9xsz1ox: Encryption ENABLED</li><li>Bucket apple-dbs-product-20190703025730-deployment: Encryption ENABLED</li><li>Bucket apple-dbs-stage-20190702094009-deployment: Encryption ENABLED</li><li>Bucket apple-dbs-stage-product: Encryption ENABLED</li><li>Bucket apple-dbs-stage-stage: Encryption ENABLED</li><li>Bucket apple-webresource: Encryption ENABLED</li><li class="red">Bucket applestore-refactor-artifacts: Encryption NOT ENABLED</li><li>Bucket applestore-refactor-website: Encryption ENABLED</li><li>Bucket applestore-vue-codepipeline-buildartifactsbucket-homqivy4r1ep: Encryption ENABLED</li><li>Bucket aws-cloudtrail-logs-366205796862-993f53a6: Encryption ENABLED</li><li>Bucket aws-sam-cli-managed-default-samclisourcebucket-1b7yhx3gsu7t9: Encryption ENABLED</li><li>Bucket buildec2: Encryption ENABLED</li><li>Bucket callcarbar-airport-production-20190723035101-deployment: Encryption ENABLED</li><li>Bucket callcarbar-airport-stage-20190723031611-deployment: Encryption ENABLED</li><li>Bucket callcarbar-airport-stage-production: Encryption ENABLED</li><li>Bucket callcarbar-airport-stage-stage: Encryption ENABLED</li><li>Bucket callcarbar-airport-vue-codep-buildartifactsbucket-1vewvk19yx3qn: Encryption ENABLED</li><li>Bucket callcarbar-banner: Encryption ENABLED</li><li>Bucket callcarbar-deploy-manage: Encryption ENABLED</li><li>Bucket callcarbar-edm: Encryption ENABLED</li><li>Bucket callcarbar-edm-golang-codepi-buildartifactsbucket-b1wsp5kch54x: Encryption ENABLED</li><li>Bucket callcarbar-log: Encryption ENABLED</li><li>Bucket callcarbar-online-backup: Encryption ENABLED</li><li>Bucket callcarbar-wp: Encryption ENABLED</li><li>Bucket callcardriverphoto: Encryption ENABLED</li><li>Bucket callcaruserphoto: Encryption ENABLED</li><li>Bucket canlead-alb-ip: Encryption ENABLED</li><li>Bucket canlead-cms-production: Encryption ENABLED</li><li>Bucket canlead-cms-production-20200129094535-deployment: Encryption ENABLED</li><li>Bucket canlead-cms-stage: Encryption ENABLED</li><li>Bucket canlead-cms-stage-20200129070518-deployment: Encryption ENABLED</li><li>Bucket canlead-ecs-deploy: Encryption ENABLED</li><li>Bucket canlead-ecs-log: Encryption ENABLED</li><li>Bucket canlead-gitlab-backup: Encryption ENABLED</li><li>Bucket canlead-intl.canlead.com.tw: Encryption ENABLED</li><li>Bucket canlead-lifestyle-officialsite: Encryption ENABLED</li><li>Bucket canlead-online-backup: Encryption ENABLED</li><li>Bucket canlead-qrcode: Encryption ENABLED</li><li>Bucket canlead-redmine-backup: Encryption ENABLED</li><li>Bucket canlead-ticket-codepipelinee-buildartifactsbucket-995hl8fezpi0: Encryption ENABLED</li><li>Bucket canlead-vue-deploy: Encryption ENABLED</li><li>Bucket canlead-web-scan: Encryption ENABLED</li><li>Bucket canleadbilling: Encryption ENABLED</li><li>Bucket canleadbot: Encryption ENABLED</li><li>Bucket canleadelasticachebackup: Encryption ENABLED</li><li>Bucket canleadgroup-golang-codepipe-buildartifactsbucket-q22tw1ukv3h9: Encryption ENABLED</li><li>Bucket canleadimage: Encryption ENABLED</li><li>Bucket cdn.canlead.com.tw: Encryption ENABLED</li><li>Bucket cf-templates-h9l8ckv3qe73-ap-northeast-1: Encryption ENABLED</li><li>Bucket cf-templates-h9l8ckv3qe73-ap-southeast-1: Encryption ENABLED</li><li>Bucket clmarketingresource: Encryption ENABLED</li><li>Bucket cms-vue-codepipeline-gkrzliq-buildartifactsbucket-7qeiei0sv5br: Encryption ENABLED</li><li>Bucket codepipeline-ap-northeast-1-96382743995: Encryption ENABLED</li><li>Bucket config-bucket-366205796862: Encryption ENABLED</li><li>Bucket do-not-delete-ssm-diagnosis-366205796862-ap-northeast-1-8v0jn: Encryption ENABLED</li><li>Bucket elasticbeanstalk-ap-northeast-1-366205796862: Encryption ENABLED</li><li>Bucket emailresource: Encryption ENABLED</li><li>Bucket ghostrider-golang-codepipeli-buildartifactsbucket-nrozi5s75lpw: Encryption ENABLED</li><li>Bucket ghostrider-staging-artifacts: Encryption ENABLED</li><li>Bucket gitwordpress: Encryption ENABLED</li><li>Bucket gotaipei.callcarbar.com.tw: Encryption ENABLED</li><li>Bucket how-cool: Encryption ENABLED</li><li>Bucket idan-linebot-resource: Encryption ENABLED</li><li>Bucket idanmedia: Encryption ENABLED</li><li>Bucket idanticketdefinition: Encryption ENABLED</li><li>Bucket idanticketdeploy: Encryption ENABLED</li><li>Bucket idanticketimg: Encryption ENABLED</li><li>Bucket idanticketresource: Encryption ENABLED</li><li>Bucket idantickettemplate: Encryption ENABLED</li><li>Bucket idanticketwallets: Encryption ENABLED</li><li>Bucket jldatabackup: Encryption ENABLED</li><li>Bucket magneto-golang-codepipelinee-buildartifactsbucket-uxwkl4jj671h: Encryption ENABLED</li><li>Bucket message-sam: Encryption ENABLED</li><li>Bucket message-sam-pipeline-buildartifactsbucket-19qspxm6qmlvx: Encryption ENABLED</li><li>Bucket message-sam-pipeline-buildartifactsbucket-1r07jivd53f5d: Encryption ENABLED</li><li>Bucket mgm-dbs-production: Encryption ENABLED</li><li>Bucket mgm-dbs-stage: Encryption ENABLED</li><li>Bucket quicksliver-serverless: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-11qm6p9cc6plo: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-120m82ho747as: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-15b6mir60kt9v: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-17ercco5mhyfj: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-19cnu53bvwjin: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-1lkzsdw1uopnl: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-2snpwfq7ydwc: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-67c1nqapttuo: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-dz165acz3nba: Encryption ENABLED</li><li>Bucket quicksliver-serverless-pipel-buildartifactsbucket-fnm73ug0oiey: Encryption ENABLED</li><li>Bucket roamingbar.country: Encryption ENABLED</li><li>Bucket roamingbar.star: Encryption ENABLED</li><li>Bucket serverless-payment: Encryption ENABLED</li><li>Bucket serverless-payment-pipeline-buildartifactsbucket-5kqequ89mksi: Encryption ENABLED</li><li>Bucket testqrcodewebpage: Encryption ENABLED</li><li>Bucket ufirst-production-20200130034524-deployment: Encryption ENABLED</li><li>Bucket ufirst-stage-20200130025615-deployment: Encryption ENABLED</li><li>Bucket ufirst-vue-codepipeline-1rse-buildartifactsbucket-j8x0fsd14zhl: Encryption ENABLED</li><li>Bucket ufirst-vue-production: Encryption ENABLED</li><li>Bucket ufirst-vue-stage: Encryption ENABLED</li><li>Bucket up-366205796862-ap-northeast-1: Encryption ENABLED</li><li>Bucket wordpress.img: Encryption ENABLED</li><li>Bucket wordpress.lifestyle: Encryption ENABLED</li><li>Bucket wordpress.roamingbar: Encryption ENABLED</li><li>Bucket www.canlead.com.tw: Encryption ENABLED</li><li>Bucket www.roamingbar.com.wp-upload: Encryption ENABLED</li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-9-3')">
+                        <span class="toggle-icon">+</span> [FAIL] 9.4.5 - Resource Inventory with AWS Config
+                    </div>
+                    <div class="finding-content" id="finding-9-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>AWS Config is not set up in this region. AWS Config is essential for maintaining an inventory of resources that may contain cardholder data as required by PCI DSS 9.4.5.</p>
+        <p>Without AWS Config:</p>
+        <ul>
+            <li>No automated inventory of AWS resources is maintained</li>
+            <li>Changes to resource configurations aren't tracked</li>
+            <li>Compliance with configuration rules can't be monitored</li>
+        </ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+<div class="grid-item">
+        <div class="req-card" id="req-card-10">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 10</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 10 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <div class="req-stats">
+                    <div class="req-stat">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value non-compliant">Non-Compliant</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Compliance</div>
+                        <div class="stat-value">69.2%</div>
+                    </div>
+                    <div class="req-stat">
+                        <div class="stat-label">Passed</div>
+                        <div class="stat-value">9/13</div>
+                    </div>
+                </div>
+                
+                <div class="findings-section">
+                    <div class="section-header" onclick="toggleSection('section-10')">
+                        <span class="toggle-icon">+</span> 
+                        <span class="section-title">View Findings (4)</span>
+                    </div>
+                    <div class="section-content" id="section-10">
+                        
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-10-0')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: dynamodb list-tables
+                    </div>
+                    <div class="finding-content" id="finding-10-0">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-10-1')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: securityhub describe-hub
+                    </div>
+                    <div class="finding-content" id="finding-10-1">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-10-2')">
+                        <span class="toggle-icon">+</span> [FAIL] AWS API Access: configservice describe-config-rules
+                    </div>
+                    <div class="finding-content" id="finding-10-2">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="finding-item">
+                    <div class="finding-header" onclick="toggleFinding('finding-10-3')">
+                        <span class="toggle-icon">+</span> [FAIL] 10.7.1 - 10.7.3 - Detection systems for security control failures
+                    </div>
+                    <div class="finding-content" id="finding-10-3">
+                        <div class="finding-details">
+                            <h4>Issue Details:</h4>
+                            <div><p>Automated detection systems for security control failures:</p><ul><li class="red">AWS Config is not enabled, consider enabling it for configuration monitoring</li><li class="red">AWS Security Hub is not enabled, consider enabling it for centralized security alerts</li><li class="green">AWS GuardDuty is enabled, which provides automated threat detection</li></ul></div>
+                        </div>
+                        <div class="finding-recommendation">
+                            <h4>Recommendation:</h4>
+                            <div>No specific recommendation provided.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript for clickable expandable content
+        function toggleSection(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.textContent = '+';
+            } else {
+                content.style.display = 'block';
+                icon.textContent = '-';
+            }
+        }
+        
+        function toggleFinding(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.textContent = '+';
+            } else {
+                content.style.display = 'block';
+                icon.textContent = '-';
+            }
+        }
+    </script>
+</body>
+</html>

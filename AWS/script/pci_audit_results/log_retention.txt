@@ -1,0 +1,17 @@
+Log buckets without 1-year retention:
+- Bucket: aws-cloudtrail-logs-366205796862-993f53a6 [Region likely: ap-northeast-1]
+  Issue: No lifecycle configuration found
+
+- Bucket: aws-cloudtrail-logs-366205796862-993f53a6 [Region likely: ap-northeast-1]
+  Issue: No lifecycle configuration found
+
+- Bucket: callcarbar-log [Region likely: ap-northeast-1]
+  Issue: Insufficient retention period
+    * Retention: 30 days (less than required 365 days)
+
+
+- Bucket: canlead-ecs-log [Region likely: ap-northeast-1]
+  Issue: Insufficient retention period
+    * Retention: 14 days (less than required 365 days)
+
+

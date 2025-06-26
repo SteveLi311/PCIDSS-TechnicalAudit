@@ -1,0 +1,197 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadOnlyAccessForPCIAudit",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:Describe*",
+                "rds:Describe*",
+                "s3:Get*",
+                "s3:List*",
+                "elasticloadbalancing:Describe*",
+                "cloudfront:Get*",
+                "cloudfront:List*",
+                "lambda:Get*",
+                "lambda:List*",
+                "dynamodb:Describe*",
+                "dynamodb:List*",
+                "kms:Describe*",
+                "kms:List*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/PCIScope": "true"
+                }
+            }
+        },
+        {
+            "Sid": "NetworkConfigurationReview",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeNetworkAcls",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeNatGateways",
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribeVpcPeeringConnections",
+                "ec2:DescribeFlowLogs"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "IAMConfigurationReview",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GenerateCredentialReport",
+                "iam:GetCredentialReport",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetAccountSummary",
+                "iam:ListUsers",
+                "iam:ListGroups",
+                "iam:ListRoles",
+                "iam:ListPolicies",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:GetUser",
+                "iam:GetGroup",
+                "iam:GetRole",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:ListAccessKeys",
+                "iam:GetAccessKeyLastUsed",
+                "iam:ListMFADevices",
+                "iam:ListUserPolicies",
+                "iam:ListGroupPolicies",
+                "iam:ListRolePolicies",
+                "iam:ListSSHPublicKeys",
+                "iam:ListServiceSpecificCredentials"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "LogsAndAuditReview",
+            "Effect": "Allow",
+            "Action": [
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:GetTrailStatus",
+                "cloudtrail:LookupEvents",
+                "cloudtrail:GetEventSelectors",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents",
+                "logs:FilterLogEvents",
+                "config:DescribeConfigRules",
+                "config:DescribeConfigRuleEvaluationStatus",
+                "config:GetComplianceDetailsByConfigRule",
+                "config:GetComplianceSummaryByConfigRule",
+                "config:DescribeComplianceByConfigRule",
+                "config:DescribeComplianceByResource",
+                "config:GetComplianceDetailsByResource",
+                "config:GetComplianceSummaryByResourceType"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SecurityServicesReview",
+            "Effect": "Allow",
+            "Action": [
+                "guardduty:GetFindings",
+                "guardduty:ListFindings",
+                "guardduty:GetDetector",
+                "guardduty:ListDetectors",
+                "securityhub:GetFindings",
+                "waf:Get*",
+                "waf:List*",
+                "wafv2:Get*",
+                "wafv2:List*",
+                "shield:Describe*",
+                "shield:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "EncryptionAndSecretReview",
+            "Effect": "Allow",
+            "Action": [
+                "kms:ListAliases",
+                "kms:ListKeys",
+                "kms:DescribeKey",
+                "secretsmanager:ListSecrets",
+                "secretsmanager:DescribeSecret",
+                "acm:ListCertificates",
+                "acm:DescribeCertificate"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ComplianceReview",
+            "Effect": "Allow",
+            "Action": [
+                "artifact:Get*",
+                "artifact:List*",
+                "artifact:Download*",
+                "aws-marketplace:ViewSubscriptions",
+                "organizations:ListAccounts",
+                "organizations:ListAccountsForParent"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeTags",
+                "ec2:DescribeImages",
+                "kms:GetKeyRotationStatus",
+                "kms:GetKeyPolicy",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeSSLPolicies",
+                "ec2:DescribeRegions",
+                "ssm:ListCommands",
+                "ssm:DescribePatchBaselines",
+                "ssm:DescribePatchGroups",
+                "ssm:DescribeMaintenanceWindows",
+                "inspector2:ListFindings",
+                "events:ListRules",
+                "network-firewall:ListFirewalls",
+                "lambda:ListFunctions",
+                "cloudwatch:DescribeAlarms",
+                "sns:ListTopics",
+                "securityhub:GetFindings",
+                "ssm:DescribeInstanceInformation",
+                "access-analyzer:ListAnalyzers",
+                "config:DescribeConfigurationRecorders",
+                "ssm:ListDocuments",
+                "iam:UpdateAccountPasswordPolicy",
+                "iam:GetAccountPasswordPolicy",
+                "iam:ListMFADevices",
+                "iam:ListVirtualMFADevices",
+                "rds:DescribeDBInstances",
+                "ecr:DescribeRepositories",
+                "route53:ListHostedZones",
+                "ec2:DescribeSecurityGroupRules",
+                "ec2:DescribeTransitGateways",
+                "codebuild:ListProjects",
+                "codepipeline:ListPipelines",
+                "dynamodb:ListTables",
+                "s3:ListAllMyBuckets",
+                "securityhub:DescribeHub",
+                "logs:DescribeMetricFilters",
+                "organizations:DescribeOrganization",
+                "inspector2:ListMembers",
+                "inspector2:ListCoverage",
+                "inspector2:ListDelegatedAdminAccounts",
+                "cloudformation:ListStacks",
+                "ec2:DescribeAvailabilityZones"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

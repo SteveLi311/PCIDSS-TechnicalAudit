@@ -1,0 +1,43 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-03b3fb3510d5a7bbb</instanceid>
+  <hostname>test</hostname>
+  <system>Linux/UNIX</system>
+  <ip>192.168.0.126</ip>
+  <public_ip>NA</public_ip>
+  <instancetype>t2.micro</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <date>20250619</date>
+  <time>10:57</time>
+  <evidence>
+    <instance id="i-03b3fb3510d5a7bbb" name="test">
+
+      <security_group id="sg-0bbd10de99060e9bc" name="test-sg">
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>80</from_port>
+          <to_port>80</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>22</from_port>
+          <to_port>22</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </ingress_rule>
+        <ingress_rule>
+          <protocol>tcp</protocol>
+          <from_port>443</from_port>
+          <to_port>443</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </ingress_rule>
+        <egress_rule>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </egress_rule>
+      </security_group>
+    </instance>
+  </evidence>
+</getinfo>

@@ -1,0 +1,14 @@
+PCI DSS v4.0 AWS Compliance Audit Report
+Generated on: Thu May  8 09:26:00 +07 2025
+AWS Account: 366205796862
+-------------------------------------------------------------------
+
+[0;34m====================================================================[0m
+[0;34m= PCI DSS Requirement 1: Network Security Controls[0m
+[0;34m====================================================================[0m
+
+[0;33m1.i Checking for security groups allowing all IPs on any port...[0m
+[0;31mFAIL: Found 64 security groups with open access to all IPs.[0m
+      See pci_audit_results/open_security_groups.txt for details.
+
+[0;33m1.ii Checking for insecure protocols in use...[0m

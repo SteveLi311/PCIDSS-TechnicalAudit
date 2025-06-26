@@ -1,0 +1,391 @@
+Security Groups allowing all IPs on any port:
+- Security Group: sg-8a71ffee (scaling-demo01) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+    * tcp port 443
+
+- Security Group: sg-1bd4787f (allOpen) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+
+- Security Group: sg-5bf7c43f (wordpress_base_test) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8687
+
+- Security Group: sg-0e05fd6a (webservice_linux) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 8085
+    * tcp port 11211
+    * tcp port 9099
+    * tcp port 8088
+    * tcp port 10080
+    * tcp port 22
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3000
+    * tcp port 9292
+    * tcp port 587
+    * tcp port 5001
+    * tcp port 8081
+
+- Security Group: sg-a17ab4c5 (launch-wizard-3) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8888
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 8787
+
+- Security Group: sg-b1518dd6 (idanbean-windows-candleadvpc) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 1433
+    * tcp port 80
+    * tcp port 22
+    * tcp port 3389
+    * tcp port 443
+
+- Security Group: sg-d4d2b2b0 (roamingbar-golang) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-aa93fbce (wordpress_base) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8283
+    * tcp port 22
+
+- Security Group: sg-4641b022 (DevOps) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 22
+
+- Security Group: sg-36048f51 (launch-wizard-7) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * icmp port -1
+
+- Security Group: sg-808484e6 (cheerlife) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8085
+
+- Security Group: sg-1c59307b (rds-launch-wizard-4) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3306
+
+- Security Group: sg-0d07d43e92c7b61fb (launch-wizard-18) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0a943c2292a404971 (launch-wizard-14) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+
+- Security Group: sg-6febb90b (launch-wizard-6) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 22
+
+- Security Group: sg-12df5576 (pingpong-ec2) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 8888
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+
+- Security Group: sg-43137e24 (online) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+    * icmp port -1
+    * tcp port 443
+
+- Security Group: sg-1787be73 (vip security) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 9000
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-07b02f46e3d0fedcc (Canlead-Internal-ALB-202301111) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+
+- Security Group: sg-247fb140 (launch-wizard-2) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-a35e2fc4 (callcarbar-go) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8087
+    * tcp port 8082
+
+- Security Group: sg-c7d949a3 (star_home) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8283
+    * tcp port 22
+    * tcp port 8282
+    * tcp port 8284
+    * tcp port 443
+    * tcp port 10080
+    * tcp port 9080
+
+- Security Group: sg-025267eb96aa1d2ec (debug) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-5ec94d3a (roamingbar-elb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3838
+    * tcp port 3000
+    * tcp port 443
+    * tcp port 8081
+
+- Security Group: sg-0751da0bbe4b11eb1 (launch-wizard-16) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8006
+
+- Security Group: sg-0567f426b3ae62417 (launch-wizard-15) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-c45e2fa3 (callcarbar-web) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8888
+    * tcp port 10082
+
+- Security Group: sg-0e374168 (idanticket-go) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 8184
+
+- Security Group: sg-831b85e4 (launch-wizard-8) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-7e87121a (Roles_PublicWeb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+    * icmp port -1
+
+- Security Group: sg-0f1c8699dd4f51575 (SG-MailServer) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 110
+    * tcp port 995
+    * tcp port 993
+    * tcp port 25
+    * tcp port 143
+    * tcp port 587
+
+- Security Group: sg-0a9228635721bf737 (FORTINET_Mail_Gateway) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 25
+    * tcp port 443
+
+- Security Group: sg-a54576c2 (launch-wizard-10) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-0f83bd9beaa6fe829 (PMG) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * tcp port 8006
+    * icmp port -1
+
+- Security Group: sg-00aa8a38d4b080f32 (launch-wizard-20) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0855e477837672830 (Roles_phpmyadmin) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+
+- Security Group: sg-26249a42 (idanbean) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 22
+    * tcp port 5000
+    * tcp port 8282
+    * tcp port 3000
+
+- Security Group: sg-0e11bb5e720d81642 (launch-wizard-13) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-91b712f5 (system-monitor) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 24224
+    * tcp port 22
+    * udp port 24224
+    * tcp port 5601
+    * tcp port 443
+
+- Security Group: sg-0fa30e9feec49f425 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-1) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 443
+
+- Security Group: sg-0f58eb01bc620ebbd (spam-mail) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 22
+
+- Security Group: sg-ac1ad1cb (idanbean-windows-nano) [Region: ap-northeast-1]
+  Open inbound rules:
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 3389
+
+- Security Group: sg-0ffddcd33ce3db48c (Canlead Mail Server) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 81
+    * tcp port 110
+    * tcp port 995
+    * tcp port 993
+    * tcp port 25
+    * tcp port 143
+    * tcp port 587
+    * icmp port -1
+
+- Security Group: sg-0545ed506b8930369 (CentOS 7 -x86_64- - with Updates HVM-2002_01-AutogenByAWSMP-) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 21
+    * tcp port 22
+    * udp port 21
+    * tcp port 443
+
+- Security Group: sg-0184e22c4e7b97898 (internal-alb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8888
+    * tcp port 22
+    * tcp port 443
+
+- Security Group: sg-071e3cb143fcaa3e5 (NFS) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 22
+    * tcp port 2049
+
+- Security Group: sg-038e1df7c2f6fb7b0 (SG_EIP) [Region: ap-northeast-1]
+  Open inbound rules:
+    * icmp port -1
+
+- Security Group: sg-e8d2498c (wordpress-scaleout) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-aac8b3cd (launch-wizard-9) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-767d9012 (Roles_WebServer) [Region: ap-northeast-1]
+  Open inbound rules:
+    * icmp port -1
+
+- Security Group: sg-0823d62357976a577 (Windows-Server-AD) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-02da57be4258f2acb (launch-wizard-11) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp ports 0-65535
+    * tcp port 3389
+
+- Security Group: sg-6fdb1208 (idanbean_windows) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * ALL TRAFFIC (ALL PORTS)
+    * tcp port 22
+    * tcp ports 5000-5999
+    * tcp port 3389
+    * tcp port 443
+    * icmp port -1
+
+- Security Group: sg-022457eb9759867b6 (load-balancer-private-alb) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+
+- Security Group: sg-09c6201cd239ff61f (canlead web server) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 443
+
+- Security Group: sg-0eaae4fe28ef8737f (canlead-ECS) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-0d9afe37e48a45b47 (HowCoolAPP) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+
+- Security Group: sg-09fc0d98489c025d7 (launch-wizard-21) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+    * icmp port -1
+
+- Security Group: sg-dfac9bba (launch-wizard-1) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 8080
+    * tcp port 10022
+    * tcp port 8085
+    * tcp port 11211
+    * tcp port 9099
+    * tcp port 8088
+    * tcp port 10080
+    * tcp port 22
+    * tcp port 8787
+    * tcp port 8089
+    * tcp port 3000
+    * tcp port 9292
+    * tcp port 587
+    * tcp port 8081
+
+- Security Group: sg-0293b401387089184 (launch-wizard-17) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-02e9ac019fa860e77 (launch-wizard-19) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 22
+
+- Security Group: sg-b9e08bdd (launch-wizard-4) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 22
+
+- Security Group: sg-76c49112 (launch-wizard-5) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 3389
+
+- Security Group: sg-6e17f509 (HTTPS and HTTP open) [Region: ap-northeast-1]
+  Open inbound rules:
+    * tcp port 80
+    * tcp port 443
+

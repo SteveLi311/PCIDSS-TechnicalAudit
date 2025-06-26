@@ -1,0 +1,25 @@
+<getinfo>
+  <project>094692261598</project>
+  <instanceid>i-0cbd41e44508eac62</instanceid>
+  <hostname>aws-ec2-prod-gvm-01</hostname>
+  <system>Linux/UNIX</system>
+  <ip>10.169.2.198</ip>
+  <public_ip>18.139.65.44</public_ip>
+  <instancetype>t3a.medium</instancetype>
+  <availabilityzone>ap-southeast-1a</availabilityzone>
+  <date>20250619</date>
+  <time>10:58</time>
+  <evidence>
+    <instance id="i-0cbd41e44508eac62" name="aws-ec2-prod-gvm-01">
+
+      <security_group id="sg-0bc1750e7aba69d4d" name="Prod-mgmt-to-vm">
+        <egress_rule>
+          <protocol>-1</protocol>
+          <from_port>All</from_port>
+          <to_port>All</to_port>
+          <cidr>0.0.0.0/0</cidr>
+        </egress_rule>
+      </security_group>
+    </instance>
+  </evidence>
+</getinfo>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Card-Based Summary Report (Fixed)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        h3 {
+            margin: 0;
+            color: #2c3e50;
+            flex-grow: 1;
+        }
+        h4 {
+            color: #3498db;
+            margin: 15px 0 10px 0;
+        }
+        .report-date {
+            text-align: right;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Card-based layout */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .req-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            background-color: #fff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .req-card-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+        }
+        .req-badge {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-right: 15px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .req-title {
+            font-size: 16px;
+        }
+        .req-card-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .findings-list {
+            margin: 10px 0;
+            padding-left: 20px;
+            flex-grow: 1;
+        }
+        .findings-list li {
+            margin-bottom: 8px;
+        }
+        .view-more {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .view-more a {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .view-more a:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Critical findings summary */
+        .critical-summary {
+            background-color: #fdeded;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .critical-summary h3 {
+            color: #c0392b;
+            margin-top: 0;
+        }
+        
+        /* Requirements nav */
+        .req-nav {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .req-nav h3 {
+            margin-top: 0;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        .req-nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .req-nav-item {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .req-nav-link {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .req-nav-link:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Summary Report</h1>
+        
+        <div class="report-date">
+            Generated on: April 25, 2025
+        </div>
+        
+        <div class="critical-summary">
+            <h3>PCI DSS 4.0 Compliance Summary</h3>
+            <p>This report highlights key findings from the PCI DSS 4.0 compliance assessment. Each requirement is shown as a separate card below with its findings. Click "View Full Report" on any requirement to see detailed information.</p>
+        </div>
+        
+        <div class="req-nav">
+            <h3>Quick Navigation</h3>
+            <ul class="req-nav-list">
+                <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 1 details would open here')">REQ 1</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 2 details would open here')">REQ 2</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 3 details would open here')">REQ 3</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 4 details would open here')">REQ 4</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 5 details would open here')">REQ 5</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 6 details would open here')">REQ 6</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 7 details would open here')">REQ 7</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 8 details would open here')">REQ 8</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 9 details would open here')">REQ 9</a></li> <li class="req-nav-item"><a class="req-nav-link" href="#" onclick="alert('Requirement 10 details would open here')">REQ 10</a></li>
+            </ul>
+        </div>
+        
+        <h2>Requirements Summary</h2>
+        
+        <div class="requirements-grid">
+            
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 1</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 1 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>1.2.6 - Security features for insecure services/protocols</li><li>1.2.7 - NSC configuration monitoring</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 1 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 2</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 2 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>Default Security Groups</li><li>RDS Encryption</li><li>RDS Default Ports</li><li>...plus 6 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 2 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 3</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 3 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: dynamodb list-tables</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 3 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 4</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 4 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>4.2.1 - TLS Implementation</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 4 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 5</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 5 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>5.2.1 - Anti-malware protection deployment</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 5 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 6</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 6 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: codebuild list-projects</li><li>AWS API Access: codepipeline list-pipelines</li><li>AWS API Access: cloudformation list-stacks</li><li>...plus 2 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 6 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 7</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 7 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: accessanalyzer list-analyzers</li><li>7.2.2 - Least Privilege Assignment</li><li>7.2.4 - User Account Reviews</li><li>...plus 3 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 7 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 8</span>
+                <h3 class="req-title">PCI DSS v4.0.1 - Requirement 8 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS CLI Access: accessanalyzer list-analyzers</li><li>AWS CLI Access: configservice describe-configuration-recorders</li><li>8.3.6 - Password/Passphrase Requirements</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 8 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 9</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 9 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: securityhub describe-hub</li><li>9.3.x - KMS Key Management (equivalent to physical key control)</li><li>9.4.x - S3 Bucket Encryption (for secure media storage)</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 9 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="req-card">
+            <div class="req-card-header">
+                <span class="req-badge">REQ 10</span>
+                <h3 class="req-title">PCI DSS 4.0 - Requirement 10 Compliance Assessment Report</h3>
+            </div>
+            <div class="req-card-body">
+                <h4>Key Findings:</h4>
+                <ul class='findings-list'><li>AWS API Access: dynamodb list-tables</li><li>AWS API Access: securityhub describe-hub</li><li>AWS API Access: configservice describe-config-rules</li><li>...plus 1 more findings</li></ul>
+                <div class="view-more">
+                    <a href="javascript:void(0)" onclick="alert('Full report for Requirement 10 would open here')">View Full Report</a>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+</body>
+</html>

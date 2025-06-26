@@ -1,0 +1,1037 @@
+[1m[38;2;0;255;0m.[38;2;0;255;6m-[38;2;0;255;13m-[38;2;0;255;19m-[38;2;0;255;25m-[38;2;0;255;32m.[38;2;0;255;38m [38;2;0;255;45m.[38;2;0;255;51m-[38;2;0;255;57m.[38;2;0;255;64m [38;2;0;255;70m.[38;2;0;255;76m-[38;2;0;255;83m.[38;2;0;255;89m [38;2;0;255;96m.[38;2;0;255;102m-[38;2;0;255;108m-[38;2;0;255;115m-[38;2;0;255;121m-[38;2;0;255;127m.[38;2;0;255;134m.[38;2;0;255;140m-[38;2;0;255;147m-[38;2;0;255;153m-[38;2;0;255;159m.[38;2;0;255;166m [38;2;0;255;172m [38;2;0;255;178m.[38;2;0;255;185m-[38;2;0;255;191m-[38;2;0;255;198m-[38;2;0;255;204m-[38;2;0;255;210m.[38;2;0;255;217m [38;2;0;255;223m.[38;2;0;255;229m-[38;2;0;255;236m-[38;2;0;255;242m-[38;2;0;255;249m.[38;2;0;255;255m [38;2;0;249;255m [38;2;0;242;255m [38;2;0;236;255m.[38;2;0;230;255m-[38;2;0;223;255m-[38;2;0;217;255m.[38;2;0;210;255m [38;2;0;204;255m [38;2;0;198;255m.[38;2;0;191;255m-[38;2;0;185;255m.[38;2;0;179;255m [38;2;0;172;255m.[38;2;0;166;255m-[38;2;0;159;255m.[0m
+[38;2;0;255;0m|[38;2;0;255;6m [38;2;0;255;13m{[38;2;0;255;19m}[38;2;0;255;25m [38;2;0;255;32m [38;2;0;255;38m}[38;2;0;255;45m|[38;2;0;255;51m [38;2;0;255;57m{[38;2;0;255;64m [38;2;0;255;70m}[38;2;0;255;76m [38;2;0;255;83m|[38;2;0;255;89m{[38;2;0;255;96m [38;2;0;255;102m{[38;2;0;255;108m_[38;2;0;255;115m_[38;2;0;255;121m [38;2;0;255;127m{[38;2;0;255;134m_[38;2;0;255;140m [38;2;0;255;147m [38;2;0;255;153m [38;2;0;255;159m_[38;2;0;255;166m}[38;2;0;255;172m{[38;2;0;255;178m [38;2;0;255;185m{[38;2;0;255;191m_[38;2;0;255;198m_[38;2;0;255;204m [38;2;0;255;210m [38;2;0;255;217m/[38;2;0;255;223m [38;2;0;255;229m [38;2;0;255;236m_[38;2;0;255;242m_[38;2;0;255;249m_[38;2;0;255;255m}[38;2;0;249;255m [38;2;0;242;255m/[38;2;0;236;255m [38;2;0;230;255m{[38;2;0;223;255m}[38;2;0;217;255m [38;2;0;210;255m\[38;2;0;204;255m [38;2;0;198;255m|[38;2;0;191;255m [38;2;0;185;255m [38;2;0;179;255m`[38;2;0;172;255m|[38;2;0;166;255m [38;2;0;159;255m|[0m
+[38;2;0;255;0m|[38;2;0;255;6m [38;2;0;255;13m.[38;2;0;255;19m-[38;2;0;255;25m.[38;2;0;255;32m [38;2;0;255;38m\[38;2;0;255;45m|[38;2;0;255;51m [38;2;0;255;57m{[38;2;0;255;64m_[38;2;0;255;70m}[38;2;0;255;76m [38;2;0;255;83m|[38;2;0;255;89m.[38;2;0;255;96m-[38;2;0;255;102m.[38;2;0;255;108m_[38;2;0;255;115m}[38;2;0;255;121m [38;2;0;255;127m}[38;2;0;255;134m [38;2;0;255;140m|[38;2;0;255;147m [38;2;0;255;153m|[38;2;0;255;159m [38;2;0;255;166m [38;2;0;255;172m.[38;2;0;255;178m-[38;2;0;255;185m.[38;2;0;255;191m_[38;2;0;255;198m}[38;2;0;255;204m [38;2;0;255;210m}[38;2;0;255;217m\[38;2;0;255;223m [38;2;0;255;229m [38;2;0;255;236m [38;2;0;255;242m [38;2;0;255;249m [38;2;0;255;255m}[38;2;0;249;255m/[38;2;0;242;255m [38;2;0;236;255m [38;2;0;230;255m/[38;2;0;223;255m\[38;2;0;217;255m [38;2;0;210;255m [38;2;0;204;255m\[38;2;0;198;255m|[38;2;0;191;255m [38;2;0;185;255m|[38;2;0;179;255m\[38;2;0;172;255m [38;2;0;166;255m [38;2;0;159;255m|[0m
+[38;2;0;255;0m`[38;2;0;255;6m-[38;2;0;255;13m'[38;2;0;255;19m [38;2;0;255;25m`[38;2;0;255;32m-[38;2;0;255;38m'[38;2;0;255;45m`[38;2;0;255;51m-[38;2;0;255;57m-[38;2;0;255;64m-[38;2;0;255;70m-[38;2;0;255;76m-[38;2;0;255;83m'[38;2;0;255;89m`[38;2;0;255;96m-[38;2;0;255;102m-[38;2;0;255;108m-[38;2;0;255;115m-[38;2;0;255;121m'[38;2;0;255;127m [38;2;0;255;134m [38;2;0;255;140m`[38;2;0;255;147m-[38;2;0;255;153m'[38;2;0;255;159m [38;2;0;255;166m [38;2;0;255;172m`[38;2;0;255;178m-[38;2;0;255;185m-[38;2;0;255;191m-[38;2;0;255;198m-[38;2;0;255;204m'[38;2;0;255;210m [38;2;0;255;217m [38;2;0;255;223m`[38;2;0;255;229m-[38;2;0;255;236m-[38;2;0;255;242m-[38;2;0;255;249m'[38;2;0;255;255m [38;2;0;249;255m`[38;2;0;242;255m-[38;2;0;236;255m'[38;2;0;230;255m [38;2;0;223;255m [38;2;0;217;255m`[38;2;0;210;255m-[38;2;0;204;255m'[38;2;0;198;255m`[38;2;0;191;255m-[38;2;0;185;255m'[38;2;0;179;255m [38;2;0;172;255m`[38;2;0;166;255m-[38;2;0;159;255m'[0m
+[38;2;0;255;0mT[38;2;0;255;6mh[38;2;0;255;13me[38;2;0;255;19m [38;2;0;255;25mM[38;2;0;255;32mo[38;2;0;255;38md[38;2;0;255;45me[38;2;0;255;51mr[38;2;0;255;57mn[38;2;0;255;64m [38;2;0;255;70mD[38;2;0;255;76ma[38;2;0;255;83my[38;2;0;255;89m [38;2;0;255;96mP[38;2;0;255;102mo[38;2;0;255;108mr[38;2;0;255;115mt[38;2;0;255;121m [38;2;0;255;127mS[38;2;0;255;134mc[38;2;0;255;140ma[38;2;0;255;147mn[38;2;0;255;153mn[38;2;0;255;159me[38;2;0;255;166mr[38;2;0;255;172m.[0m[0m
+[1m[38;2;255;255;0m_[38;2;249;255;0m_[38;2;242;255;0m_[38;2;236;255;0m_[38;2;230;255;0m_[38;2;223;255;0m_[38;2;217;255;0m_[38;2;210;255;0m_[38;2;204;255;0m_[38;2;198;255;0m_[38;2;191;255;0m_[38;2;185;255;0m_[38;2;179;255;0m_[38;2;172;255;0m_[38;2;166;255;0m_[38;2;159;255;0m_[38;2;153;255;0m_[38;2;147;255;0m_[38;2;140;255;0m_[38;2;134;255;0m_[38;2;128;255;0m_[38;2;121;255;0m_[38;2;115;255;0m_[38;2;108;255;0m_[38;2;102;255;0m_[38;2;96;255;0m_[38;2;89;255;0m_[38;2;83;255;0m_[38;2;77;255;0m_[38;2;70;255;0m_[38;2;64;255;0m_[38;2;57;255;0m_[38;2;51;255;0m_[38;2;45;255;0m_[38;2;38;255;0m_[38;2;32;255;0m_[38;2;26;255;0m_[38;2;19;255;0m_[38;2;13;255;0m_[38;2;6;255;0m_[0m
+[38;2;255;255;0m:[38;2;249;255;0m [38;2;242;255;0mh[38;2;236;255;0mt[38;2;230;255;0mt[38;2;223;255;0mp[38;2;217;255;0m:[38;2;210;255;0m/[38;2;204;255;0m/[38;2;198;255;0md[38;2;191;255;0mi[38;2;185;255;0ms[38;2;179;255;0mc[38;2;172;255;0mo[38;2;166;255;0mr[38;2;159;255;0md[38;2;153;255;0m.[38;2;147;255;0ms[38;2;140;255;0mk[38;2;134;255;0me[38;2;128;255;0mr[38;2;121;255;0mr[38;2;115;255;0mi[38;2;108;255;0mt[38;2;102;255;0mt[38;2;96;255;0m.[38;2;89;255;0mb[38;2;83;255;0ml[38;2;77;255;0mo[38;2;70;255;0mg[38;2;64;255;0m [38;2;57;255;0m [38;2;51;255;0m [38;2;45;255;0m [38;2;38;255;0m [38;2;32;255;0m [38;2;26;255;0m [38;2;19;255;0m [38;2;13;255;0m [38;2;6;255;0m:[0m
+[38;2;255;255;0m:[38;2;249;255;0m [38;2;242;255;0mh[38;2;236;255;0mt[38;2;230;255;0mt[38;2;223;255;0mp[38;2;217;255;0ms[38;2;210;255;0m:[38;2;204;255;0m/[38;2;198;255;0m/[38;2;191;255;0mg[38;2;185;255;0mi[38;2;179;255;0mt[38;2;172;255;0mh[38;2;166;255;0mu[38;2;159;255;0mb[38;2;153;255;0m.[38;2;147;255;0mc[38;2;140;255;0mo[38;2;134;255;0mm[38;2;128;255;0m/[38;2;121;255;0mR[38;2;115;255;0mu[38;2;108;255;0ms[38;2;102;255;0mt[38;2;96;255;0mS[38;2;89;255;0mc[38;2;83;255;0ma[38;2;77;255;0mn[38;2;70;255;0m/[38;2;64;255;0mR[38;2;57;255;0mu[38;2;51;255;0ms[38;2;45;255;0mt[38;2;38;255;0mS[38;2;32;255;0mc[38;2;26;255;0ma[38;2;19;255;0mn[38;2;13;255;0m [38;2;6;255;0m:[0m
+[38;2;255;255;0m [38;2;249;255;0m-[38;2;242;255;0m-[38;2;236;255;0m-[38;2;230;255;0m-[38;2;223;255;0m-[38;2;217;255;0m-[38;2;210;255;0m-[38;2;204;255;0m-[38;2;198;255;0m-[38;2;191;255;0m-[38;2;185;255;0m-[38;2;179;255;0m-[38;2;172;255;0m-[38;2;166;255;0m-[38;2;159;255;0m-[38;2;153;255;0m-[38;2;147;255;0m-[38;2;140;255;0m-[38;2;134;255;0m-[38;2;128;255;0m-[38;2;121;255;0m-[38;2;115;255;0m-[38;2;108;255;0m-[38;2;102;255;0m-[38;2;96;255;0m-[38;2;89;255;0m-[38;2;83;255;0m-[38;2;77;255;0m-[38;2;70;255;0m-[38;2;64;255;0m-[38;2;57;255;0m-[38;2;51;255;0m-[38;2;45;255;0m-[38;2;38;255;0m-[38;2;32;255;0m-[38;2;26;255;0m-[38;2;19;255;0m-[38;2;13;255;0m-[0m[0m
+🌍HACK THE PLANET🌍
+
+[1;34m[~][0m The config file is expected to be at "/root/snap/rustscan/208/.rustscan.toml"
+[1;34m[~][0m Automatically increasing ulimit value to 5000.
+Open 192.168.3.0:2000
+Open 192.168.3.1:2000
+Open 192.168.3.2:2000
+Open 192.168.3.3:2000
+Open 192.168.3.4:2000
+Open 192.168.3.5:2000
+Open 192.168.3.6:2000
+Open 192.168.3.7:2000
+Open 192.168.3.8:2000
+Open 192.168.3.9:2000
+Open 192.168.3.10:2000
+Open 192.168.3.13:2000
+Open 192.168.3.11:2000
+Open 192.168.3.16:2000
+Open 192.168.3.15:2000
+Open 192.168.3.12:2000
+Open 192.168.3.14:2000
+Open 192.168.3.18:2000
+Open 192.168.3.17:2000
+Open 192.168.3.20:2000
+Open 192.168.3.21:2000
+Open 192.168.3.19:2000
+Open 192.168.3.22:2000
+Open 192.168.3.23:2000
+Open 192.168.3.24:2000
+Open 192.168.3.25:2000
+Open 192.168.3.26:2000
+Open 192.168.3.27:2000
+Open 192.168.3.28:2000
+Open 192.168.3.29:2000
+Open 192.168.3.30:2000
+Open 192.168.3.31:2000
+Open 192.168.3.32:2000
+Open 192.168.3.33:2000
+Open 192.168.3.34:2000
+Open 192.168.3.36:2000
+Open 192.168.3.35:2000
+Open 192.168.3.37:2000
+Open 192.168.3.39:2000
+Open 192.168.3.40:2000
+Open 192.168.3.41:2000
+Open 192.168.3.42:2000
+Open 192.168.3.38:2000
+Open 192.168.3.43:2000
+Open 192.168.3.44:2000
+Open 192.168.3.45:2000
+Open 192.168.3.46:2000
+Open 192.168.3.48:2000
+Open 192.168.3.47:2000
+Open 192.168.3.50:2000
+Open 192.168.3.49:2000
+Open 192.168.3.52:2000
+Open 192.168.3.51:2000
+Open 192.168.3.57:2000
+Open 192.168.3.55:2000
+Open 192.168.3.53:2000
+Open 192.168.3.54:2000
+Open 192.168.3.59:2000
+Open 192.168.3.56:2000
+Open 192.168.3.58:2000
+Open 192.168.3.61:2000
+Open 192.168.3.63:2000
+Open 192.168.3.60:2000
+Open 192.168.3.62:2000
+Open 192.168.3.64:2000
+Open 192.168.3.65:2000
+Open 192.168.3.66:2000
+Open 192.168.3.71:2000
+Open 192.168.3.70:2000
+Open 192.168.3.74:2000
+Open 192.168.3.68:2000
+Open 192.168.3.75:2000
+Open 192.168.3.72:2000
+Open 192.168.3.76:2000
+Open 192.168.3.77:2000
+Open 192.168.3.79:2000
+Open 192.168.3.73:2000
+Open 192.168.3.78:2000
+Open 192.168.3.81:2000
+Open 192.168.3.80:2000
+Open 192.168.3.84:2000
+Open 192.168.3.83:2000
+Open 192.168.3.82:2000
+Open 192.168.3.85:2000
+Open 192.168.3.86:2000
+Open 192.168.3.87:2000
+Open 192.168.3.89:2000
+Open 192.168.3.88:2000
+Open 192.168.3.91:2000
+Open 192.168.3.90:2000
+Open 192.168.3.93:2000
+Open 192.168.3.92:2000
+Open 192.168.3.98:2000
+Open 192.168.3.95:2000
+Open 192.168.3.97:2000
+Open 192.168.3.100:2000
+Open 192.168.3.101:2000
+Open 192.168.3.99:2000
+Open 192.168.3.102:2000
+Open 192.168.3.104:2000
+Open 192.168.3.105:2000
+Open 192.168.3.103:2000
+Open 192.168.3.107:2000
+Open 192.168.3.67:2000
+Open 192.168.3.108:2000
+Open 192.168.3.106:2000
+Open 192.168.3.69:2000
+Open 192.168.3.110:2000
+Open 192.168.3.112:2000
+Open 192.168.3.109:2000
+Open 192.168.3.115:2000
+Open 192.168.3.114:2000
+Open 192.168.3.111:2000
+Open 192.168.3.113:2000
+Open 192.168.3.116:2000
+Open 192.168.3.118:2000
+Open 192.168.3.117:2000
+Open 192.168.3.119:2000
+Open 192.168.3.121:2000
+Open 192.168.3.124:2000
+Open 192.168.3.120:2000
+Open 192.168.3.125:2000
+Open 192.168.3.126:2000
+Open 192.168.3.127:2000
+Open 192.168.3.122:2000
+Open 192.168.3.128:2000
+Open 192.168.3.129:2000
+Open 192.168.3.130:2000
+Open 192.168.3.123:2000
+Open 192.168.3.131:2000
+Open 192.168.3.132:2000
+Open 192.168.3.133:2000
+Open 192.168.3.134:2000
+Open 192.168.3.135:2000
+Open 192.168.3.137:2000
+Open 192.168.3.138:2000
+Open 192.168.3.136:2000
+Open 192.168.3.139:2000
+Open 192.168.3.141:2000
+Open 192.168.3.140:2000
+Open 192.168.3.142:2000
+Open 192.168.3.143:2000
+Open 192.168.3.144:2000
+Open 192.168.3.145:2000
+Open 192.168.3.147:2000
+Open 192.168.3.149:2000
+Open 192.168.3.148:2000
+Open 192.168.3.150:2000
+Open 192.168.3.151:2000
+Open 192.168.3.152:2000
+Open 192.168.3.153:2000
+Open 192.168.3.94:2000
+Open 192.168.3.96:2000
+Open 192.168.3.154:2000
+Open 192.168.3.156:2000
+Open 192.168.3.155:2000
+Open 192.168.3.157:2000
+Open 192.168.3.158:2000
+Open 192.168.3.159:2000
+Open 192.168.3.160:2000
+Open 192.168.3.163:2000
+Open 192.168.3.162:2000
+Open 192.168.3.161:2000
+Open 192.168.3.164:2000
+Open 192.168.3.165:2000
+Open 192.168.3.166:2000
+Open 192.168.3.168:2000
+Open 192.168.3.169:2000
+Open 192.168.3.167:2000
+Open 192.168.3.170:2000
+Open 192.168.3.171:2000
+Open 192.168.3.172:2000
+Open 192.168.3.173:2000
+Open 192.168.3.174:2000
+Open 192.168.3.176:2000
+Open 192.168.3.175:2000
+Open 192.168.3.177:2000
+Open 192.168.3.178:2000
+Open 192.168.3.179:2000
+Open 192.168.3.181:2000
+Open 192.168.3.180:2000
+Open 192.168.3.183:2000
+Open 192.168.3.182:2000
+Open 192.168.3.184:2000
+Open 192.168.3.185:2000
+Open 192.168.3.186:2000
+Open 192.168.3.187:2000
+Open 192.168.3.190:2000
+Open 192.168.3.191:2000
+Open 192.168.3.192:2000
+Open 192.168.3.188:2000
+Open 192.168.3.193:2000
+Open 192.168.3.194:2000
+Open 192.168.3.195:2000
+Open 192.168.3.196:2000
+Open 192.168.3.189:2000
+Open 192.168.3.199:2000
+Open 192.168.3.201:2000
+Open 192.168.3.197:2000
+Open 192.168.3.204:2000
+Open 192.168.3.205:2000
+Open 192.168.3.198:2000
+Open 192.168.3.207:2000
+Open 192.168.3.206:2000
+Open 192.168.3.200:2000
+Open 192.168.3.202:2000
+Open 192.168.3.208:2000
+Open 192.168.3.203:2000
+Open 192.168.3.210:2000
+Open 192.168.3.211:2000
+Open 192.168.3.209:2000
+Open 192.168.3.213:2000
+Open 192.168.3.214:2000
+Open 192.168.3.216:2000
+Open 192.168.3.212:2000
+Open 192.168.3.217:2000
+Open 192.168.3.215:2000
+Open 192.168.3.218:2000
+Open 192.168.3.219:2000
+Open 192.168.3.221:2000
+Open 192.168.3.220:2000
+Open 192.168.3.222:2000
+Open 192.168.3.223:2000
+Open 192.168.3.224:2000
+Open 192.168.3.225:2000
+Open 192.168.3.227:2000
+Open 192.168.3.228:2000
+Open 192.168.3.226:2000
+Open 192.168.3.230:2000
+Open 192.168.3.229:2000
+Open 192.168.3.234:2000
+Open 192.168.3.231:2000
+Open 192.168.3.235:2000
+Open 192.168.3.232:2000
+Open 192.168.3.237:2000
+Open 192.168.3.233:2000
+Open 192.168.3.238:2000
+Open 192.168.3.239:2000
+Open 192.168.3.241:2000
+Open 192.168.3.240:2000
+Open 192.168.3.146:2000
+Open 192.168.3.242:2000
+Open 192.168.3.243:2000
+Open 192.168.3.244:2000
+Open 192.168.3.245:2000
+Open 192.168.3.246:2000
+Open 192.168.3.247:2000
+Open 192.168.3.248:2000
+Open 192.168.3.249:2000
+Open 192.168.3.250:2000
+Open 192.168.3.251:2000
+Open 192.168.3.252:2000
+Open 192.168.3.253:2000
+Open 192.168.3.255:2000
+Open 192.168.3.236:2000
+Open 192.168.3.254:2000
+Open 192.168.3.0:5060
+Open 192.168.3.1:5060
+Open 192.168.3.2:5060
+Open 192.168.3.3:5060
+Open 192.168.3.4:5060
+Open 192.168.3.5:5060
+Open 192.168.3.6:5060
+Open 192.168.3.7:5060
+Open 192.168.3.10:5060
+Open 192.168.3.11:5060
+Open 192.168.3.12:5060
+Open 192.168.3.14:5060
+Open 192.168.3.13:5060
+Open 192.168.3.15:5060
+Open 192.168.3.16:5060
+Open 192.168.3.18:5060
+Open 192.168.3.8:5060
+Open 192.168.3.9:5060
+Open 192.168.3.17:5060
+Open 192.168.3.19:5060
+Open 192.168.3.20:5060
+Open 192.168.3.22:5060
+Open 192.168.3.23:5060
+Open 192.168.3.24:5060
+Open 192.168.3.25:5060
+Open 192.168.3.26:5060
+Open 192.168.3.29:5060
+Open 192.168.3.32:5060
+Open 192.168.3.27:5060
+Open 192.168.3.30:5060
+Open 192.168.3.35:5060
+Open 192.168.3.28:5060
+Open 192.168.3.36:5060
+Open 192.168.3.37:5060
+Open 192.168.3.33:5060
+Open 192.168.3.31:5060
+Open 192.168.3.38:5060
+Open 192.168.3.34:5060
+Open 192.168.3.39:5060
+Open 192.168.3.40:5060
+Open 192.168.3.41:5060
+Open 192.168.3.21:5060
+Open 192.168.3.42:5060
+Open 192.168.3.43:5060
+Open 192.168.3.44:5060
+Open 192.168.3.45:5060
+Open 192.168.3.47:5060
+Open 192.168.3.48:5060
+Open 192.168.3.46:5060
+Open 192.168.3.50:5060
+Open 192.168.3.49:5060
+Open 192.168.3.51:5060
+Open 192.168.3.53:5060
+Open 192.168.3.54:5060
+Open 192.168.3.52:5060
+Open 192.168.3.57:5060
+Open 192.168.3.56:5060
+Open 192.168.3.58:5060
+Open 192.168.3.59:5060
+Open 192.168.3.60:5060
+Open 192.168.3.62:5060
+Open 192.168.3.61:5060
+Open 192.168.3.63:5060
+Open 192.168.3.64:5060
+Open 192.168.3.65:5060
+Open 192.168.3.66:5060
+Open 192.168.3.67:5060
+Open 192.168.3.68:5060
+Open 192.168.3.69:5060
+Open 192.168.3.70:5060
+Open 192.168.3.71:5060
+Open 192.168.3.72:5060
+Open 192.168.3.74:5060
+Open 192.168.3.73:5060
+Open 192.168.3.75:5060
+Open 192.168.3.76:5060
+Open 192.168.3.77:5060
+Open 192.168.3.80:5060
+Open 192.168.3.81:5060
+Open 192.168.3.82:5060
+Open 192.168.3.83:5060
+Open 192.168.3.85:5060
+Open 192.168.3.84:5060
+Open 192.168.3.86:5060
+Open 192.168.3.88:5060
+Open 192.168.3.89:5060
+Open 192.168.3.91:5060
+Open 192.168.3.90:5060
+Open 192.168.3.92:5060
+Open 192.168.3.94:5060
+Open 192.168.3.93:5060
+Open 192.168.3.55:5060
+Open 192.168.3.95:5060
+Open 192.168.3.96:5060
+Open 192.168.3.97:5060
+Open 192.168.3.98:5060
+Open 192.168.3.99:5060
+Open 192.168.3.101:5060
+Open 192.168.3.100:5060
+Open 192.168.3.102:5060
+Open 192.168.3.103:5060
+Open 192.168.3.104:5060
+Open 192.168.3.106:5060
+Open 192.168.3.105:5060
+Open 192.168.3.107:5060
+Open 192.168.3.108:5060
+Open 192.168.3.109:5060
+Open 192.168.3.110:5060
+Open 192.168.3.111:5060
+Open 192.168.3.113:5060
+Open 192.168.3.114:5060
+Open 192.168.3.78:5060
+Open 192.168.3.79:5060
+Open 192.168.3.112:5060
+Open 192.168.3.116:5060
+Open 192.168.3.115:5060
+Open 192.168.3.118:5060
+Open 192.168.3.117:5060
+Open 192.168.3.119:5060
+Open 192.168.3.121:5060
+Open 192.168.3.120:5060
+Open 192.168.3.122:5060
+Open 192.168.3.123:5060
+Open 192.168.3.87:5060
+Open 192.168.3.125:5060
+Open 192.168.3.126:5060
+Open 192.168.3.127:5060
+Open 192.168.3.128:5060
+Open 192.168.3.129:5060
+Open 192.168.3.130:5060
+Open 192.168.3.131:5060
+Open 192.168.3.132:5060
+Open 192.168.3.133:5060
+Open 192.168.3.135:5060
+Open 192.168.3.134:5060
+Open 192.168.3.136:5060
+Open 192.168.3.137:5060
+Open 192.168.3.138:5060
+Open 192.168.3.140:5060
+Open 192.168.3.139:5060
+Open 192.168.3.141:5060
+Open 192.168.3.143:5060
+Open 192.168.3.144:5060
+Open 192.168.3.145:5060
+Open 192.168.3.146:5060
+Open 192.168.3.147:5060
+Open 192.168.3.148:5060
+Open 192.168.3.150:5060
+Open 192.168.3.151:5060
+Open 192.168.3.154:5060
+Open 192.168.3.142:5060
+Open 192.168.3.155:5060
+Open 192.168.3.149:5060
+Open 192.168.3.156:5060
+Open 192.168.3.157:5060
+Open 192.168.3.158:5060
+Open 192.168.3.159:5060
+Open 192.168.3.160:5060
+Open 192.168.3.161:5060
+Open 192.168.3.162:5060
+Open 192.168.3.163:5060
+Open 192.168.3.164:5060
+Open 192.168.3.166:5060
+Open 192.168.3.165:5060
+Open 192.168.3.167:5060
+Open 192.168.3.168:5060
+Open 192.168.3.169:5060
+Open 192.168.3.170:5060
+Open 192.168.3.171:5060
+Open 192.168.3.172:5060
+Open 192.168.3.173:5060
+Open 192.168.3.175:5060
+Open 192.168.3.176:5060
+Open 192.168.3.174:5060
+Open 192.168.3.178:5060
+Open 192.168.3.177:5060
+Open 192.168.3.179:5060
+Open 192.168.3.181:5060
+Open 192.168.3.183:5060
+Open 192.168.3.182:5060
+Open 192.168.3.184:5060
+Open 192.168.3.185:5060
+Open 192.168.3.186:5060
+Open 192.168.3.187:5060
+Open 192.168.3.124:5060
+Open 192.168.3.188:5060
+Open 192.168.3.189:5060
+Open 192.168.3.190:5060
+Open 192.168.3.191:5060
+Open 192.168.3.192:5060
+Open 192.168.3.193:5060
+Open 192.168.3.194:5060
+Open 192.168.3.197:5060
+Open 192.168.3.198:5060
+Open 192.168.3.199:5060
+Open 192.168.3.200:5060
+Open 192.168.3.202:5060
+Open 192.168.3.201:5060
+Open 192.168.3.203:5060
+Open 192.168.3.204:5060
+Open 192.168.3.205:5060
+Open 192.168.3.206:5060
+Open 192.168.3.207:5060
+Open 192.168.3.208:5060
+Open 192.168.3.209:5060
+Open 192.168.3.210:5060
+Open 192.168.3.213:5060
+Open 192.168.3.211:5060
+Open 192.168.3.214:5060
+Open 192.168.3.212:5060
+Open 192.168.3.215:5060
+Open 192.168.3.216:5060
+Open 192.168.3.217:5060
+Open 192.168.3.218:5060
+Open 192.168.3.219:5060
+Open 192.168.3.152:5060
+Open 192.168.3.153:5060
+Open 192.168.3.221:5060
+Open 192.168.3.220:5060
+Open 192.168.3.222:5060
+Open 192.168.3.223:5060
+Open 192.168.3.224:5060
+Open 192.168.3.226:5060
+Open 192.168.3.225:5060
+Open 192.168.3.228:5060
+Open 192.168.3.227:5060
+Open 192.168.3.230:5060
+Open 192.168.3.231:5060
+Open 192.168.3.232:5060
+Open 192.168.3.233:5060
+Open 192.168.3.235:5060
+Open 192.168.3.234:5060
+Open 192.168.3.229:5060
+Open 192.168.3.236:5060
+Open 192.168.3.237:5060
+Open 192.168.3.238:5060
+Open 192.168.3.239:5060
+Open 192.168.3.240:5060
+Open 192.168.3.241:5060
+Open 192.168.3.242:5060
+Open 192.168.3.243:5060
+Open 192.168.3.244:5060
+Open 192.168.3.245:5060
+Open 192.168.3.246:5060
+Open 192.168.3.248:5060
+Open 192.168.3.249:5060
+Open 192.168.3.247:5060
+Open 192.168.3.250:5060
+Open 192.168.3.251:5060
+Open 192.168.3.253:5060
+Open 192.168.3.254:5060
+Open 192.168.3.252:5060
+Open 192.168.3.255:5060
+Open 192.168.3.180:5060
+Open 192.168.3.195:5060
+Open 192.168.3.196:5060
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1
+[1;34m[~][0m Starting Script(s)
+[1;31m[!][0m Error Exit code = 1

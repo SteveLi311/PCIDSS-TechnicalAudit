@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 6 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 6 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>366205796862</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-northeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Thu Apr 24 21:30:27 +07 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:iam::366205796862:user/pci_assessor</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS API Access: codebuild list-projects</h3>
+                        <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS account has read permissions for codebuild:list-projects
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS API Access: codepipeline list-pipelines</h3>
+                        <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS account has read permissions for codepipeline:list-pipelines
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ecr describe-repositories</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: inspector2 list-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: guardduty list-detectors</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: lambda list-functions</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: s3api list-buckets</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: wafv2 list-web-acls</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: securityhub get-findings</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> AWS API Access: cloudformation list-stacks</h3>
+                        <div>Access Denied. Your AWS account does not have permission to perform this operation.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure your AWS account has read permissions for cloudformation:list-stacks
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div>Sufficient permissions detected. 90% of required permissions are available.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target Resources
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-resources">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> Resource Identification</h3>
+                        <div><h4>Resources identified for assessment:</h4><p><strong>CodeBuild Projects:</strong> None found</p><p><strong>CodePipeline Pipelines:</strong> None found</p><p><strong>ECR Repositories:</strong>       17 repositories</p><p><strong>Lambda Functions:</strong>       39 functions</p><p><strong>S3 Buckets:</strong>      110 buckets</p><p><strong>WAF Web ACLs:</strong>        1 ACLs</p><ul><li>Canlead-WAF</li></ul><p><strong>CloudFormation Stacks:</strong> None found</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.2: Bespoke and custom software are developed securely
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.2">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.2.1 - CodeBuild Pipeline Analysis</h3>
+                        <div><p>No CodeBuild projects found for analysis.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.2.1 - CodePipeline CI/CD Workflow Analysis</h3>
+                        <div><p>No CodePipeline pipelines found for analysis.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.3: Security vulnerabilities are identified and addressed
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.3">
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 6.3.1 - Vulnerability scanning with AWS Inspector</h3>
+                        <div><p><span class="red">AWS Inspector is not enabled or configured in this region.</span></p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable AWS Inspector to automatically scan for vulnerabilities in EC2 instances, container images, and Lambda functions. Inspector helps identify software vulnerabilities and network exposure.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item fail">
+                        <h3><span class="red">[FAIL]</span> 6.3.2 - Container image vulnerability scanning</h3>
+                        <div><p>Analyzing vulnerability scanning configuration for ECR repositories:</p><ul><li><span class="red">Repository 'callcarbar_admin_scratch' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'callcarbar_admin_scratch' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'postoffice-ticket-log-backup' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'postoffice-ticket-log-backup' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'idanline-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'idanline-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'idanline-golang-builder' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'idanline-golang-builder' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'adamwarlock-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'adamwarlock-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'detect-alb-ip' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'detect-alb-ip' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'canlead-ticket' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'canlead-ticket' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'cyclops' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'cyclops' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'applestore/vue-amplify' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'applestore/vue-amplify' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-staging' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-staging' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'webservice-develop' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'webservice-develop' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ghostrider-golang-builder' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ghostrider-golang-builder' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'ecs-task-log-backup' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'ecs-task-log-backup' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'magneto-golang' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'magneto-golang' has mutable image tags, which can introduce security risks</span></li><li><span class="red">Repository 'callcarbar-edm' does not have automatic scanning enabled</span></li><li><span class="yellow">Repository 'callcarbar-edm' has mutable image tags, which can introduce security risks</span></li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Enable scan-on-push or enhanced scanning for all ECR repositories to identify vulnerabilities in container images. Also consider enabling immutable image tags to improve security and traceability.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.3.2 - Infrastructure as Code security</h3>
+                        <div><p>No CloudFormation stacks found for analysis.</p></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.4: Public-facing web applications are protected against attacks
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 6.4.2 - Web application firewall implementation</h3>
+                        <div><p>AWS WAF Web ACLs found:</p><ul><li>Web ACL: Canlead-WAF<ul><li>Default action: </li><li>Rules configured:        0</li><li><span class="yellow">Default action is not set to BLOCK. Consider using a default deny policy with explicit allow rules.</span></li><li><span class="red">No managed rule groups detected. Consider using AWS WAF managed rules for protection against common vulnerabilities</span></li><li><span class="yellow">Logging is not enabled for this Web ACL</span></li></ul></li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure AWS WAF with managed rule groups that protect against common web application vulnerabilities (OWASP Top 10) including SQL injection, XSS, and CSRF. Enable logging to capture and analyze potential attacks.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 6.5: Changes to all system components are managed securely
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-6.5">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 6.5.3 - Environment separation indicators</h3>
+                        <div><p>Analyzing Lambda functions for environment separation indicators:</p><p>Functions grouped by environment naming convention:</p><ul><li>Unknown/other environment: 1 functions</li><li>Unknown/other environment: 1 functions</li><li>Unknown/other environment: 1 functions</li><li>Test environment: 1 functions</li><li>Unknown/other environment: 35 functions</li></ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure clear separation between production and non-production environments. Use separate AWS accounts for production and non-production environments when possible. Consider AWS Organizations for multi-account management.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Thu Apr 24 21:31:35 +07 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><span class="green">0</span></td>
+                    <td><span class="red">2</span></td>
+                    <td><span class="yellow">4</span></td>
+                    <td>0%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 0%; background-color: #f44336;">
+                    0%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 6.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+

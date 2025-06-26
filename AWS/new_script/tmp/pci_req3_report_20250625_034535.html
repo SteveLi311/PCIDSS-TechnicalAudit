@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCI DSS 4.0 - Requirement 3 Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #2196F3;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f0f0f0;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .section-header:hover {
+            background-color: #e0e0e0;
+        }
+        .section-header::after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-weight: bold;
+        }
+        .section-header.active::after {
+            content: "-";
+        }
+        .section-content {
+            padding: 15px;
+            display: none;
+        }
+        .active + .section-content {
+            display: block;
+        }
+        .check-item {
+            border-left: 4px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .pass {
+            border-left-color: #4CAF50;
+        }
+        .fail {
+            border-left-color: #f44336;
+        }
+        .warning {
+            border-left-color: #ff9800;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table th, .info-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background-color: #f0f0f0;
+        }
+        .summary-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .summary-table {
+            width: 100%;
+        }
+        /* Detailed failure information styling */
+        .detailed-info {
+            margin-top: 15px;
+        }
+        details {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 15px;
+        }
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+        details[open] {
+            padding: 0.5em;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 0.5em;
+        }
+        .details-content {
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .summary-details {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #2196F3;
+        }
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .summary-table th, .summary-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #e0e0e0;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 25px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+        .recommendation {
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+        }
+        .timestamp {
+            color: #757575;
+            font-style: italic;
+            text-align: right;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 0.9em;
+        }
+        /* Color classes */
+        .green { color: #4CAF50; }
+        .red { color: #f44336; }
+        .yellow { color: #ff9800; }
+        .blue { color: #2196F3; }
+        .gray { color: #757575; }
+        
+        /* Print styling */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .section-content {
+                display: block;
+            }
+            .section-header::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCI DSS 4.0 - Requirement 3 Compliance Assessment Report</h1>
+        
+        <div class="info-table">
+            <table>
+                <tr>
+                    <th>AWS Account</th>
+                    <td>094692261598</td>
+                </tr>
+                <tr>
+                    <th>AWS Region</th>
+                    <td>ap-southeast-1</td>
+                </tr>
+                <tr>
+                    <th>Assessment Date</th>
+                    <td>Wed Jun 25 03:45:40 UTC 2025</td>
+                </tr>
+                <tr>
+                    <th>Assessed By</th>
+                    <td>arn:aws:sts::094692261598:assumed-role/check-test/i-0830648e8ddd8522e</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="summary-box">
+            <h2 style="margin-top: 0;">Summary</h2>
+            <div id="summary-statistics">
+                <!-- Placeholder - will be filled at the end -->
+                <p>Assessment in progress...</p>
+            </div>
+        </div>
+        
+        <!-- Report content will be added here -->
+        <div id="report-content">
+
+        <div class="section">
+            <div class="section-header active" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                AWS Permissions Check
+            </div>
+            <div class="section-content" style="display: block;">
+                <div id="permissions">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: rds describe-db-instances</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: dynamodb list-tables</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: s3 list-buckets</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: ec2 describe-instances</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: kms list-keys</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> AWS API Access: cloudtrail describe-trails</h3>
+                        <div>Successfully verified access to this AWS API.</div>
+    
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> Permission Assessment</h3>
+                        <div>Sufficient permissions detected. 83% of required permissions are available.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Target Resources
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="target-resources">
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> Resource Identification</h3>
+                        <div>Assessment will include:<br>
+    - RDS Instances: 0<br>
+    - S3 Buckets: 1<br>
+    - DynamoDB Tables: 0<br>
+    - EC2 Instances: 9</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.1: Processes and mechanisms for protecting stored account data are defined and understood
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.1">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.1.1 - Security Policies and Procedures</h3>
+                        <div>This check verifies if all security policies and operational procedures for protecting stored account data are documented, up to date, in use, and known to all affected parties.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure documentation of policies and procedures for protecting stored account data is current, accessible, and covers all aspects of Requirement 3. Verify that relevant personnel are aware of and following these procedures.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.1.2 - Roles and Responsibilities</h3>
+                        <div>This check verifies if roles and responsibilities for performing activities in Requirement 3 are documented, assigned, and understood.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Document and assign roles and responsibilities for protection of stored account data. Ensure personnel understand their responsibilities.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.2: Storage of account data is kept to a minimum
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.2">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.2.1 - Data Retention and Disposal</h3>
+                        <div>Check for implementation of data retention and disposal policies that minimize storage of account data. Manual verification required to confirm policies that cover: all locations of stored data, retention periods with business justification, secure deletion methods, and quarterly verification processes.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement data retention and disposal policies that include all locations of stored data, limit storage amount and retention time, define specific retention requirements with business justification, and include secure deletion processes. Verify quarterly that data exceeding retention periods is removed.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.2.1 - S3 Data Lifecycle Policies</h3>
+                        <div>No S3 buckets were found to have lifecycle policies configured.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Configure lifecycle policies for all S3 buckets that may contain account data to ensure data is retained only as long as necessary.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.3: Sensitive authentication data (SAD) is not stored after authorization
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.3">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.3.1 - SAD Storage Prohibition</h3>
+                        <div>This check verifies that sensitive authentication data (SAD) is not stored after authorization, even if encrypted.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement processes to ensure that full track data, card verification codes, and PINs/PIN blocks are not stored after authorization is complete. Any storage of SAD before authorization must be encrypted and securely deleted when no longer needed.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.3.2 - SAD Pre-Authorization Encryption</h3>
+                        <div>This check verifies that any SAD stored electronically prior to authorization is encrypted using strong cryptography.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If SAD must be stored before authorization is complete, ensure it is encrypted with strong cryptography.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.4: Access to displays of full PAN and ability to copy PAN are restricted
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.4">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.4.1 - PAN Masking</h3>
+                        <div>This check verifies if PAN is masked when displayed (the BIN and last four digits are the maximum number of digits to be displayed)</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure that all systems displaying PAN implement proper masking, showing only the BIN and last four digits. Verify that only personnel with a legitimate business need can see the full PAN.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.4.2 - Remote-Access PAN Controls</h3>
+                        <div>This check verifies if technical controls are in place to prevent copying of PAN when using remote-access technologies</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement technical controls to prevent copying or relocating of PAN during remote access sessions, except for personnel with documented, explicit authorization and legitimate business need.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.5: Primary account number (PAN) is secured wherever it is stored
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.5">
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.5.1 - PAN Unreadability</h3>
+                        <div>This check verifies if PAN is rendered unreadable anywhere it is stored using appropriate methods (hashing, truncation, tokens, or encryption)</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure PAN is unreadable using one of these methods: one-way hashes based on strong cryptography, truncation, index tokens, or strong cryptography with key management.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> 3.5.1 - KMS Key Availability</h3>
+                        <div><p>Found 1 KMS keys:</p><ul>
+            <li>Customer-managed keys: 1</li>
+            <li>AWS-managed keys: 0</li>
+        </ul>
+        <p>These keys could be used for encryption of sensitive data. Manual verification is needed to ensure they are properly used for PAN encryption.</p></div>
+    
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.5.1 - EBS Volume Encryption</h3>
+                        <div>8 of 8 EBS volumes are not encrypted. If these volumes store PAN, they must be encrypted.</div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Encrypt all EBS volumes that may contain PAN or migrate data to encrypted volumes.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.5.1.2/3.5.1.3 - Disk-Level Encryption Controls</h3>
+                        <div><p>Automated assessment found limited evidence of specialized key management for disk-level encryption.</p>
+    <h4>Analysis of Key Management Practices for Disk-Level Encryption</h4><p>No CloudHSM clusters found for hardware-based key management</p><p>No custom KMS key stores found</p><p>Found 1 customer-managed KMS keys:</p>
+    <ul>
+        <li>Keys with rotation enabled: 0 (0%)</li>
+        <li>Keys without rotation: 1</li>
+    </ul><p>These automated findings provide evidence of key management practices for disk-level encryption, but manual verification is required to confirm:</p>
+<ul>
+    <li>Whether logical access to disk-level encryption is managed separately from OS/host-level access mechanisms</li>
+    <li>Whether disk encryption on non-removable media is combined with another method of PAN protection</li>
+    <li>Whether cryptographic keys are stored securely and separately from the data they protect</li>
+</ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If using disk-level encryption for PAN protection, ensure it is only used on removable media OR combined with another method for non-removable media. Verify logical access is managed independently from OS controls, decryption keys are not associated with user accounts, and authentication factors are stored securely.
+                        </div>
+        
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.6: Cryptographic keys used to protect stored account data are secured
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.6">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 3.6.1 - Key Protection Procedures</h3>
+                        <div><p>Automated assessment found evidence of secure key management practices:</p>
+        <ul>
+            <li>KMS key policies appear to implement restrictive access controls</li>
+            <li>Key usage patterns indicate active cryptographic operations</li>
+        </ul>
+        <p>Analysis shows the following key management security practices are in place:</p><ul><li class="green">Conditional access restrictions are applied to key operations</li></ul>
+        <h4>Analysis of Cryptographic Key Protection</h4>
+<h4>Analysis of KMS Key Policies</h4><ul><li>Key ID: 64236ba1-d2d1-49d9-845a-f72e48454ad4 (Alias: alias/test-key-01)<ul><li class="green">Policy contains conditional access restrictions</li><li class="yellow">Policy may not clearly separate administrative from usage permissions</li><li>Policy excerpt:<pre class="code-block">{
+    &quot;Policy&quot;: &quot;{\n  \&quot;Version\&quot; : \&quot;2012-10-17\&quot;,\n  \&quot;Id\&quot; : \&quot;key-consolepolicy-3\&quot;,\n  \&quot;Statement\&quot; : [ {\n    \&quot;Sid\&quot; : \&quot;Enable IAM User Permissions\&quot;,\n    \&quot;Effect\&quot; : \&quot;Allow\&quot;,\n    \&quot;Principal\&quot; : {\n      \&quot;AWS\&quot; : \&quot;arn:aws:iam::094692261598:root\&quot;\n    },\n    \&quot;Action\&quot; : \&quot;kms:*\&quot;,\n    \&quot;Resource\&quot; : \&quot;*\&quot;\n  }, {\n    \&quot;Sid\&quot; : \&quot;Allow use of the key\&quot;,\n    \&quot;Effect\&quot; : \&quot;Allow\&quot;,\n    \&quot;Principal\&quot; : {\n      \&quot;AWS\&quot; : [ \&quot;arn:aws:iam::094692261598:user/max\&quot;, \&quot;arn:aws:iam::094692261598:user/key-user-01\&quot; ]\n    },\n    \&quot;Action\&quot; : [ \&quot;kms:Encrypt\&quot;, \&quot;kms:Decrypt\&quot;, \&quot;kms:ReEncrypt*\&quot;, \&quot;kms:GenerateDataKey*\&quot;, \&quot;kms:DescribeKey\&quot; ],\n    \&quot;Resource\&quot; : \&quot;*\&quot;\n  }, {\n    \&quot;Sid\&quot; : \&quot;Allow attachment of persistent resources\&quot;,\n    \&quot;Effect\&quot; : \&quot;Allow\&quot;,\n    \&quot;Principal\&quot; : {\n      \&quot;AWS\&quot; : [ \&quot;arn:aws:iam::094692261598:user/max\&quot;, \&quot;arn:aws:iam::094692261598:user/key-user-01\&quot; ]\n    },\n    \&quot;Action\&quot; : [ \&quot;kms:CreateGrant\&quot;, \&quot;kms:ListGrants\&quot;, \&quot;kms:RevokeGrant\&quot; ],\n    \&quot;Resource\&quot; : \&quot;*\&quot;,\n    \&quot;Condition\&quot; : {\n      \&quot;Bool\&quot; : {\n        \&quot;kms:GrantIsForAWSResource\&quot; : \&quot;true\&quot;\n      }\n    }\n  } ]\n}&quot;,
+    &quot;PolicyName&quot;: &quot;default&quot;
+}</pre></li></ul></li><li>Overall: 1 of 1 customer-managed keys have restrictive policies</li></ul>
+<h4>Analysis of Cryptographic Key Usage Patterns</h4><p>Found 14 KMS-related events in CloudTrail from the past week.</p><ul><li>Encrypt operations: 0</li><li>Decrypt operations: 0</li><li>Key creation events: 0</li><li>Key deletion events: 0</li><li>Sample of recent key operations:<ul><li>2025-06-25T03:37:43+00:00 - ListKeys by i-0830648e8ddd8522e</li><li>2025-06-25T03:29:52+00:00 - ListKeys by i-0830648e8ddd8522e</li><li>2025-06-25T03:24:18+00:00 - ListKeys by i-0830648e8ddd8522e</li><li>2025-06-25T03:13:57+00:00 - ListKeys by i-0830648e8ddd8522e</li><li>2025-06-19T03:01:27+00:00 - GetKeyRotationStatus by i-0830648e8ddd8522e</li></ul></li></ul>
+
+<p>These automated findings provide evidence of cryptographic key protection mechanisms, but manual verification is required to confirm:</p>
+<ul>
+    <li>Whether comprehensive key management procedures are documented</li>
+    <li>Whether access to cryptographic keys is restricted to the fewest custodians necessary</li>
+    <li>Whether key-encrypting keys are at least as strong as data-encrypting keys</li>
+    <li>Whether keys are stored securely and separately from the data they protect</li>
+</ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> While automated evidence is positive, verify through documentation that comprehensive key management procedures exist and include: restriction of access to the fewest custodians necessary, key-encrypting keys at least as strong as data-encrypting keys, secure storage of keys in the fewest possible locations, and separation of key-encrypting keys from data-encrypting keys. AWS KMS handles many of these requirements automatically by design.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 3.6.1 - KMS Key Policies</h3>
+                        <div>All 1 KMS keys have properly restricted key policies.</div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="section">
+            <div class="section-header " onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.classList.contains('active') ? 'block' : 'none';">
+                Requirement 3.7: Where cryptography is used to protect stored account data, key management processes and procedures covering all aspects of the key lifecycle are defined and implemented
+            </div>
+            <div class="section-content" style="display: none;">
+                <div id="req-3.7">
+    
+
+                    <div class="check-item pass">
+                        <h3><span class="green">[PASS]</span> 3.7.1 - Strong Key Generation</h3>
+                        <div><p>Automated assessment found evidence of secure key generation capabilities:</p>
+        <ul>
+            <li>CloudHSM: Not found</li>
+            <li>AWS KMS: Customer-managed keys in use</li>
+        </ul>
+        <h4>Analysis of Cryptographic Key Generation</h4>
+<p>Unable to check CloudHSM clusters - permission denied or service not available.</p>
+<h4>KMS Key Generation Capabilities</h4><p>Analysis of AWS KMS key generation:</p><ul>
+        <li>Customer-managed KMS keys: 1</li>
+        <li>AWS-managed KMS keys: 0</li>
+        <li>Custom key stores: 0</li>
+    </ul>
+    
+    <p>AWS KMS provides the following key generation capabilities:</p>
+    <ul>
+        <li>Symmetric keys (AES-256) that are FIPS 140-2 compliant</li>
+        <li>Asymmetric keys (RSA and ECC) with various key lengths</li>
+        <li>Hardware security module (HSM) backing for keys when using custom key stores</li>
+        <li>Cryptographically secure random number generation</li>
+    </ul>
+
+<p>These automated findings provide evidence of key generation capabilities, but manual verification is required to confirm:</p>
+<ul>
+    <li>Whether formal key generation procedures are documented</li>
+    <li>Whether the implemented key generation methods produce cryptographically strong keys</li>
+    <li>Whether key generation follows industry-accepted standards and best practices</li>
+</ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> While automated evidence is positive, verify through documentation that key-management policies and procedures specifically address the generation of strong cryptographic keys and compliance with industry standards.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.2 - Secure Key Distribution</h3>
+                        <div><p>Automated assessment provides limited evidence of cryptographic key distribution practices.</p>
+    <p>AWS provides secure key distribution mechanisms through TLS-encrypted API calls, IAM role-based access control, VPC Endpoints for private network paths to KMS, and CloudHSM integration for hardware-based key management.</p>
+    <p>Manual verification is required to confirm formal key distribution procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement key-management policies and procedures that address secure distribution of cryptographic keys. Configure secure channels for key distribution and ensure methods maintain the integrity and confidentiality of keys.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.3 - Secure Key Storage</h3>
+                        <div><p>Automated assessment provides limited evidence of cryptographic key storage practices.</p>
+    <p>AWS KMS stores keys in FIPS 140-2 validated HSMs, and master keys in KMS never leave the HSMs unencrypted. CloudHSM provides dedicated hardware security modules for enhanced security.</p>
+    <p>Manual verification is required to confirm formal key storage procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement key-management policies and procedures that address secure storage of cryptographic keys. Ensure keys are stored securely in the fewest possible locations and protected against unauthorized access.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.4 - Key Cryptoperiod and Changes</h3>
+                        <div><p>Automated assessment found limited evidence of key rotation practices.</p>
+    <p>AWS KMS provides automatic key rotation for symmetric keys if enabled:</p><ul><li class="red">Key 64236ba1-d2d1-49d9-845a-f72e48454ad4 (alias/test-key-01): Rotation DISABLED</li></ul><p>With AWS KMS key rotation:</p><ul>
+    <li>When enabled, AWS automatically rotates symmetric KMS keys once every year</li>
+    <li>Previous key material is retained to decrypt data encrypted before rotation</li>
+    <li>New encryptions use the latest key material</li>
+    <li>Applications don't need to change how they use the key</li>
+    <li>Asymmetric KMS keys cannot be automatically rotated</li>
+</ul>
+    <p>Manual verification is required to confirm whether cryptoperiods are defined for each key type and whether procedures for key changes at defined intervals exist.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement key-management policies that define cryptoperiods for each key type and include processes for key changes at the end of those periods. Enable automatic key rotation for AWS KMS keys where supported.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.5 - Key Retirement and Replacement</h3>
+                        <div><p>Automated assessment found limited evidence of key retirement practices.</p>
+    <p>AWS KMS provides key retirement capabilities through scheduled deletions with customizable waiting periods. Found 0 keys scheduled for deletion.</p>
+    <p>Manual verification is required to confirm whether policies for key retirement or replacement exist for various scenarios.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement policies for key retirement or replacement when keys reach cryptoperiod end, key integrity is weakened, or key is compromised. Ensure retired keys are not used for encryption.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.6 - Manual Key Operations</h3>
+                        <div><p>Manual verification required. Automated assessment cannot determine if manual cleartext key operations are performed or how they are managed.</p>
+    <p>AWS Key Management Service (KMS) generally handles keys in a way that prevents exposure of cleartext key material to users. However, some scenarios might involve manual key operations:</p>
+    <ul>
+        <li>Import of external key material into AWS KMS</li>
+        <li>Use of CloudHSM key management utilities</li>
+        <li>On-premises key management systems integrated with AWS</li>
+    </ul></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> If manual cleartext key-management operations are performed, ensure they are managed using split knowledge and dual control. This typically requires implementing procedures where at least two people (each with partial knowledge) are required for key operations, and documenting these procedures formally.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.7 - Prevention of Unauthorized Key Substitution</h3>
+                        <div><p>Manual verification required. Automated assessment provides limited insight into controls preventing unauthorized key substitution.</p>
+    <p>AWS KMS implements several controls that can help prevent unauthorized key substitution:</p>
+    <ul>
+        <li>IAM policies controlling who can use specific keys</li>
+        <li>Key policies defining permissions at the key level</li>
+        <li>AWS CloudTrail logging of all key operations</li>
+        <li>KMS grants for granular access control</li>
+    </ul>
+    <p>Manual review of these controls and related documentation is needed to verify proper implementation.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Implement key-management policies and procedures that prevent unauthorized substitution of cryptographic keys. This typically includes access controls, role separation, oversight mechanisms, and audit procedures to detect and prevent unauthorized key changes.
+                        </div>
+        
+                    </div>
+    
+
+                    <div class="check-item warning">
+                        <h3><span class="yellow">[WARNING]</span> 3.7.8 - Key Custodian Acknowledgment</h3>
+                        <div><p>Automated assessment provides limited evidence of key custodian acknowledgment procedures.</p>
+    <p>No IAM roles found with names suggesting they might be used for key custodians. Manual verification is needed to identify key custodians and their acknowledgment procedures.</p></div>
+    
+                        <div class="recommendation">
+                            <strong>Recommendation:</strong> Ensure all key custodians formally acknowledge (in writing or electronically) that they understand and accept their key-custodian responsibilities. This typically involves documented roles and responsibilities, specific procedures for each custodian role, and a formal acknowledgment process.
+                        </div>
+        
+                    </div>
+    
+
+        </div>
+        
+        <div class="timestamp">
+            Report generated on: Wed Jun 25 03:46:30 UTC 2025
+        </div>
+        
+        <script>
+            // Replace the placeholder summary with the final statistics
+            document.getElementById('summary-statistics').innerHTML = `
+            <table class="summary-table">
+                <tr>
+                    <th>Total Checks</th>
+                    <th>Passed</th>
+                    <th>Failed</th>
+                    <th>Warnings/Manual</th>
+                    <th>Compliance</th>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td><span class="green">3</span></td>
+                    <td><span class="red">0</span></td>
+                    <td><span class="yellow">19</span></td>
+                    <td>100%</td>
+                </tr>
+            </table>
+            
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%; background-color: #4CAF50;">
+                    100%
+                </div>
+            </div>
+    `;
+            
+            // Add important notes at the end
+            document.getElementById('report-content').innerHTML += `
+            <h3>Important Notes</h3>
+            <ol>
+                <li>This report provides a high-level assessment of AWS controls for PCI DSS Requirement 3.</li>
+                <li>Many checks require manual verification of documentation and procedures.</li>
+                <li>A full PCI DSS assessment requires detailed analysis of all system components in the CDE.</li>
+                <li>This report does not replace the need for a qualified security assessor (QSA).</li>
+                <li>For a complete PCI DSS assessment, refer to the PCI DSS v4.0 standard.</li>
+            </ol>
+    `;
+            
+            // Automatically expand the first section
+            document.addEventListener('DOMContentLoaded', function() {
+                const firstHeader = document.querySelector('.section-header');
+                if (firstHeader) {
+                    firstHeader.classList.add('active');
+                    firstHeader.nextElementSibling.style.display = 'block';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
+
+
+                    <div class="check-item info">
+                        <h3><span class="blue">[INFO]</span> Assessment Summary</h3>
+                        <div><p>A total of 22 checks were performed:</p>
+<ul>
+    <li class="green">Passed checks: 3</li>
+    <li class="red">Failed checks: 0</li>
+    <li class="yellow">Warning/manual checks: 19</li>
+</ul>
+<p>Automated compliance percentage (excluding warnings): 100%</p>
+
+<p><strong>Next Steps:</strong></p>
+<ol>
+    <li>Review all warning items that require manual verification</li>
+    <li>Address failed checks as a priority</li>
+    <li>Implement recommendations provided in the report</li>
+    <li>Document compensating controls where applicable</li>
+    <li>Perform a follow-up assessment after remediation</li>
+</ol></div>
+    
+                    </div>
+    
+
+                </div>
+            </div>
+        </div>
+    

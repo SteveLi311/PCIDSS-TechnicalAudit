@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "collab-testing-orange",
+  "private_key_id": "8384e64cf2923ce86850008d4d5588ef1e8138aa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3IAk/qcKHSN7f\nupYtEbqv5NzIKVzqy5etypraYPFPKYvL5aOjnvoOxkFQSqEIoQkhbYSF2ouE7fO0\n57nq4IjT0QjYxflOr7ZRdbHJO662faeRZzhmxCggbhw0zO1A9eD7RlEb+TuI13uc\nyzmbEeGYeyzUjGCj/RGoszcPYM1oSMuDkt/fMVVzT0y9yPXO+wXbSrd3OT6U0zRl\nK7ErkLJYZe8Ys2eJOEnPKspXjBGowwQH1GJzGmzuetsK/icIBBAveMnfMUgrVvON\njlHz8Q/4d+DPFK7U7dOSrR6gQDfL/v3U+F3Q6LMy6ND2cb1SQ1Et70g26VqpmAsY\nYxbHzZdTAgMBAAECggEAQt/LINmgtYDSC0f7YbgQwf1E9z/Ls97npErR5B/036Df\ncXWKHc2Hqe+SmHy4dAtC51c0RyF5Q/EVx6G8Dl8y+I9kuK0Lj0WxwevGIiPOeMxI\nblwQh87ojHdJi6qulcN1Bq42Ho4UxLNUa/z3K38LMIEC7RfajuhzE3VnDRGf0Y3s\ni58ve9RYxJIfw5Lm4OKSOWjLreOJMRNi7iqZIQ2iVb2zjkhG9sqhBQYCCRyMYszi\ntnisv3X/x62ObAsWxlrOAjAlx+h3X6GkiV/M9rP/15Ey1bInGxMphAx3DUBtVdqI\nB1+O+cEVyCEjDEMB3hMPzYXFJNu0lWp2ikV5i62uiQKBgQD1WqGeHpAvQMu2X3ma\nFMpuuUmbwAL/+IZXLnuSAsVkeUNhJnys2QuRmP3czmY11tqBChzP9vrAiLTM4Gx6\nShEjre038lCIDWcDBYLPGE2z+uWCEWkJQRO7gAE9K6wTRVmkmN8B7qvXxL8J8r32\n0tPn0EYlCJU5fo+JEwpQVh0ePwKBgQC/EiwhIL1Wv+8YN37xPCXW1LNHhXXFOEVV\nbQ2Ci2W0VGPSTs4B8p18ASyFUXScpHzmLRk6qje/rRgxYi9+SD+zG8mWvPctlYuw\nnpbyjnERsnMZjpAoqTs+iQ+PgGokTxxm9Z0EzMpgjpiPN5Ru5HF6MimYeO2GE+2g\nw/rqQ9+p7QKBgDWZaAcv7BW2lQoxT1Jeyl5n8fGpf75Fn6t6Bxq9qjup1hNqIgBs\npf9XqdXL7T5DwpZADE1OSjc3Zi//sxMADUB7JYB8WiVusBtT3+C4EXmJDQxeG1Ef\nO11RuHORj9Th6JRxpP46EqZfX9Cfi+pY4lwY/snmVxspT9gFJdKpDVFnAoGBAKRB\nKASWk44G07C6zHrvHQxQr4oVdgfD9v6YEBwgX58lSObbbgeInM+kZrR5MMkUMnbh\nYCXpfKFfWUPixzdFPtVnVuYprkfWnk6IFvWPdC4lfQMEZnM+ADsjMmhHmXd7Nsxf\n6srcjkFxdD7yJb0qz06f3tg/ZNl1OjuRHpvTG2yFAoGBAIxzihoCtNfmNluCHSln\nKPFPQh+Aakr+Ycn56gnMDXxQ0GzKSy2Mjk+cAWCSXEEYLvPFZiDtgm5Pq8x3w4V0\nQDgrAIl8DRNuFIhF4btXb5MTEJPtoqyjGjMSH0T21Dt7ei1NAO+hS7ulI4/8mXE1\na6AdPDnii1ZypDcZ4xYLTMIv\n-----END PRIVATE KEY-----\n",
+  "client_email": "pci-dss-assessor@collab-testing-orange.iam.gserviceaccount.com",
+  "client_id": "116556445729168941765",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pci-dss-assessor%40collab-testing-orange.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
