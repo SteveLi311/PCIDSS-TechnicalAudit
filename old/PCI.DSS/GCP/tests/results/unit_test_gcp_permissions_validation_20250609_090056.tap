@@ -1,0 +1,86 @@
+1..17
+not ok 1 prompt_continue_limited: displays coverage information
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68442_LwMofJ/lib
+not ok 2 prompt_continue_limited: shows missing permissions in verbose mode
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68458_ypRuWC/lib
+not ok 3 prompt_continue_limited: accepts 'y' to continue
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68474_qAXEFx/lib
+not ok 4 prompt_continue_limited: accepts 'yes' to continue
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68490_BlzvT0/lib
+not ok 5 prompt_continue_limited: accepts 'Y' to continue (case insensitive)
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68506_fFKTn3/lib
+not ok 6 prompt_continue_limited: accepts 'YES' to continue (case insensitive)
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68522_gdJIB7/lib
+not ok 7 prompt_continue_limited: rejects 'n' and cancels
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68538_tDeqLt/lib
+not ok 8 prompt_continue_limited: rejects 'no' and cancels
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68554_QEyXLN/lib
+not ok 9 prompt_continue_limited: defaults to 'no' on empty input
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68570_0uhV4k/lib
+not ok 10 prompt_continue_limited: rejects 'N' and cancels (case insensitive)
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68586_wzPnau/lib
+not ok 11 prompt_continue_limited: rejects 'NO' and cancels (case insensitive)
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68602_OHaN8i/lib
+not ok 12 prompt_continue_limited: handles invalid input and reprompts
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68618_lP3ar7/lib
+not ok 13 prompt_continue_limited: handles multiple invalid inputs before valid response
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68634_noj2Tt/lib
+not ok 14 prompt_continue_limited: shows correct prompt message
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68650_A1emuh/lib
+not ok 15 prompt_continue_limited: handles zero missing permissions edge case
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68666_ghuyZU/lib
+not ok 16 prompt_continue_limited: handles single permission edge case
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68682_UDr21H/lib
+not ok 17 prompt_continue_limited: correctly filters missing permissions in verbose mode
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_validation.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68698_ja06nJ/lib

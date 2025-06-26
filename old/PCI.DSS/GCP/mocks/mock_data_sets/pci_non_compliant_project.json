@@ -1,0 +1,11 @@
+{
+  "project_id": "non-compliant-project",
+  "firewall_rules": [
+    {
+      "name": "allow-all",
+      "sourceRanges": ["0.0.0.0/0"],
+      "ports": ["*"]
+    }
+  ],
+  "encryption_keys": []
+}

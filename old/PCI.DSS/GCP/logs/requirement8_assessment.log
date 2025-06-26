@@ -1,0 +1,36 @@
+[2025-06-09 23:16:48] [INFO] Validating prerequisites...
+[2025-06-09 23:16:48] [PASS] Tool 'gcloud' found
+[2025-06-09 23:16:48] [PASS] Tool 'jq' found
+[2025-06-09 23:16:48] [PASS] Tool 'curl' found
+[2025-06-09 23:16:49] [PASS] gcloud authenticated as: hophuongnam@securevectors.com
+[2025-06-09 23:16:50] [PASS] GCP API connectivity verified
+[2025-06-09 23:16:50] [PASS] All prerequisites validated successfully
+[2025-06-09 23:16:50] [INFO] Checking 8 required permissions...
+[2025-06-09 23:16:50] [FAIL] ✗ iam.serviceAccounts.list
+[2025-06-09 23:16:50] [FAIL] ✗ resourcemanager.projects.getIamPolicy
+[2025-06-09 23:16:50] [FAIL] ✗ iam.roles.list
+[2025-06-09 23:16:50] [FAIL] ✗ admin.directory.users.readonly
+[2025-06-09 23:16:50] [FAIL] ✗ admin.directory.groups.readonly
+[2025-06-09 23:16:50] [FAIL] ✗ logging.logEntries.list
+[2025-06-09 23:16:50] [FAIL] ✗ monitoring.alertPolicies.list
+[2025-06-09 23:16:50] [FAIL] ✗ cloudasset.assets.searchAllResources
+[2025-06-09 23:16:50] [INFO] Permission check: 0/8 available (0%)
+[2025-06-09 23:16:50] [WARN] Limited permissions detected (0% coverage)
+[2025-06-09 23:16:50] [INFO] Missing 8 of 8 required permissions
+[2025-06-09 23:16:50] [INFO] Assessment can continue with limited functionality
+[2025-06-09 23:17:12] [PASS] Continuing with limited permissions
+[2025-06-09 23:17:12] [INFO] Setting up assessment scope...
+[2025-06-09 23:17:14] [PASS] Project scope configured: secucollab
+[2025-06-09 23:17:14] [FAIL] initialize_report: Requirement number is required
+[2025-06-09 23:17:14] [INFO] Adding section: Assessment of user identification and authentication access controls
+[2025-06-09 23:17:14] [PASS] Section added: Assessment of user identification and authentication access controls
+[2025-06-09 23:17:14] [INFO] Adding section: Detailed assessment of authentication and identity management controls
+[2025-06-09 23:17:14] [PASS] Section added: Detailed assessment of authentication and identity management controls
+[2025-06-09 23:17:14] [FAIL] add_check_result: Invalid status 'MANUAL' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:14] [FAIL] add_check_result: Invalid status 'MANUAL' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:15] [FAIL] add_check_result: Invalid status 'WARNING' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:16] [FAIL] add_check_result: Invalid status 'INFO' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:18] [FAIL] add_check_result: Invalid status 'INFO' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:18] [FAIL] add_check_result: Invalid status 'WARNING' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:18] [FAIL] add_check_result: Invalid status 'MANUAL' (must be pass, fail, warning, or info)
+[2025-06-09 23:17:19] [FAIL] add_check_result: Invalid status 'WARNING' (must be pass, fail, warning, or info)

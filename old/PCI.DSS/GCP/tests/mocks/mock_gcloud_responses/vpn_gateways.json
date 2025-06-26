@@ -1,0 +1,34 @@
+[
+  {
+    "name": "prod-vpn-gateway",
+    "description": "Production VPN gateway for secure connections",
+    "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/prod-network",
+    "region": "us-central1",
+    "vpnInterfaces": [
+      {
+        "id": 0,
+        "ipAddress": "34.102.136.200"
+      },
+      {
+        "id": 1, 
+        "ipAddress": "34.102.136.201"
+      }
+    ],
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00",
+    "kind": "compute#vpnGateway"
+  },
+  {
+    "name": "dev-vpn-gateway",
+    "description": "Development VPN gateway",
+    "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/dev-network", 
+    "region": "us-west1",
+    "vpnInterfaces": [
+      {
+        "id": 0,
+        "ipAddress": "34.102.136.202"
+      }
+    ],
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00",
+    "kind": "compute#vpnGateway"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "ripgrep": {
+      "command": "npx",
+      "args": ["-y", "mcp-ripgrep@latest"]
+    },
+    "tavily": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tavily-mcp@0.1.2"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "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"
+      }
+    }
+  }
+}

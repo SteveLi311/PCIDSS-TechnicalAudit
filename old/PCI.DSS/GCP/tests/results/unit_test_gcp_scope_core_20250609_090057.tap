@@ -1,0 +1,101 @@
+1..20
+not ok 1 setup_assessment_scope: configures project scope successfully
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68753_xsztHy/lib
+not ok 2 setup_assessment_scope: configures organization scope successfully
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68769_vegrky/lib
+not ok 3 setup_assessment_scope: fails when organization ID missing
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68786_7HNWF4/lib
+not ok 4 setup_assessment_scope: fails when project access denied
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68802_wXbFw7/lib
+not ok 5 setup_assessment_scope: uses default project when PROJECT_ID empty
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68818_aat9I3/lib
+not ok 6 get_projects_in_scope: returns single project for project scope
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68834_YfXDJG/lib
+not ok 7 get_projects_in_scope: returns multiple projects for organization scope
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68850_mHkR2M/lib
+not ok 8 get_projects_in_scope: fails when scope not validated
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68866_vNjuPI/lib
+not ok 9 get_projects_in_scope: caches organization projects list
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68882_bOJGRw/lib
+not ok 10 build_gcloud_command: constructs project command correctly
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68898_D920Ld/lib
+not ok 11 build_gcloud_command: uses project override when provided
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68914_TmVztW/lib
+not ok 12 build_gcloud_command: fails with empty base command
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68930_7QIB2I/lib
+not ok 13 build_gcloud_command: fails with non-gcloud command
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68946_qyzhvm/lib
+not ok 14 build_gcloud_command: fails for organization scope without project override
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68962_2HyJZS/lib
+not ok 15 run_across_projects: executes command on single project
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68979_mbHu6M/lib
+not ok 16 run_across_projects: fails with empty base command
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68995_SVsKq2/lib
+not ok 17 aggregate_cross_project_data: formats organization scope data correctly
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_69011_yDl2Hk/lib
+not ok 18 aggregate_cross_project_data: formats project scope data correctly
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_69027_gM5D4U/lib
+not ok 19 aggregate_cross_project_data: handles empty data gracefully
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_69043_zsPW48/lib
+not ok 20 aggregate_cross_project_data: uses custom delimiter
+# (from function `load_gcp_common_library' in file tests/unit/scope/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/scope/test_gcp_scope_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_69059_ALK5ih/lib

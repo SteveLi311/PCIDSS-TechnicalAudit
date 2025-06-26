@@ -1,0 +1,106 @@
+1..21
+not ok 1 register_required_permissions: successfully registers permissions for requirement
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68066_eJTLvQ/lib
+not ok 2 register_required_permissions: fails when requirement number missing
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68082_Jg6N9n/lib
+not ok 3 register_required_permissions: fails when no permissions provided
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68099_fWErH6/lib
+not ok 4 register_required_permissions: shows verbose output when VERBOSE=true
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68115_3Yyzmi/lib
+not ok 5 register_required_permissions: overwrites existing permissions
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68131_qJsL5G/lib
+not ok 6 check_all_permissions: warns when no permissions registered
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68147_igQK2x/lib
+not ok 7 check_all_permissions: successfully checks all available permissions
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68163_4GUNdh/lib
+not ok 8 check_all_permissions: handles mixed available and missing permissions
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68179_gWRCZF/lib
+not ok 9 check_all_permissions: handles all missing permissions
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68195_Lz4G4x/lib
+not ok 10 check_all_permissions: updates global counters correctly
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68211_oo4dK0/lib
+not ok 11 check_all_permissions: updates PERMISSION_RESULTS array correctly
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68227_KfML85/lib
+not ok 12 check_all_permissions: requires PROJECT_ID to be set
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68243_kUTDvg/lib
+not ok 13 get_permission_coverage: returns correct percentage
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68259_WLODOF/lib
+not ok 14 get_permission_coverage: returns 0 when no coverage set
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68275_TfQvyc/lib
+not ok 15 get_permission_coverage: returns 100 for complete coverage
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68291_tPTa2k/lib
+not ok 16 validate_scope_permissions: fails when no scope defined
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68307_FBqK95/lib
+not ok 17 validate_scope_permissions: validates project access when PROJECT_ID set
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68323_iGn2H5/lib
+not ok 18 validate_scope_permissions: fails when project inaccessible
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68339_UR4AJx/lib
+not ok 19 validate_scope_permissions: validates organization access when ORG_ID set
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68355_3Ldxtg/lib
+not ok 20 validate_scope_permissions: fails when organization inaccessible
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68371_5oaHVR/lib
+not ok 21 validate_scope_permissions: validates both project and organization when both set
+# (from function `load_gcp_common_library' in file tests/unit/permissions/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/permissions/test_gcp_permissions_core.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_68387_xhkzPW/lib

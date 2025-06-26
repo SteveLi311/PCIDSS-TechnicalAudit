@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCP Requirement 1 Scripts Performance Benchmark Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #2c3e50; margin-bottom: 10px; }
+        .header .subtitle { color: #7f8c8d; font-size: 16px; }
+        .summary-cards { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .card h3 { margin: 0 0 10px 0; font-size: 18px; }
+        .card .value { font-size: 24px; font-weight: bold; }
+        .card .unit { font-size: 14px; opacity: 0.8; }
+        .section { margin-bottom: 30px; }
+        .section h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .comparison-table th { background-color: #f8f9fa; font-weight: bold; }
+        .comparison-table tr:nth-child(even) { background-color: #f8f9fa; }
+        .metric-good { color: #27ae60; font-weight: bold; }
+        .metric-warning { color: #f39c12; font-weight: bold; }
+        .metric-bad { color: #e74c3c; font-weight: bold; }
+        .chart-container { margin: 20px 0; }
+        .bar-chart { display: flex; align-items: end; gap: 10px; height: 200px; margin: 20px 0; }
+        .bar { background: linear-gradient(to top, #3498db, #2980b9); color: white; padding: 10px 5px; text-align: center; border-radius: 4px 4px 0 0; min-width: 80px; display: flex; flex-direction: column; justify-content: end; }
+        .recommendations { background-color: #e8f6f3; border-left: 4px solid #1abc9c; padding: 20px; margin-top: 20px; }
+        .recommendations h3 { color: #16a085; margin-top: 0; }
+        .metadata { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .timestamp { text-align: center; color: #7f8c8d; margin-top: 30px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GCP Requirement 1 Scripts Performance Benchmark</h1>
+            <div class="subtitle">Comprehensive Performance Analysis and Comparison</div>
+        </div>
+        <div class="section">
+            <h2>Script Versions Analyzed</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Version</th>
+                    <th>Lines of Code</th>
+                    <th>Description</th>
+                    <th>Framework Integration</th>
+                </tr>
+                <tr>
+                    <td><strong>Primary</strong></td>
+                    <td>637</td>
+                    <td>Full framework integration, production ready</td>
+                    <td>Full (4 libraries)</td>
+                </tr>
+                <tr>
+                    <td><strong>Enhanced</strong></td>
+                    <td>929</td>
+                    <td>Highest compliance coverage, most comprehensive</td>
+                    <td>Partial (2 libraries)</td>
+                </tr>
+                <tr>
+                    <td><strong>Migrated</strong></td>
+                    <td>272</td>
+                    <td>Most compact, modern framework patterns</td>
+                    <td>Full (4 libraries)</td>
+                </tr>
+            </table>
+        </div>
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Fastest Startup</h3>
+                <div class="value">migrated</div>
+                <div class="unit">.013025s</div>
+            </div>
+            <div class="card">
+                <h3>Lowest Memory</h3>
+                <div class="value">enhanced</div>
+                <div class="unit">0KB</div>
+            </div>
+            <div class="card">
+                <h3>Fastest Loading</h3>
+                <div class="value">enhanced</div>
+                <div class="unit">.017095000s</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Metrics Comparison</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Primary (637 lines)</th>
+                    <th>Enhanced (929 lines)</th>
+                    <th>Migrated (272 lines)</th>
+                    <th>Best Performer</th>
+                </tr>
+                <tr>
+                    <td><strong>Startup Time</strong></td>
+                    <td>.038966s</td>
+                    <td>.020257s</td>
+                    <td>.013025s</td>
+                    <td class="metric-good">migrated</td>
+                </tr>
+                <tr>
+                    <td><strong>Library Loading</strong></td>
+                    <td>.019918000s</td>
+                    <td>.017095000s</td>
+                    <td>.023211000s</td>
+                    <td class="metric-good">enhanced</td>
+                </tr>
+                <tr>
+                    <td><strong>Average Memory</strong></td>
+                    <td>0KB</td>
+                    <td>0KB</td>
+                    <td>1440KB</td>
+                    <td class="metric-good">enhanced</td>
+                </tr>
+                <tr>
+                    <td><strong>Peak Memory</strong></td>
+                    <td>0KB</td>
+                    <td>0KB</td>
+                    <td>  1440 410724208KB</td>
+                    <td>-</td>
+                </tr>
+            </table>
+        </div>
+        <div class="section">
+            <h2>4-Library Framework Loading Overhead</h2>
+            <div class="metadata">
+                <strong>Baseline (no libraries):</strong> .008287000s<br>
+                <strong>With 4 libraries:</strong> .029291000s<br>
+                <strong>Overhead:</strong> .021004000s (175.00%)<br>
+                <strong>Sprint S01 Baseline:</strong> 0.012s<br>
+                <strong>Performance Threshold:</strong> <5%
+            </div>
+            <p>Framework loading overhead is <span class="metric-warning">175.00%</span> of baseline.</p>
+        </div>
+        <div class="section">
+            <h2>GCP API Call Efficiency</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Script Version</th>
+                    <th>API Calls Count</th>
+                    <th>Simulated Execution Time</th>
+                    <th>Time per Call</th>
+                </tr>
+                <tr>
+                    <td><strong>script_name</strong></td>
+                    <td>gcloud_count</td>
+                    <td>api_times</td>
+                    <td>N/As</td>
+                </tr>
+                <tr>
+                    <td><strong>enhanced</strong></td>
+                    <td>32</td>
+                    <td>20.797675000s</td>
+                    <td>.649927s</td>
+                </tr>
+                <tr>
+                    <td><strong>migrated</strong></td>
+                    <td>5</td>
+                    <td>3.562769000s</td>
+                    <td>.712553s</td>
+                </tr>
+                <tr>
+                    <td><strong>primary</strong></td>
+                    <td>20</td>
+                    <td>11.901966000s</td>
+                    <td>.595098s</td>
+                </tr>
+            </table>
+        </div>
+        <div class="recommendations">
+            <h3>Performance Recommendations</h3>
+            <ul>
+                <li><strong>Best Overall Performance:</strong> The <em>migrated</em> version offers the best startup performance</li>
+                <li><strong>Memory Efficiency:</strong> The <em>enhanced</em> version has the lowest memory footprint</li>
+                <li><strong>Framework Integration:</strong> The migrated version demonstrates optimal use of the 4-library framework</li>
+                <li><strong>Optimization Opportunities:</strong> Consider reducing library loading overhead in versions with slower startup times</li>
+                <li><strong>Trade-offs:</strong> Enhanced version provides more features but at the cost of increased resource usage</li>
+            </ul>
+        </div>
+
+        <div class="timestamp">
+            Generated on 2025-06-09 14:43:51 | Benchmark Run: 20250609_144309
+        </div>
+    </div>
+</body>
+</html>

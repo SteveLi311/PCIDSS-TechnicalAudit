@@ -1,0 +1,25 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "user:test@example.com",
+        "serviceAccount:test-sa@test-project-12345.iam.gserviceaccount.com"
+      ],
+      "role": "roles/viewer"
+    },
+    {
+      "members": [
+        "serviceAccount:test-sa@test-project-12345.iam.gserviceaccount.com"
+      ],
+      "role": "roles/securityReviewer"
+    },
+    {
+      "members": [
+        "user:admin@example.com"
+      ],
+      "role": "roles/owner"
+    }
+  ],
+  "etag": "BwXhqDSGKQQ=",
+  "version": 1
+}

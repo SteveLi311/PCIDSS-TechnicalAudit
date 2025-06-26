@@ -1,0 +1,376 @@
+# DEPRECATED: Custom Role Definition for PCI DSS 4.0.1 Assessment
+#
+# This file is maintained for reference only. The recommended approach
+# is now to use built-in GCP roles for easier management and maintenance.
+#
+# Recommended Built-in Roles:
+# - roles/viewer
+# - roles/iam.securityReviewer 
+# - roles/logging.viewer
+# - roles/monitoring.viewer
+# - roles/cloudasset.viewer
+# - roles/accesscontextmanager.policyReader
+#
+# Use setup_pci_assessor_permissions.sh to configure built-in roles automatically.
+
+title: "PCI DSS 4.0.1 Assessor"
+description: "DEPRECATED: Custom IAM role for PCI DSS 4.0.1 compliance assessment. Use built-in roles instead."
+stage: "GA"
+includedPermissions:
+
+# Organization and Resource Manager - for organization-level access
+- resourcemanager.organizations.get
+- resourcemanager.organizations.getIamPolicy
+- resourcemanager.folders.get
+- resourcemanager.folders.getIamPolicy
+- resourcemanager.folders.list
+- resourcemanager.projects.get
+- resourcemanager.projects.getIamPolicy
+- resourcemanager.projects.list
+
+# Compute Engine - Network Security Controls (PCI Req 1.x)
+- compute.addresses.get
+- compute.addresses.list
+- compute.backendServices.get
+- compute.backendServices.list
+- compute.firewalls.get
+- compute.firewalls.list
+- compute.forwardingRules.get
+- compute.forwardingRules.list
+- compute.globalForwardingRules.get
+- compute.globalForwardingRules.list
+- compute.healthChecks.get
+- compute.healthChecks.list
+- compute.httpHealthChecks.get
+- compute.httpHealthChecks.list
+- compute.httpsHealthChecks.get
+- compute.httpsHealthChecks.list
+- compute.instances.get
+- compute.instances.getSerialPortOutput
+- compute.instances.list
+- compute.machineTypes.get
+- compute.machineTypes.list
+- compute.networks.get
+- compute.networks.list
+- compute.regionBackendServices.get
+- compute.regionBackendServices.list
+- compute.regions.get
+- compute.regions.list
+- compute.routes.get
+- compute.routes.list
+- compute.securityPolicies.get
+- compute.securityPolicies.list
+- compute.sslCertificates.get
+- compute.sslCertificates.list
+- compute.sslPolicies.get
+- compute.sslPolicies.list
+- compute.subnetworks.get
+- compute.subnetworks.list
+- compute.targetHttpProxies.get
+- compute.targetHttpProxies.list
+- compute.targetHttpsProxies.get
+- compute.targetHttpsProxies.list
+- compute.targetPools.get
+- compute.targetPools.list
+- compute.urlMaps.get
+- compute.urlMaps.list
+- compute.vpnGateways.get
+- compute.vpnGateways.list
+- compute.vpnTunnels.get
+- compute.vpnTunnels.list
+- compute.zones.get
+- compute.zones.list
+
+# Cloud SQL - Database Security (PCI Req 2.x, 3.x)
+- cloudsql.backupRuns.get
+- cloudsql.backupRuns.list
+- cloudsql.databases.get
+- cloudsql.databases.list
+- cloudsql.instances.get
+- cloudsql.instances.list
+- cloudsql.sslCerts.get
+- cloudsql.sslCerts.list
+- cloudsql.users.list
+
+# Cloud Storage - Data Protection (PCI Req 3.x, 4.x)
+- storage.buckets.get
+- storage.buckets.getIamPolicy
+- storage.buckets.list
+- storage.objects.get
+- storage.objects.getIamPolicy
+- storage.objects.list
+
+# Cloud KMS - Key Management (PCI Req 3.x)
+- cloudkms.cryptoKeys.get
+- cloudkms.cryptoKeys.getIamPolicy
+- cloudkms.cryptoKeys.list
+- cloudkms.cryptoKeyVersions.get
+- cloudkms.cryptoKeyVersions.list
+- cloudkms.keyRings.get
+- cloudkms.keyRings.getIamPolicy
+- cloudkms.keyRings.list
+
+# Cloud IAM - Access Control (PCI Req 7.x, 8.x)
+- iam.roles.get
+- iam.roles.list
+- iam.serviceAccountKeys.get
+- iam.serviceAccountKeys.list
+- iam.serviceAccounts.get
+- iam.serviceAccounts.getIamPolicy
+- iam.serviceAccounts.list
+
+# Cloud Logging - Audit and Monitoring (PCI Req 10.x)
+- logging.buckets.get
+- logging.buckets.list
+- logging.entries.list
+- logging.logMetrics.get
+- logging.logMetrics.list
+- logging.logs.list
+- logging.privateLogEntries.list
+- logging.sinks.get
+- logging.sinks.list
+- logging.views.get
+- logging.views.list
+
+# Cloud Monitoring - System Monitoring (PCI Req 10.x, 11.x)
+- monitoring.alertPolicies.get
+- monitoring.alertPolicies.list
+- monitoring.dashboards.get
+- monitoring.dashboards.list
+- monitoring.groups.get
+- monitoring.groups.list
+- monitoring.metricDescriptors.get
+- monitoring.metricDescriptors.list
+- monitoring.monitoredResourceDescriptors.get
+- monitoring.monitoredResourceDescriptors.list
+- monitoring.notificationChannels.get
+- monitoring.notificationChannels.list
+- monitoring.timeSeries.list
+- monitoring.uptimeCheckConfigs.get
+- monitoring.uptimeCheckConfigs.list
+
+# Security Command Center - Security Findings (PCI Req 11.x)
+- securitycenter.assets.get
+- securitycenter.assets.list
+- securitycenter.findings.get
+- securitycenter.findings.list
+- securitycenter.sources.get
+- securitycenter.sources.list
+
+# Container Security - GKE (PCI Req 2.x, 6.x)
+- container.clusters.get
+- container.clusters.getCredentials
+- container.clusters.list
+- container.nodes.get
+- container.nodes.list
+- container.operations.get
+- container.operations.list
+- container.pods.get
+- container.pods.list
+
+# Cloud Functions - Serverless Security (PCI Req 6.x)
+- cloudfunctions.functions.get
+- cloudfunctions.functions.getIamPolicy
+- cloudfunctions.functions.list
+
+# Cloud Run - Container Security (PCI Req 6.x)
+- run.configurations.get
+- run.configurations.list
+- run.locations.list
+- run.revisions.get
+- run.revisions.list
+- run.routes.get
+- run.routes.list
+- run.services.get
+- run.services.getIamPolicy
+- run.services.list
+
+# App Engine - Application Security (PCI Req 6.x)
+- appengine.applications.get
+- appengine.instances.get
+- appengine.instances.list
+- appengine.services.get
+- appengine.services.list
+- appengine.versions.get
+- appengine.versions.list
+
+# Cloud Load Balancing - Network Security (PCI Req 1.x)
+- compute.backendBuckets.get
+- compute.backendBuckets.list
+- compute.targetTcpProxies.get
+- compute.targetTcpProxies.list
+- compute.targetSslProxies.get
+- compute.targetSslProxies.list
+
+# Cloud Armor - WAF and DDoS Protection (PCI Req 1.x)
+- compute.securityPolicies.get
+- compute.securityPolicies.list
+
+# Cloud DNS - Domain Security (PCI Req 1.x)
+- dns.dnsKeys.get
+- dns.dnsKeys.list
+- dns.managedZones.get
+- dns.managedZones.list
+- dns.policies.get
+- dns.policies.list
+- dns.resourceRecordSets.list
+
+# Certificate Manager - TLS/SSL Management (PCI Req 4.x)
+- certificatemanager.certificates.get
+- certificatemanager.certificates.list
+- certificatemanager.maps.get
+- certificatemanager.maps.list
+
+# Cloud Asset Inventory - Resource Discovery
+- cloudasset.assets.analyzeIamPolicy
+- cloudasset.assets.exportResource
+- cloudasset.assets.listResource
+- cloudasset.assets.searchAllIamPolicies
+- cloudasset.assets.searchAllResources
+
+# Binary Authorization - Container Image Security (PCI Req 6.x)
+- binaryauthorization.attestors.get
+- binaryauthorization.attestors.list
+- binaryauthorization.policy.get
+
+# Cloud Build - CI/CD Security (PCI Req 6.x)
+- cloudbuild.builds.get
+- cloudbuild.builds.list
+- cloudbuild.triggers.get
+- cloudbuild.triggers.list
+
+# Artifact Registry - Container Registry Security (PCI Req 6.x)
+- artifactregistry.repositories.get
+- artifactregistry.repositories.list
+- artifactregistry.packages.get
+- artifactregistry.packages.list
+- artifactregistry.versions.get
+- artifactregistry.versions.list
+
+# Cloud Shell - Assessment Environment Access
+- cloudshell.environments.create
+- cloudshell.environments.get
+- cloudshell.environments.start
+
+# Web Security Scanner - Vulnerability Assessment (PCI Req 11.x)
+- websecurityscanner.scanconfigs.get
+- websecurityscanner.scanconfigs.list
+- websecurityscanner.scanruns.get
+- websecurityscanner.scanruns.list
+
+# Cloud Data Loss Prevention - Data Discovery (PCI Req 3.x)
+- dlp.inspectTemplates.get
+- dlp.inspectTemplates.list
+- dlp.jobTriggers.get
+- dlp.jobTriggers.list
+- dlp.jobs.get
+- dlp.jobs.list
+
+# Secret Manager - Secrets Management (PCI Req 3.x, 8.x)
+- secretmanager.secrets.get
+- secretmanager.secrets.getIamPolicy
+- secretmanager.secrets.list
+- secretmanager.versions.get
+- secretmanager.versions.list
+
+# Cloud Firestore/Datastore - Database Security (PCI Req 3.x)
+- datastore.databases.get
+- datastore.databases.getIamPolicy
+- datastore.databases.list
+- datastore.entities.get
+- datastore.entities.list
+- datastore.indexes.get
+- datastore.indexes.list
+
+# BigQuery - Data Warehouse Security (PCI Req 3.x)
+- bigquery.datasets.get
+- bigquery.datasets.getIamPolicy
+- bigquery.jobs.get
+- bigquery.jobs.list
+- bigquery.routines.get
+- bigquery.routines.list
+- bigquery.tables.get
+- bigquery.tables.getIamPolicy
+- bigquery.tables.list
+
+# Cloud Pub/Sub - Messaging Security (PCI Req 4.x)
+- pubsub.subscriptions.get
+- pubsub.subscriptions.getIamPolicy
+- pubsub.subscriptions.list
+- pubsub.topics.get
+- pubsub.topics.getIamPolicy
+- pubsub.topics.list
+
+# Cloud Spanner - Database Security (PCI Req 3.x)
+- spanner.databases.get
+- spanner.databases.getIamPolicy
+- spanner.databases.list
+- spanner.instances.get
+- spanner.instances.getIamPolicy
+- spanner.instances.list
+
+# Cloud Memorystore - Cache Security (PCI Req 3.x)
+- redis.instances.get
+- redis.instances.list
+
+# Cloud Filestore - File Storage Security (PCI Req 3.x)
+- file.instances.get
+- file.instances.list
+
+# VPC Service Controls - Network Security (PCI Req 1.x)
+- accesscontextmanager.accessPolicies.get
+- accesscontextmanager.accessPolicies.getIamPolicy
+- accesscontextmanager.accessPolicies.list
+- accesscontextmanager.servicePerimeters.get
+- accesscontextmanager.servicePerimeters.list
+
+# Cloud Endpoints - API Security (PCI Req 6.x)
+- servicemanagement.services.get
+- servicemanagement.services.getIamPolicy
+- servicemanagement.services.list
+
+# Error Reporting - Application Monitoring (PCI Req 10.x)
+- errorreporting.errorEvents.list
+- errorreporting.groups.list
+
+# Cloud Trace - Performance Monitoring (PCI Req 10.x)
+- cloudtrace.insights.get
+- cloudtrace.insights.list
+- cloudtrace.stats.get
+- cloudtrace.tasks.get
+- cloudtrace.tasks.list
+- cloudtrace.traces.get
+- cloudtrace.traces.list
+
+# Organization Policy - Governance (PCI Req 7.x, 8.x, 12.x)
+- orgpolicy.constraints.list
+- orgpolicy.policies.list
+
+# Essential Contact API - Incident Response (PCI Req 12.x)
+- essentialcontacts.contacts.get
+- essentialcontacts.contacts.list
+
+# Recommendations API - Security Recommendations (PCI Req 11.x)
+- recommender.computeInstanceGroupManagerMachineTypeRecommendations.get
+- recommender.computeInstanceGroupManagerMachineTypeRecommendations.list
+- recommender.computeInstanceMachineTypeRecommendations.get
+- recommender.computeInstanceMachineTypeRecommendations.list
+- recommender.iamPolicyRecommendations.get
+- recommender.iamPolicyRecommendations.list
+- recommender.locations.get
+- recommender.locations.list
+
+# Cloud Billing - Cost Management (Administrative)
+- billing.accounts.get
+- billing.accounts.getIamPolicy
+- billing.accounts.list
+- billing.budgets.get
+- billing.budgets.list
+
+# Service Usage - API Usage Monitoring
+- serviceusage.quotas.get
+- serviceusage.services.get
+- serviceusage.services.list
+
+# Basic viewer permissions for overall resource access
+- viewer

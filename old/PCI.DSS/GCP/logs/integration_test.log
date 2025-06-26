@@ -1,0 +1,7 @@
+[2025-06-05 17:58:57] [PASS] Registered 3 permissions for Requirement 1
+[2025-06-05 17:58:57] [INFO] Validating scope permissions...
+[2025-06-05 17:58:59] [FAIL] Cannot access project: test-project-id
+[2025-06-09 09:01:01] [PASS] Registered 1 permissions for Requirement 1
+[2025-06-09 09:01:01] [INFO]   - compute.instances.list
+[2025-06-09 10:40:21] [PASS] Registered 1 permissions for Requirement 1
+[2025-06-09 10:40:21] [INFO]   - compute.instances.list

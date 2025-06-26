@@ -1,0 +1,31 @@
+1..10
+not ok 1 performance: 4-library loading overhead validation against Sprint S01 baseline
+# (in test file tests/integration/test_performance_validation.bats, line 66)
+#   `[ "$overhead_ok" -eq 1 ]' failed
+ok 2 performance: individual library loading time benchmarks
+not ok 3 performance: function execution benchmarks across all libraries
+# (in test file tests/integration/test_performance_validation.bats, line 138)
+#   `[ "$time_ok" -eq 1 ]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# Function register_required_permissions execution time: .008271000s
+# Function setup_scope_management execution time: .003764000s
+# Function generate_html_report execution time: .003653000s
+# Function parse_common_arguments execution time: .003183000s
+# Function check_all_permissions execution time: .008502000s
+# Function validate_organization_scope execution time: .003604000s
+# Function validate_prerequisites execution time: 4.738976000s
+ok 4 performance: memory usage profiling for 4-library operations
+not ok 5 performance: concurrent usage performance with 3 parallel executions
+# (from function `run_sequential_assessments' in file tests/integration/test_performance_validation.bats, line 518,
+#  in test file tests/integration/test_performance_validation.bats, line 192)
+#   `run_sequential_assessments 3' failed with status 127
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# /Users/namhp/Resilio.Sync/PCI.DSS/GCP/tests/integration/test_performance_validation.bats: line 518: register_required_permissions: command not found
+ok 6 performance: resource management under concurrent load
+not ok 7 performance: automated regression detection against baseline
+# (in test file tests/integration/test_performance_validation.bats, line 320)
+#   `[ "$status" -eq 0 ]' failed
+ok 8 performance: performance benchmark history tracking
+ok 9 performance: production deployment scenario simulation
+ok 10 performance: large-scale organization performance validation

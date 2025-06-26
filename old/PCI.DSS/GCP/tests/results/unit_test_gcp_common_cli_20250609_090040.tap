@@ -1,0 +1,141 @@
+1..28
+not ok 1 parse_common_arguments: handles single project scope
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65150_6o6lIy/lib
+not ok 2 parse_common_arguments: handles organization scope
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65166_ujLm1E/lib
+not ok 3 parse_common_arguments: handles output directory option
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65182_7KmhaD/lib
+not ok 4 parse_common_arguments: handles verbose flag
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65198_wnEhdT/lib
+not ok 5 parse_common_arguments: handles report-only flag
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65214_xmnBl3/lib
+not ok 6 parse_common_arguments: handles long format options
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65230_mvnxDw/lib
+not ok 7 parse_common_arguments: rejects invalid scope values
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65246_LpaKIA/lib
+not ok 8 parse_common_arguments: rejects empty project ID
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65262_cGfUmw/lib
+not ok 9 parse_common_arguments: rejects empty output directory
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65278_KjyMyy/lib
+not ok 10 parse_common_arguments: rejects unknown options
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65294_2DM6TW/lib
+not ok 11 parse_common_arguments: displays help when -h specified
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65310_CTjWlq/lib
+not ok 12 parse_common_arguments: displays help when --help specified
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65326_13ctpO/lib
+not ok 13 parse_common_arguments: sets default scope when none provided
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65342_7qh8Yt/lib
+not ok 14 parse_common_arguments: exports all parsed variables
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65358_ONVkrE/lib
+not ok 15 parse_common_arguments: handles mixed short and long options
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65374_wdjIh6/lib
+not ok 16 parse_common_arguments: correctly assigns organization ID when org scope
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65390_Bv4OZR/lib
+not ok 17 parse_common_arguments: correctly assigns project ID when project scope
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65406_yqvicn/lib
+not ok 18 show_help: displays complete help information
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65422_mbHQb6/lib
+not ok 19 show_help: includes all command line options
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65438_c5X654/lib
+not ok 20 show_help: includes usage examples
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65454_dVlPoK/lib
+not ok 21 show_help: includes requirements section
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65470_zA8h0U/lib
+not ok 22 show_help: includes color formatting
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65486_z0WQZX/lib
+not ok 23 load_requirement_config: loads config file by requirement number
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65502_2IRdl0/lib
+not ok 24 load_requirement_config: loads config file by direct path
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65518_U04TbQ/lib
+not ok 25 load_requirement_config: loads config file by name
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65534_DdEGeR/lib
+not ok 26 load_requirement_config: warns when no requirement specified
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65550_3sIvy1/lib
+not ok 27 load_requirement_config: fails when config file not found
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65566_FW7kiP/lib
+not ok 28 load_requirement_config: fails when config file has syntax errors
+# (from function `load_gcp_common_library' in file tests/unit/common/../../helpers/test_helpers.bash, line 105,
+#  from function `setup' in test file tests/unit/common/test_gcp_common_cli.bats, line 10)
+#   `load_gcp_common_library' failed
+# Error: gcp_common.sh not found in /tmp/gcp_test_65582_y1ZdEc/lib

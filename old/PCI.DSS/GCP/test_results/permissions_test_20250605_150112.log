@@ -1,0 +1,26 @@
+[2025-06-05 15:01:12] [INFO] Starting GCP Permissions Library Test Suite
+[2025-06-05 15:01:12] [INFO] Test log: /Users/namhp/Resilio.Sync/PCI.DSS/GCP/test_results/permissions_test_20250605_150112.log
+[2025-06-05 15:01:12] [INFO] === Library Loading Tests ===
+[2025-06-05 15:01:12] [INFO] Running test: Library Loading
+[2025-06-05 15:01:12] [PASS] gcp_common.sh loaded successfully
+[2025-06-05 15:01:12] [PASS] gcp_permissions.sh loaded successfully
+[2025-06-05 15:01:12] [PASS] Library Loading
+[2025-06-05 15:01:12] [INFO] Running test: Function Exports
+[2025-06-05 15:01:12] [PASS] Function exported: init_permissions_framework
+[2025-06-05 15:01:12] [PASS] Function exported: validate_authentication_setup
+[2025-06-05 15:01:12] [PASS] Function exported: detect_and_validate_scope
+[2025-06-05 15:01:12] [PASS] Function exported: register_required_permissions
+[2025-06-05 15:01:12] [PASS] Function exported: check_single_permission
+[2025-06-05 15:01:12] [PASS] Function exported: check_all_permissions
+[2025-06-05 15:01:12] [PASS] Function exported: get_permission_coverage
+[2025-06-05 15:01:12] [PASS] Function exported: validate_scope_permissions
+[2025-06-05 15:01:12] [PASS] Function exported: prompt_continue_limited
+[2025-06-05 15:01:12] [PASS] Function exported: display_permission_guidance
+[2025-06-05 15:01:12] [PASS] Function exported: log_permission_audit_trail
+[2025-06-05 15:01:12] [PASS] Function Exports
+[2025-06-05 15:01:12] [INFO] === Permission Management Tests ===
+[2025-06-05 15:01:12] [INFO] Running test: Permission Registration
+[2025-06-05 15:01:12] [PASS] Permission registration successful
+[2025-06-05 15:01:12] [PASS] Correct number of permissions registered
+[2025-06-05 15:01:12] [PASS] Permission Registration
+[2025-06-05 15:01:12] [INFO] Running test: Coverage Calculation

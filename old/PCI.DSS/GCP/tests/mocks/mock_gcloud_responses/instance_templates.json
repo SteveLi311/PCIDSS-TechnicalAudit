@@ -1,0 +1,94 @@
+[
+  {
+    "name": "secure-web-template",
+    "description": "Secure web server template with hardened configuration",
+    "properties": {
+      "machineType": "e2-medium",
+      "disks": [
+        {
+          "boot": true,
+          "initializeParams": {
+            "sourceImage": "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20250601"
+          }
+        }
+      ],
+      "networkInterfaces": [
+        {
+          "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/secure-network",
+          "subnetwork": "https://www.googleapis.com/compute/v1/projects/test-project/regions/us-central1/subnetworks/secure-subnet"
+        }
+      ],
+      "serviceAccounts": [
+        {
+          "email": "secure-web-sa@test-project.iam.gserviceaccount.com",
+          "scopes": [
+            "https://www.googleapis.com/auth/cloud-platform"
+          ]
+        }
+      ],
+      "metadata": {
+        "items": [
+          {
+            "key": "enable-oslogin",
+            "value": "TRUE"
+          },
+          {
+            "key": "serial-port-enable", 
+            "value": "FALSE"
+          }
+        ]
+      },
+      "tags": {
+        "items": ["web-tier", "secure"]
+      }
+    },
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  },
+  {
+    "name": "legacy-db-template",
+    "description": "Legacy database template with default settings",
+    "properties": {
+      "machineType": "n1-standard-2",
+      "disks": [
+        {
+          "boot": true,
+          "initializeParams": {
+            "sourceImage": "projects/centos-cloud/global/images/centos-7-v20250601"
+          }
+        }
+      ],
+      "networkInterfaces": [
+        {
+          "network": "https://www.googleapis.com/compute/v1/projects/test-project/global/networks/default",
+          "accessConfigs": [
+            {
+              "type": "ONE_TO_ONE_NAT",
+              "name": "External NAT"
+            }
+          ]
+        }
+      ],
+      "serviceAccounts": [
+        {
+          "email": "123456789-compute@developer.gserviceaccount.com",
+          "scopes": [
+            "https://www.googleapis.com/auth/devstorage.read_only",
+            "https://www.googleapis.com/auth/logging.write"
+          ]
+        }
+      ],
+      "metadata": {
+        "items": [
+          {
+            "key": "enable-oslogin",
+            "value": "FALSE"
+          }
+        ]
+      },
+      "tags": {
+        "items": ["db-tier", "legacy", "web-db-mixed"]
+      }
+    },
+    "creationTimestamp": "2025-04-01T10:00:00.000-07:00"
+  }
+]

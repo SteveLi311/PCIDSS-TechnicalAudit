@@ -1,0 +1,26 @@
+[
+  {
+    "name": "audit-logs-sink",
+    "destination": "storage.googleapis.com/audit-logs-bucket",
+    "filter": "protoPayload.@type=\"type.googleapis.com/google.cloud.audit.AuditLog\"",
+    "description": "Sink for audit logs to Cloud Storage",
+    "createTime": "2025-05-01T10:00:00.000Z",
+    "updateTime": "2025-05-01T10:00:00.000Z"
+  },
+  {
+    "name": "security-logs-sink", 
+    "destination": "bigquery.googleapis.com/projects/test-project/datasets/security_logs",
+    "filter": "protoPayload.methodName=\"SetIamPolicy\" OR protoPayload.methodName=\"GetIamPolicy\"",
+    "description": "Sink for security-related logs to BigQuery",
+    "createTime": "2025-05-01T10:00:00.000Z",
+    "updateTime": "2025-05-01T10:00:00.000Z"
+  },
+  {
+    "name": "admin-activity-sink",
+    "destination": "pubsub.googleapis.com/projects/test-project/topics/admin-activity",
+    "filter": "logName=\"projects/test-project/logs/cloudaudit.googleapis.com%2Factivity\"",
+    "description": "Sink for admin activity logs to Pub/Sub", 
+    "createTime": "2025-05-01T10:00:00.000Z",
+    "updateTime": "2025-05-01T10:00:00.000Z"
+  }
+]

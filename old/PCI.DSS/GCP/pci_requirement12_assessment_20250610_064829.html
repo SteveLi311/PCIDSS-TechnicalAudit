@@ -1,0 +1,64 @@
+        </div> <!-- Close report-content -->
+        
+        <div class="timestamp">
+            <p><strong>Report Generated:</strong> Tue Jun 10 06:48:29 +07 2025</p>
+            <p><strong>PCI DSS Version:</strong> 4.0.1</p>
+            <p><strong>Requirement:</strong> 12</p>
+        </div>
+    </div> <!-- Close container -->
+    
+    <script>
+        // JavaScript for interactive features
+        function toggleSection(sectionId) {
+            const header = document.querySelector('#section-' + sectionId + ' .section-header');
+            const content = document.querySelector('#content-' + sectionId);
+            
+            if (header && content) {
+                const isActive = header.classList.contains('active');
+                
+                if (isActive) {
+                    header.classList.remove('active');
+                    content.style.display = 'none';
+                    header.setAttribute('aria-expanded', 'false');
+                } else {
+                    header.classList.add('active');
+                    content.style.display = 'block';
+                    header.setAttribute('aria-expanded', 'true');
+                }
+            }
+        }
+        
+        // Auto-expand sections with failed checks
+        document.addEventListener('DOMContentLoaded', function() {
+            const failedSections = document.querySelectorAll('.section .fail');
+            failedSections.forEach(function(failedCheck) {
+                const section = failedCheck.closest('.section');
+                if (section) {
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    if (header && content && !header.classList.contains('active')) {
+                        header.classList.add('active');
+                        content.style.display = 'block';
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                }
+            });
+            
+            // Show print-friendly message
+            const style = document.createElement('style');
+            style.textContent = '@media print { .no-print { display: none !important; } }';
+            document.head.appendChild(style);
+        });
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(event) {
+            if (event.target.classList.contains('section-header') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                event.target.click();
+            }
+        });
+        
+        // Summary metrics are added during report generation
+    </script>
+</body>
+</html>

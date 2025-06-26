@@ -1,0 +1,54 @@
+1..10
+ok 1 integration: load all 4 libraries successfully
+not ok 2 integration: verify all expected functions are available after loading
+# (in test file tests/integration/test_4_library_integration.bats, line 72)
+#   `[ "$status" -eq 0 ]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+not ok 3 integration: full 4-library assessment workflow
+# (from function `assert_file_exists' in file tests/integration/test_4_library_integration.bats, line 476,
+#  in test file tests/integration/test_4_library_integration.bats, line 110)
+#   `assert_file_exists "$REPORT_DIR/organization_assessment_report.html"' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# Expected file does not exist: /tmp/gcp_tests/reports/organization_assessment_report.html
+not ok 4 integration: cross-library error propagation
+# (in test file tests/integration/test_4_library_integration.bats, line 140)
+#   `[ "$report_error" -eq 2 ]  # Different error code for upstream dependency failure' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m Registered 1 permissions for Requirement 1
+not ok 5 integration: library dependency loading order
+# (in test file tests/integration/test_4_library_integration.bats, line 165)
+#   `[ "$status" -eq 0 ]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+not ok 6 integration: state consistency across libraries
+# (in test file tests/integration/test_4_library_integration.bats, line 203)
+#   `[ "$status" -eq 0 ]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+ok 7 integration: multi-project assessment coordination
+not ok 8 integration: concurrent library operations
+# (in test file tests/integration/test_4_library_integration.bats, line 289)
+#   `[[ "$output" =~ "Concurrent operation 1 completed" ]]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+not ok 9 integration: graceful degradation with partial library failures
+# (in test file tests/integration/test_4_library_integration.bats, line 326)
+#   `[ "$status" -eq 0 ]' failed
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Common Library v1.0 loaded successfully
+# [0;32m[PASS][0m GCP Scope Management Library v1.0 loaded successfully
+ok 10 integration: cleanup across all libraries after failure

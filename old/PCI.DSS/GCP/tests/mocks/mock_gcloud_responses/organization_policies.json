@@ -1,0 +1,30 @@
+{
+  "compute_requireOsLogin": {
+    "constraint": "constraints/compute.requireOsLogin",
+    "booleanPolicy": {
+      "enforced": true
+    },
+    "updateTime": "2025-06-09T17:00:00.000Z"
+  },
+  "compute_disableSerialPortAccess": {
+    "constraint": "constraints/compute.disableSerialPortAccess", 
+    "booleanPolicy": {
+      "enforced": true
+    },
+    "updateTime": "2025-06-09T17:00:00.000Z"
+  },
+  "sql_restrictPublicIp": {
+    "constraint": "constraints/sql.restrictPublicIp",
+    "booleanPolicy": {
+      "enforced": true
+    },
+    "updateTime": "2025-06-09T17:00:00.000Z"
+  },
+  "compute_requireShieldedVm": {
+    "constraint": "constraints/compute.requireShieldedVm",
+    "booleanPolicy": {
+      "enforced": false
+    },
+    "updateTime": "2025-06-09T17:00:00.000Z"
+  }
+}

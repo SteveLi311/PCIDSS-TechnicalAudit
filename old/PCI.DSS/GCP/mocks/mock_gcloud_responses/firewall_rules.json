@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "allowed": [
+        {
+          "IPProtocol": "tcp",
+          "ports": ["22"]
+        }
+      ],
+      "description": "Allow SSH from anywhere",
+      "direction": "INGRESS",
+      "id": "1234567890123456789",
+      "name": "allow-ssh",
+      "network": "projects/test-project-12345/global/networks/default",
+      "priority": 1000,
+      "sourceRanges": ["0.0.0.0/0"],
+      "targetTags": ["ssh-server"]
+    },
+    {
+      "allowed": [
+        {
+          "IPProtocol": "tcp",
+          "ports": ["80", "443"]
+        }
+      ],
+      "description": "Allow HTTP/HTTPS",
+      "direction": "INGRESS",
+      "id": "1234567890123456790",
+      "name": "allow-http-https",
+      "network": "projects/test-project-12345/global/networks/default",
+      "priority": 1000,
+      "sourceRanges": ["0.0.0.0/0"]
+    }
+  ]
+}

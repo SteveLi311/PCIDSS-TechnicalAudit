@@ -1,0 +1,54 @@
+[
+  {
+    "name": "prod-database",
+    "connectionName": "test-project:us-central1:prod-database",
+    "databaseVersion": "MYSQL_8_0",
+    "settings": {
+      "tier": "db-n1-standard-2",
+      "ipConfiguration": {
+        "requireSsl": true,
+        "privateNetwork": "projects/test-project/global/networks/default",
+        "authorizedNetworks": []
+      },
+      "backupConfiguration": {
+        "enabled": true,
+        "startTime": "02:00"
+      }
+    },
+    "state": "RUNNABLE",
+    "region": "us-central1"
+  },
+  {
+    "name": "dev-database", 
+    "connectionName": "test-project:us-west1:dev-database",
+    "databaseVersion": "POSTGRES_13",
+    "settings": {
+      "tier": "db-f1-micro",
+      "ipConfiguration": {
+        "requireSsl": false,
+        "authorizedNetworks": [
+          {
+            "value": "0.0.0.0/0",
+            "name": "allow-all"
+          }
+        ]
+      }
+    },
+    "state": "RUNNABLE",
+    "region": "us-west1"
+  },
+  {
+    "name": "legacy-database",
+    "connectionName": "test-project:europe-west1:legacy-database", 
+    "databaseVersion": "MYSQL_5_7",
+    "settings": {
+      "tier": "db-n1-standard-1",
+      "ipConfiguration": {
+        "requireSsl": false,
+        "ipv4Enabled": true
+      }
+    },
+    "state": "RUNNABLE",
+    "region": "europe-west1"
+  }
+]

@@ -1,0 +1,46 @@
+[2025-06-05 15:04:18] [INFO] Starting GCP Permissions Library Test Suite
+[2025-06-05 15:04:18] [INFO] Test log: /Users/namhp/Resilio.Sync/PCI.DSS/GCP/test_results/permissions_test_20250605_150418.log
+[2025-06-05 15:04:18] [INFO] === Library Loading Tests ===
+[2025-06-05 15:04:18] [INFO] Running test: Library Loading
+[2025-06-05 15:04:18] [PASS] gcp_common.sh loaded successfully
+[2025-06-05 15:04:18] [PASS] gcp_permissions.sh loaded successfully
+[2025-06-05 15:04:18] [PASS] Library Loading
+[2025-06-05 15:04:18] [INFO] Running test: Function Exports
+[2025-06-05 15:04:18] [PASS] Function exported: init_permissions_framework
+[2025-06-05 15:04:18] [PASS] Function exported: validate_authentication_setup
+[2025-06-05 15:04:18] [PASS] Function exported: detect_and_validate_scope
+[2025-06-05 15:04:18] [PASS] Function exported: register_required_permissions
+[2025-06-05 15:04:18] [PASS] Function exported: check_single_permission
+[2025-06-05 15:04:18] [PASS] Function exported: check_all_permissions
+[2025-06-05 15:04:18] [PASS] Function exported: get_permission_coverage
+[2025-06-05 15:04:18] [PASS] Function exported: validate_scope_permissions
+[2025-06-05 15:04:18] [PASS] Function exported: prompt_continue_limited
+[2025-06-05 15:04:18] [PASS] Function exported: display_permission_guidance
+[2025-06-05 15:04:18] [PASS] Function exported: log_permission_audit_trail
+[2025-06-05 15:04:18] [PASS] Function Exports
+[2025-06-05 15:04:18] [INFO] === Permission Management Tests ===
+[2025-06-05 15:04:18] [INFO] Running test: Permission Registration
+[2025-06-05 15:04:18] [PASS] Permission registration successful
+[2025-06-05 15:04:18] [PASS] Correct number of permissions registered
+[2025-06-05 15:04:18] [PASS] Permission Registration
+[2025-06-05 15:04:18] [INFO] Running test: Coverage Calculation
+[2025-06-05 15:04:18] [PASS] Coverage Calculation
+[2025-06-05 15:04:18] [INFO] === Authentication Tests ===
+[2025-06-05 15:04:18] [INFO] Running test: Authentication Detection
+[2025-06-05 15:04:20] [PASS] Authentication validation successful
+[2025-06-05 15:04:20] [PASS] Authentication type detected: user_credential
+[2025-06-05 15:04:20] [PASS] Authentication Detection
+[2025-06-05 15:04:20] [INFO] Running test: Scope Detection
+[2025-06-05 15:04:21] [INFO] Scope detection failed as expected with mock project
+[2025-06-05 15:04:21] [PASS] Scope Detection
+[2025-06-05 15:04:21] [INFO] === Integration Tests ===
+[2025-06-05 15:04:21] [INFO] Running test: Full Permission Workflow
+[2025-06-05 15:04:21] [INFO] Testing full permission workflow
+[2025-06-05 15:04:21] [PASS] Full workflow completed successfully
+[2025-06-05 15:04:21] [PASS] Full Permission Workflow
+[2025-06-05 15:04:21] [INFO] === Test Summary ===
+[2025-06-05 15:04:21] [INFO] Tests Run: 7
+[2025-06-05 15:04:21] [INFO] Tests Passed: 7
+[2025-06-05 15:04:21] [INFO] Tests Failed: 0
+[2025-06-05 15:04:21] [PASS] All tests passed!
+[2025-06-05 15:04:21] [INFO] GCP Permissions Library is ready for use

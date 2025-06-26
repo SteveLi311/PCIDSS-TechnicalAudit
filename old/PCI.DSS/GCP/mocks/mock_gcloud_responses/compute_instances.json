@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "id": "1234567890123456789",
+      "name": "test-instance-1",
+      "status": "RUNNING",
+      "zone": "projects/test-project-12345/zones/us-central1-a",
+      "machineType": "projects/test-project-12345/zones/us-central1-a/machineTypes/e2-medium",
+      "networkInterfaces": [
+        {
+          "network": "projects/test-project-12345/global/networks/default",
+          "subnetwork": "projects/test-project-12345/regions/us-central1/subnetworks/default"
+        }
+      ]
+    }
+  ]
+}

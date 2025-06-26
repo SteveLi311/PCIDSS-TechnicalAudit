@@ -1,0 +1,49 @@
+[
+  {
+    "name": "https-lb-frontend",
+    "IPAddress": "34.102.136.180",
+    "IPProtocol": "TCP",
+    "portRange": "443-443",
+    "target": "https://www.googleapis.com/compute/v1/projects/test-project/global/targetHttpsProxies/https-lb-target-proxy",
+    "loadBalancingScheme": "EXTERNAL",
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  },
+  {
+    "name": "http-lb-frontend", 
+    "IPAddress": "34.102.136.181",
+    "IPProtocol": "TCP",
+    "portRange": "80-80",
+    "target": "https://www.googleapis.com/compute/v1/projects/test-project/global/targetHttpProxies/http-lb-target-proxy",
+    "loadBalancingScheme": "EXTERNAL",
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  },
+  {
+    "name": "ssl-proxy-frontend",
+    "IPAddress": "34.102.136.182", 
+    "IPProtocol": "TCP",
+    "portRange": "443-443",
+    "target": "https://www.googleapis.com/compute/v1/projects/test-project/global/targetSslProxies/ssl-proxy",
+    "loadBalancingScheme": "EXTERNAL",
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  },
+  {
+    "name": "insecure-app-frontend",
+    "IPAddress": "34.102.136.183",
+    "IPProtocol": "TCP", 
+    "portRange": "8080-8080",
+    "target": "https://www.googleapis.com/compute/v1/projects/test-project/regions/us-central1/targetPools/legacy-pool",
+    "loadBalancingScheme": "EXTERNAL",
+    "region": "us-central1",
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  },
+  {
+    "name": "internal-lb",
+    "IPAddress": "10.0.0.10",
+    "IPProtocol": "TCP",
+    "portRange": "80-80", 
+    "target": "https://www.googleapis.com/compute/v1/projects/test-project/regions/us-central1/backendServices/internal-backend",
+    "loadBalancingScheme": "INTERNAL",
+    "region": "us-central1",
+    "creationTimestamp": "2025-05-01T10:00:00.000-07:00"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "id": "test-bucket-12345",
+      "name": "test-bucket-12345",
+      "projectNumber": "123456789012",
+      "location": "US",
+      "storageClass": "STANDARD",
+      "encryption": {
+        "defaultKmsKeyName": "projects/test-project-12345/locations/us/keyRings/test-ring/cryptoKeys/test-key"
+      }
+    },
+    {
+      "id": "test-bucket-public",
+      "name": "test-bucket-public",
+      "projectNumber": "123456789012",
+      "location": "US",
+      "storageClass": "STANDARD"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+#!/bin/bash
+# Mock gcloud for benchmarking
+case "$1" in
+    "config")
+        case "$2" in
+            "get-value") echo "benchmark-test-project" ;;
+            *) echo "mock-config-value" ;;
+        esac
+        ;;
+    "projects")
+        echo '{"projectId": "benchmark-test-project", "name": "Benchmark Test Project"}'
+        ;;
+    "compute")
+        case "$2" in
+            "networks") echo '[]' ;;
+            "firewall-rules") echo '[]' ;;
+            "instances") echo '[]' ;;
+            *) echo '[]' ;;
+        esac
+        ;;
+    "organizations")
+        echo '{"name": "organizations/123456789", "displayName": "Test Org"}'
+        ;;
+    *)
+        echo '{"mock": "response"}'
+        ;;
+esac
+exit 0

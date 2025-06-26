@@ -1,0 +1,15 @@
+{
+  "project_id": "pci-compliant-project",
+  "firewall_rules": [
+    {
+      "name": "allow-ssh-internal",
+      "sourceRanges": ["10.0.0.0/8"]
+    }
+  ],
+  "encryption_keys": [
+    {
+      "name": "projects/pci-compliant-project/locations/us/keyRings/pci-ring/cryptoKeys/pci-key",
+      "state": "ENABLED"
+    }
+  ]
+}
