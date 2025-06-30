@@ -1,12 +1,13 @@
 import os
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 from pathlib import Path
+from datetime import datetime, timezone
 import re
 
-report_dir = "reports"
-output_file = "reports/pci_dss_summary_clean_gcp.html"
+REPORT_DIR = "reports"
+OUTPUT_FILE = "reports/pci_dss_summary_clean_gcp.html"
 
-included_titles = [
+TARGET_KEYWORDS = [
     "Security features for insecure services/protocols",
     "Inbound traffic to CDE restriction",
     "Outbound traffic from CDE restriction",
@@ -21,136 +22,125 @@ included_titles = [
     "Cloud Logging enabled"
 ]
 
-html = '''<!DOCTYPE html>
-<html lang="en">
+def extract_metadata():
+    for filename in sorted(os.listdir(REPORT_DIR)):
+        if filename.startswith("pci_req1") and filename.endswith(".html"):
+            filepath = os.path.join(REPORT_DIR, filename)
+            with open(filepath, "r", encoding="utf-8") as file:
+                soup = BeautifulSoup(file, "html.parser")
+                gcp_account = soup.select_one('tr:has(th:-soup-contains("GCP Account")) td')
+                project = soup.select_one('tr:has(th:-soup-contains("Project")) td')
+                date_str = datetime.now().strftime("%a %b %d %H:%M:%S CST %Y")
+                return f'''
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold; width: 220px;">Assessment Date</td><td style="padding: 8px;">{date_str}</td></tr>
+                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">GCP Account</td><td style="padding: 8px;">{gcp_account.text.strip() if gcp_account else 'N/A'}</td></tr>
+                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">Project</td><td style="padding: 8px;">{project.text.strip() if project else 'N/A'}</td></tr>
+                </table>
+                '''
+    return ""
+
+def extract_status_class(classes):
+    for status in ["pass", "fail", "warning", "info"]:
+        if status in classes:
+            return status
+    return "unknown"
+
+def extract_findings_by_keywords():
+    findings_by_keyword = {kw: [] for kw in TARGET_KEYWORDS}
+    for filename in sorted(os.listdir(REPORT_DIR)):
+        if not (filename.startswith("pci_req") and filename.endswith(".html")):
+            continue
+        filepath = os.path.join(REPORT_DIR, filename)
+        with open(filepath, "r", encoding="utf-8") as file:
+            soup = BeautifulSoup(file, "html.parser")
+            for section in soup.find_all("div", class_=lambda c: c and "check-item" in c):
+                label = section.select_one("strong")
+                label_text = label.get_text(strip=True) if label else ""
+                for kw in TARGET_KEYWORDS:
+                    if kw.lower() in label_text.lower():
+                        for s in section.find_all("span", class_=["pass", "fail", "warning", "info"]):
+                            s.decompose()
+                        findings_by_keyword[kw].append({
+                            "text": label_text,
+                            "file": filename,
+                            "html": str(section),
+                            "status": extract_status_class(section.get("class", []))
+                        })
+    return findings_by_keyword
+
+def generate_html_report(findings_by_keyword, output_file):
+    now = datetime.now(timezone.utc).strftime("%a %b %d %H:%M:%S UTC %Y")
+    metadata_html = extract_metadata()
+    html = f"""<!DOCTYPE html>
+<html lang=\"en\">
 <head>
-  <meta charset="UTF-8">
-  <title>Filtered PCI DSS Summary</title>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; padding: 20px; color: #333; }
-    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1 { border-bottom: 2px solid #4285f4; padding-bottom: 10px; }
-    .section { margin-bottom: 30px; border: 1px solid #ddd; border-radius: 5px; }
-    .section-header { background: #f8f9fa; padding: 15px 20px; }
-    .section-content { padding: 20px; }
-    .check-item { border-left: 4px solid #ccc; background: #f9f9f9; padding: 10px; margin: 10px 0; }
-    .fail { color: #f44336; font-weight: bold; border-left-color: #f44336; }
-    .warning { color: #ff9800; font-weight: bold; border-left-color: #ff9800; }
-    .pass { color: #4caf50; font-weight: bold; border-left-color: #4caf50; }
-    .info { color: #2196F3; font-weight: bold; border-left-color: #2196F3; }
-    a { color: #1565c0; }
-    details summary { cursor: pointer; font-weight: bold; background: #f0f0f0; padding: 5px; border-radius: 4px; }
-    pre, .pre-wrap { white-space: pre-wrap; background: #fff; padding: 10px; border-radius: 4px; line-height: 1.4; border: 1px solid #ddd; font-family: monospace; }
-    .red { color: #f44336; font-weight: bold; }
-    .green { color: #4caf50; font-weight: bold; }
-    .yellow { color: #ff9800; font-weight: bold; }
-    .blue { color: #2196F3; font-weight: bold; }
-    .gray { color: #333; font-weight: bold; }
-    .bold { color: #333; font-weight: bold; }
-  </style>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>PCI DSS 4.0 - Summary</title>
+    <style>
+        body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }}
+        .container {{ max-width: 1200px; margin: 0 auto; background: #fff; padding: 30px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 5px; }}
+        h1 {{ border-bottom: 2px solid #4285f4; padding-bottom: 10px; }}
+        .section {{ margin-bottom: 30px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; }}
+        .section-header {{ background-color: #f0f0f0; padding: 10px 15px; cursor: pointer; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }}
+        .status-badge {{ font-weight: bold; padding: 2px 10px; border-radius: 4px; }}
+        .status-pass {{ color: #4CAF50; }}
+        .status-fail {{ color: #f44336; }}
+        .status-warning {{ color: #ff9800; }}
+        .status-info {{ color: #2196F3; }}
+        .section-content {{ padding: 15px; display: none; }}
+        .active + .section-content {{ display: block; }}
+        .file-label {{ font-style: italic; color: #555; margin-bottom: 5px; display: block; }}
+        .timestamp {{ text-align: right; font-style: italic; color: #888; margin-top: 20px; }}
+
+        .check-item {{ padding: 10px; margin-bottom: 10px; border-left: 4px solid #ccc; background-color: #f9f9f9; }}
+        .check-item.pass {{ border-left-color: #4CAF50; }}
+        .check-item.fail {{ border-left-color: #f44336; }}
+        .check-item.warning {{ border-left-color: #ff9800; }}
+        .check-item.info {{ border-left-color: #2196F3; }}
+
+        .red {{ color: #f44336; font-weight: bold; }}
+        .green {{ color: #4CAF50; font-weight: bold; }}
+        .yellow {{ color: #ff9800; font-weight: bold; }}
+        .blue {{ color: #2196F3; font-weight: bold; }}
+        .note {{ color: #ff9800; font-style: italic; }}
+        .recommendation {{ background-color: #e3f2fd; padding: 10px; border-left: 4px solid #03A9F4; }}
+    </style>
+    <script>
+        function toggleSection(el) {{
+            el.classList.toggle('active');
+            var next = el.nextElementSibling;
+            if (next) next.style.display = next.style.display === 'block' ? 'none' : 'block';
+        }}
+    </script>
 </head>
 <body>
-  <div class="container">
-    <h1>PCI DSS GCP Assessment Summary (Selected Items)</h1>
+    <div class=\"container\">
+        <h1>PCI DSS AWS Assessment Summary</h1>
+        {metadata_html}
+        <br/>
+"""
 
-'''
-
-def get_req_number(f):
-    match = re.search(r"req(\d+)", f.name)
-    return int(match.group(1)) if match else 999
-
-files = sorted(Path(report_dir).glob("pci_req*.html"), key=get_req_number)
-
-# 提取全域資訊
-first_file = files[0] if files else None
-if first_file:
-    soup = BeautifulSoup(first_file.read_text(encoding='utf-8', errors='ignore'), 'html.parser')
-    from datetime import datetime
-    date_str = datetime.now().strftime("%a %b %d %H:%M:%S CST %Y")
-    gcp_account = soup.select_one('tr:has(th:-soup-contains("GCP Account")) td')
-    project = soup.select_one('tr:has(th:-soup-contains("Project")) td')
-    html += f'''
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold; width: 220px;">Assessment Date</td><td style="padding: 8px;">{date_str}</td></tr>
-      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">GCP Account</td><td style="padding: 8px;">{gcp_account.text.strip() if gcp_account else 'N/A'}</td></tr>
-      <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">Project</td><td style="padding: 8px;">{project.text.strip() if project else 'N/A'}</td></tr>
-    </table>
-    '''
-
-for file in files:
-    soup = BeautifulSoup(file.read_text(encoding='utf-8', errors='ignore'), 'html.parser')
-    match = re.search(r"req(\d+)", file.name)
-    req = match.group(1) if match else "?"
-    title = soup.title.text if soup.title else "Untitled"
-    compliance_tag = soup.select_one(".progress-bar")
-    compliance = compliance_tag.text.strip() if compliance_tag else "N/A"
-
-    section_html = f'''
-    <div class="section" id="section-req{req}">
-      <div class="section-header">
-        <h3>Requirement {req} — {compliance}</h3>
-      </div>
-      <div class="section-content">
-        <p><strong>{title}</strong></p>
-        <p>🔗 <a href="{file}" target="_blank">View full report: {file.name}</a></p>
-    '''
-
-    block_count = 0
-    for block in soup.select("div.check-item"):
-        label = block.select_one("strong")
-        label_text = label.get_text(strip=True) if label else "UNTITLED"
-        label_content = re.sub(r"^[^\w]+", "", label_text).lower()
-        if not any(sel.lower() in label_content for sel in included_titles):
+    for kw, findings in findings_by_keyword.items():
+        if not findings:
             continue
+        status_label = findings[0]['status']
+        html += f'<div class="section">\n'
+        html += f'<div class="section-header" onclick="toggleSection(this)">{kw}<span class="status-badge status-{status_label}">{status_label.upper()}</span></div>\n'
+        html += f'<div class="section-content">\n'
+        for finding in findings:
+            html += f'<span class="file-label">{finding["file"]}</span>'
+            html += finding["html"] + '\n'
+        html += '</div></div>\n'
 
-        classes = block.get("class", [])
-        if "info" in classes:
-            label_class = "info"
-        elif "warning" in classes:
-            label_class = "warning"
-        elif "pass" in classes:
-            label_class = "pass"
-        else:
-            label_class = "fail"
+    html += f'<div class="timestamp">Report generated on: {now}</div>\n'
+    html += '</div></body></html>'
 
-        pre_tag = block.select_one("details pre")
-        if pre_tag:
-            for tag in pre_tag(["script", "style"]):
-                tag.decompose()
-            for span in pre_tag.find_all("span"):
-                if 'class' in span.attrs:
-                    continue  # 保留原始 class，不自動加入 gray
-            from bs4 import NavigableString
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(html)
 
-            # 補上沒有標記的純文字項目為 gray
-            
-            
-            
-
-            detail = f"<div class='pre-wrap'>{pre_tag.decode_contents()}</div>"
-        else:
-            detail = "⚠ No detail found."
-
-        section_html += (
-            f"<div class='check-item'>"  # 不套用狀態色彩 class
-            f"<div style='display: flex; justify-content: space-between; align-items: center;'>"
-            f"<strong>{label_text}</strong> <span class='{label_class}' style='margin-left: 10px;'>{label_class.upper()}</span>"
-            f"</div>"
-            f"<details style='margin-top: 10px;'>"
-            f"<summary>Show Details</summary>"
-            f"<div>{detail}</div>"
-            f"</details>"
-            f"</div>"
-        )
-        block_count += 1
-
-    section_html += "</div></div>"
-
-    if block_count > 0:
-        html += section_html
-
-html += "</div></body></html>"
-
-Path(output_file).write_text(html, encoding='utf-8')
-print("✅ Clean summary with accurate status written to:", output_file)
-
+if __name__ == "__main__":
+    findings = extract_findings_by_keywords()
+    generate_html_report(findings, OUTPUT_FILE)
+    print(f"✅ GCP Report saved to: {OUTPUT_FILE}")
