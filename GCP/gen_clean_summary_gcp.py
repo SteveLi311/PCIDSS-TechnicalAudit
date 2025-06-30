@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 
 report_dir = "reports"
-output_file = "reports/pci_dss_summary_clean.html"
+output_file = "reports/pci_dss_summary_clean_gcp.html"
 
 included_titles = [
     "Security features for insecure services/protocols",
