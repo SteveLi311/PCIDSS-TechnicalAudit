@@ -59,12 +59,18 @@ def extract_findings_by_keywords():
                 label_text = label.get_text(strip=True) if label else ""
                 for kw in TARGET_KEYWORDS:
                     if kw.lower() in label_text.lower():
-                        for s in section.find_all("span", class_=["pass", "fail", "warning", "info"]):
-                            s.decompose()
+                        header_span = section.select_one("strong + span")
+                        if header_span and header_span.get("class", [])[0] in ["pass", "fail", "warning", "info"]:
+                            header_span.decompose()
+                        inner_html = section.decode_contents()
+                        inner_html = inner_html.replace('class="warning"', 'class="text-warning"')
+                        inner_html = inner_html.replace('class="fail"', 'class="text-fail"')
+                        inner_html = inner_html.replace('class="pass"', 'class="text-pass"')
+                        inner_html = inner_html.replace('class="info"', 'class="text-info"')
                         findings_by_keyword[kw].append({
                             "text": label_text,
                             "file": filename,
-                            "html": str(section),
+                            "html": inner_html,
                             "status": extract_status_class(section.get("class", []))
                         })
     return findings_by_keyword
@@ -104,8 +110,10 @@ def generate_html_report(findings_by_keyword, output_file):
         .green {{ color: #4CAF50; font-weight: bold; }}
         .yellow {{ color: #ff9800; font-weight: bold; }}
         .blue {{ color: #2196F3; font-weight: bold; }}
-        .note {{ color: #ff9800; font-style: italic; }}
-        .recommendation {{ background-color: #e3f2fd; padding: 10px; border-left: 4px solid #03A9F4; }}
+        .text-warning {{ color: #ff9800; font-weight: bold; }}
+        .text-fail {{ color: #f44336; font-weight: bold; }}
+        .text-pass {{ color: #4CAF50; font-weight: bold; }}
+        .text-info {{ color: #2196F3; font-weight: bold; }}
     </style>
     <script>
         function toggleSection(el) {{
@@ -117,7 +125,7 @@ def generate_html_report(findings_by_keyword, output_file):
 </head>
 <body>
     <div class=\"container\">
-        <h1>PCI DSS AWS Assessment Summary</h1>
+        <h1>PCI DSS GCP Assessment Summary</h1>
         {metadata_html}
         <br/>
 """
@@ -131,7 +139,7 @@ def generate_html_report(findings_by_keyword, output_file):
         html += f'<div class="section-content">\n'
         for finding in findings:
             html += f'<span class="file-label">{finding["file"]}</span>'
-            html += finding["html"] + '\n'
+            html += f'<div class="check-item {finding["status"]}">{finding["html"]}</div>\n'
         html += '</div></div>\n'
 
     html += f'<div class="timestamp">Report generated on: {now}</div>\n'

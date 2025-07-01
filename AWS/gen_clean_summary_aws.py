@@ -82,7 +82,7 @@ def generate_html_report(findings_by_keyword, output_file):
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>PCI DSS 4.0 - Findings Summary</title>
+    <title>PCI DSS 4.0 - Summary</title>
     <style>
         body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }}
         .container {{ max-width: 1200px; margin: 0 auto; background: #fff; padding: 30px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 5px; }}
