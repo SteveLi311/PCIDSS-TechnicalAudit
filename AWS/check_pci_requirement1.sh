@@ -1096,17 +1096,6 @@ echo -e "Warning checks (total): $warning_checks"
 echo -e "Manual check warnings: $manual_checks"
 echo -e "Compliance percentage (excluding access denied and manual checks): $compliance_percentage%"
 
-cat > "$OUTPUT_DIR/pci_req${REQUIREMENT_NUMBER}_compliance_data.txt" << EOF
-TOTAL_CHECKS=$total_checks
-PASSED_CHECKS=$passed_checks
-FAILED_CHECKS=$failed_checks
-EFFECTIVE_FAILED_CHECKS=$effective_failed_checks
-ACCESS_DENIED_CHECKS=$access_denied_checks
-WARNING_CHECKS=$warning_checks
-MANUAL_CHECKS=$manual_checks
-COMPLIANCE_PERCENTAGE=$compliance_percentage
-EOF
-
 echo -e "\nPCI DSS Requirement 1 assessment completed at $(date)"
 echo -e "HTML Report saved to: $OUTPUT_FILE"
 
