@@ -240,22 +240,25 @@ check_standard_permissions() {
 # Original role-based check for fast validation
 check_role_assignments() {
     print_status "INFO" "Checking role assignments for PCI DSS assessment..."
-    
-    # Get current user email
+
+    # 取得目前帳號
     local current_user
     current_user=$(gcloud auth list --filter="status:ACTIVE" --format="value(account)" 2>/dev/null | head -1)
-    
+
     if [[ -z "$current_user" ]]; then
         print_status "FAIL" "Cannot determine current authenticated user"
         return 1
     fi
-    
-    print_status "INFO" "Checking roles for user: $current_user"
-    
-    local available_roles=0
-    local missing_roles=0
-    
-    # Standard GCP roles required for PCI DSS assessment
+
+    local member_type
+    if [[ "$current_user" == *gserviceaccount.com ]]; then
+        member_type="serviceAccount"
+    else
+        member_type="user"
+    fi
+    print_status "INFO" "Using account: $member_type:$current_user"
+
+    # 標準角色定義
     local -A standard_roles=(
         ["roles/viewer"]="Viewer"
         ["roles/iam.securityReviewer"]="Security Reviewer"
@@ -266,72 +269,68 @@ check_role_assignments() {
         ["roles/owner"]="Owner"
         ["roles/editor"]="Editor"
     )
-    
-    # First, check for high-privilege roles (Owner/Editor) for fast exit
-    print_status "INFO" "Checking for high-privilege roles first..."
-    
+
+    local available_roles=0
+
+    print_status "INFO" "Checking for high-privilege roles (Owner/Editor)..."
+
     for role in "roles/owner" "roles/editor"; do
         local role_name="${standard_roles[$role]}"
-        local has_role=false
-        
+        local result
+
         if [[ -n "$PROJECT_ID" ]]; then
-            # Check project-level role binding
-            if gcloud projects get-iam-policy "$PROJECT_ID" --format="value(bindings[role=$role].members)" 2>/dev/null | \
-               grep -q "user:$current_user"; then
-                has_role=true
-            fi
+            result=$(gcloud projects get-iam-policy "$PROJECT_ID" \
+                --flatten="bindings[].members" \
+                --filter="bindings.role=$role AND bindings.members:$member_type:$current_user" \
+                --format="value(bindings.role)" 2>/dev/null)
         elif [[ -n "$ORG_ID" ]]; then
-            # Check organization-level role binding
-            if gcloud organizations get-iam-policy "$ORG_ID" --format="value(bindings[role=$role].members)" 2>/dev/null | \
-               grep -q "user:$current_user"; then
-                has_role=true
-            fi
+            result=$(gcloud organizations get-iam-policy "$ORG_ID" \
+                --flatten="bindings[].members" \
+                --filter="bindings.role=$role AND bindings.members:$member_type:$current_user" \
+                --format="value(bindings.role)" 2>/dev/null)
+        else
+            print_status "FAIL" "Missing PROJECT_ID or ORG_ID"
+            return 1
         fi
-        
-        if [[ "$has_role" == "true" ]]; then
+
+        if [[ "$result" == "$role" ]]; then
             print_status "PASS" "✓ $role_name ($role)"
-            print_status "PASS" "High-privilege role detected - has all required permissions"
-            print_status "INFO" "Skipping individual role checks (not needed with $role_name)"
+            print_status "PASS" "High-privilege role detected – skipping further checks"
             return 0
         fi
     done
-    
-    print_status "INFO" "No high-privilege roles found - checking individual roles..."
-    
-    # Check each remaining standard role
+
+    print_status "INFO" "Checking individual required roles..."
+
     for role in "${!standard_roles[@]}"; do
-        # Skip Owner/Editor since we already checked them
         if [[ "$role" == "roles/owner" || "$role" == "roles/editor" ]]; then
             continue
         fi
-        
+
         local role_name="${standard_roles[$role]}"
-        local has_role=false
-        
+        local result
+
         if [[ -n "$PROJECT_ID" ]]; then
-            # Check project-level role binding
-            if gcloud projects get-iam-policy "$PROJECT_ID" --format="value(bindings[role=$role].members)" 2>/dev/null | \
-               grep -q "user:$current_user"; then
-                has_role=true
-            fi
+            result=$(gcloud projects get-iam-policy "$PROJECT_ID" \
+                --flatten="bindings[].members" \
+                --filter="bindings.role=$role AND bindings.members:$member_type:$current_user" \
+                --format="value(bindings.role)" 2>/dev/null)
         elif [[ -n "$ORG_ID" ]]; then
-            # Check organization-level role binding
-            if gcloud organizations get-iam-policy "$ORG_ID" --format="value(bindings[role=$role].members)" 2>/dev/null | \
-               grep -q "user:$current_user"; then
-                has_role=true
-            fi
+            result=$(gcloud organizations get-iam-policy "$ORG_ID" \
+                --flatten="bindings[].members" \
+                --filter="bindings.role=$role AND bindings.members:$member_type:$current_user" \
+                --format="value(bindings.role)" 2>/dev/null)
         fi
-        
-        if [[ "$has_role" == "true" ]]; then
-            ((available_roles++))
+
+        if [[ "$result" == "$role" ]]; then
             print_status "PASS" "✓ $role_name ($role)"
+            ((available_roles++))
         else
             print_status "FAIL" "✗ $role_name ($role)"
         fi
     done
-    
-    # Check if we have enough standard roles (at least 4 out of 6 core roles)
-    if [[ $available_roles -ge 4 ]]; then
+
+    if (( available_roles >= 4 )); then
         print_status "PASS" "Sufficient role assignments found ($available_roles roles)"
         return 0
     else
