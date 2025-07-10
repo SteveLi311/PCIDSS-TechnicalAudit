@@ -669,12 +669,8 @@ main() {
         local command="$3"
         local region="$4"
         
-        echo -n "Checking $service $command... "
-        if check_command_access "$output_file" "$service" "$command" "$region"; then
-            echo "✓"
-        else
-            echo "✗ (continuing with assessment)"
-        fi
+        check_command_access "$output_file" "$service" "$command" "$region"
+        
     }
     
     # CloudTrail checks
