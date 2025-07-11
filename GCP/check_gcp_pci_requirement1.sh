@@ -559,7 +559,15 @@ print_status "INFO" "Checking for private IP filtering at network boundaries..."
 private_ip_details="<p>Analysis of potential private IP exposure:</p><ul>"
 
 # Check for VPC peering connections
-vpc_peerings=$(gcloud compute networks peerings list --format="value(name,network,peerNetwork)" 2>/dev/null)
+vpc_peerings=$(
+  gcloud compute networks list --project="$DEFAULT_PROJECT" --format="value(name)" | while read net; do
+    gcloud compute networks describe "$net" --project="$DEFAULT_PROJECT" --format="json" 2>/dev/null | jq -r "
+      .peerings? // [] |
+      .[] |
+      \"\(.name)\t$net\t\(.network | split(\"/\") | last)\t\(.state)\"
+    "
+  done
+)
 
 if [ -z "$vpc_peerings" ]; then
     print_status "PASS" "No VPC peering connections detected"
@@ -567,15 +575,13 @@ if [ -z "$vpc_peerings" ]; then
 else
     print_status "WARN" "VPC peering connections detected - potential private IP routing:"
     private_ip_details+="<li class='yellow'>VPC peering connections detected:</li><ul>"
-    
-    while IFS=$'\t' read -r peering_name network peer_network; do
-        if [ -z "$peering_name" ]; then continue; fi
-        
-        print_status "WARN" "  Peering: $peering_name ($network <-> $peer_network)"
-        private_ip_details+="<li>$peering_name: $network ↔ $peer_network</li>"
-        
-    done <<< "$vpc_peerings"
-    
+
+    while IFS=$'\t' read -r peering_name network peer_network state; do
+    	if [ -z "$peering_name" ]; then continue; fi
+    	print_status "WARN" "  Peering: $peering_name ($network <-> $peer_network) [State: $state]"
+    	private_ip_details+="<li>$peering_name: $network ↔ $peer_network (State: $state)</li>"
+        done <<< "$vpc_peerings"
+
     private_ip_details+="</ul>"
 fi
 
