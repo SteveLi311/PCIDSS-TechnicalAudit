@@ -135,7 +135,6 @@
             "Action": [
                 "artifact:Get*",
                 "artifact:List*",
-                "artifact:Download*",
                 "aws-marketplace:ViewSubscriptions",
                 "organizations:ListAccounts",
                 "organizations:ListAccountsForParent",
@@ -186,7 +185,16 @@
                 "ec2:DescribeAvailabilityZones",
                 "s3:GetLifecycleConfiguration",
                 "cloudfront:ListDistributions",
-                "apigateway:GET"
+                "apigateway:GET",
+                "s3:GetBucketLocation",
+                "s3:GetBucketPolicyStatus",
+                "s3:GetBucketVersioning",
+                "s3:GetBucketLogging",
+                "s3:GetBucketAcl",
+                "s3:GetBucketTagging",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
+                "ec2:DescribeVolumes"
             ],
             "Resource": "*"
         }
