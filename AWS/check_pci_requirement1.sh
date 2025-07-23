@@ -272,13 +272,49 @@ add_manual_warning_check "1.2.1 - Configuration standards for NSC rulesets" "<p>
 # Check 1.2.2 - Change control processes for NSCs
 add_manual_warning_check "1.2.2 - Change control processes for network connections and NSCs" "This requirement needs manual verification of change control processes for network security controls." "Review CloudTrail logs for changes to Security Groups, NACLs, and other network controls to verify proper change management processes."
 
-# Check 1.2.3 - Network diagrams
-add_manual_warning_check "1.2.3 - Network diagrams" "This requirement needs manual verification of network diagrams showing all connections to the CDE." "Review network diagrams and compare with actual AWS infrastructure to ensure accuracy and completeness."
+# Check 1.2.3 - Network Peering Connections
+echo -e "\n${BLUE}1.2.3 - Network Peering Connections${NC}"
+echo -e "Retrieving all VPC Peering Connections for region: $REGION..."
+
+peering_connections=$(aws ec2 describe-vpc-peering-connections --region $REGION --query 'VpcPeeringConnections[*]' --output json 2>/dev/null)
+
+peering_details="<p>VPC Peering Connections in region $REGION:</p><ul>"
+
+if [ -z "$peering_connections" ] || [ "$peering_connections" == "[]" ]; then
+    echo -e "${GREEN}No VPC Peering Connections found in this region${NC}"
+    peering_details+="<li class=\"green\">No VPC Peering Connections found</li></ul>"
+    add_check_item "$OUTPUT_FILE" "info" "1.2.3 - Network Peering Connections" "$peering_details" "No VPC Peering Connections were detected in this region. No additional peering-related risks identified."
+    ((passed_checks++))
+else
+    echo -e "${CYAN}Found VPC Peering Connections, analyzing...${NC}"
+
+    for row in $(echo "$peering_connections" | jq -c '.[]'); do
+        pcx_id=$(echo "$row" | jq -r '.VpcPeeringConnectionId')
+        status=$(echo "$row" | jq -r '.Status.Code')
+        accepter_vpc=$(echo "$row" | jq -r '.AccepterVpcInfo.VpcId')
+        requester_vpc=$(echo "$row" | jq -r '.RequesterVpcInfo.VpcId')
+        tags=$(echo "$row" | jq -r '.Tags[]?.Value' | paste -sd "," -)
+
+        [ -z "$tags" ] && tags="(No Tags)"
+
+        peering_details+="<li>Peering ID: $pcx_id , Tags: $tags<br>"
+        peering_details+="Status: $status<br>"
+        peering_details+="Accepter VPC: $accepter_vpc<br>"
+        peering_details+="Requester VPC: $requester_vpc</li>"
+    done
+
+    peering_details+="</ul>"
+    add_check_item "$OUTPUT_FILE" "warning" "1.2.3 - Network Peering Connections" "$peering_details" "Verify all VPC Peering Connections are authorized and have proper security controls (NACLs, Security Groups, Route Tables)."
+    ((warning_checks++))
+fi
+((total_checks++))
+
+
 
 # Check 1.2.4 - Data-flow diagrams
 add_manual_warning_check "1.2.4 - Data-flow diagrams" "This requirement needs manual verification of data-flow diagrams showing account data flows." "Review data-flow diagrams and compare with actual AWS infrastructure and data flows to ensure accuracy and completeness."
 
-# Check 1.2.5 - Ports, protocols, and services inventory
+# Check 1.2.5 - Ports, protocols, and services inventory (Security Groups)
 echo -e "\n${BLUE}1.2.5 - Ports, protocols, and services inventory${NC}"
 echo -e "Checking security groups for allowed ports, protocols, and services..."
 
@@ -298,24 +334,30 @@ for vpc_id in $TARGET_VPCS; do
     
     for sg_id in $sg_list; do
         echo -e "\nAnalyzing Security Group: $sg_id"
-        sg_details=$(aws ec2 describe-security-groups --region $REGION --group-ids $sg_id 2>/dev/null)
-        sg_name=$(echo "$sg_details" | grep "GroupName" | head -1 | awk -F '"' '{print $4}')
+        sg_details=$(aws ec2 describe-security-groups --region $REGION --group-ids $sg_id --output json 2>/dev/null)
+        sg_name=$(echo "$sg_details" | jq -r '.SecurityGroups[0].GroupName')
         
-        sg_check_details+="<li>Security Group: $sg_id ($sg_name)</li>"
+        sg_check_details+="<li>Security Group: $sg_id ($sg_name)</li><ul>"
         
-        # Check for overly permissive inbound rules (0.0.0.0/0)
-        public_inbound=$(echo "$sg_details" | grep -c '"CidrIp": "0.0.0.0/0"')
-        if [ $public_inbound -gt 0 ]; then
+        # Count and list public inbound rules
+        public_inbound=$(echo "$sg_details" | jq '[.SecurityGroups[].IpPermissions[] | select(.IpRanges[].CidrIp=="0.0.0.0/0")] | length')
+        if [ "$public_inbound" -gt 0 ]; then
             echo -e "${RED}WARNING: Security group $sg_id has $public_inbound public inbound rules (0.0.0.0/0)${NC}"
-            # Extract the rules with public access
-            public_rules=$(echo "$sg_details" | grep -A 10 '"CidrIp": "0.0.0.0/0"' | grep -E 'FromPort|ToPort|IpProtocol' | head -n 3 | sed 's/^[ \t]*//')
+            sg_check_details+="<li class=\"red\">WARNING: Has $public_inbound public inbound rules (0.0.0.0/0)</li>"
             
-            sg_check_details+="<ul><li class=\"red\">WARNING: Has $public_inbound public inbound rules (0.0.0.0/0)</li>"
-            sg_check_details+="<li><pre>$public_rules</pre></li></ul>"
+            # Get detailed rule info (Protocol, Ports)
+            public_rules=$(echo "$sg_details" | jq -r '.SecurityGroups[].IpPermissions[] 
+                | select(.IpRanges[].CidrIp=="0.0.0.0/0") 
+                | "Protocol: \(.IpProtocol) | FromPort: \(.FromPort // "all") | ToPort: \(.ToPort // "all")"' 2>/dev/null)
+            
+            [ -z "$public_rules" ] && public_rules="(No detailed rule data)"
+            sg_check_details+="<li><pre>$public_rules</pre></li>"
         else
             echo -e "${GREEN}No public inbound rules (0.0.0.0/0) found in Security Group $sg_id${NC}"
-            sg_check_details+="<ul><li class=\"green\">No public inbound rules (0.0.0.0/0) found</li></ul>"
+            sg_check_details+="<li class=\"green\">No public inbound rules (0.0.0.0/0) found</li>"
         fi
+        
+        sg_check_details+="</ul>"
     done
     
     sg_check_details+="</ul>"
@@ -327,6 +369,7 @@ add_manual_check "$OUTPUT_FILE" "1.2.5 - Ports, protocols, and services inventor
 ((total_checks++))
 ((warning_checks++))
 ((manual_checks++))
+
 
 # Check 1.2.6 - Security features for insecure services/protocols
 echo -e "\n${BLUE}1.2.6 - Security features for insecure services/protocols${NC}"
@@ -404,6 +447,21 @@ for vpc_id in $TARGET_VPCS; do
             echo -e "${YELLOW}NOTE: Security group $sg_id allows MySQL/MariaDB (port 3306) - ensure encryption is in use${NC}"
             sg_insecure_list+="<li class=\"yellow\">Allows MySQL/MariaDB (port 3306) - Ensure encryption is in use from:</li><ul>"
             for source in $mysql_sources; do
+                sg_insecure_list+="<li>$source</li>"
+            done
+            sg_insecure_list+="</ul>"
+            insecure_services=true
+            sg_found_insecure=true
+        fi
+		
+		# Check for SAMBA Service (port 445)
+		samba_check=$(echo "$sg_details" | grep -A 5 '"FromPort": 445' | grep -c '"ToPort": 445')
+        if [ $samba_check -gt 0 ]; then
+            # Get source details for better reporting
+            samba_sources=$(echo "$sg_details" | grep -A 10 '"FromPort": 445' | grep -B 5 '"ToPort": 445' | grep "CidrIp" | awk -F '"' '{print $4}')
+            echo -e "${YELLOW}NOTE: Security group $sg_id allows SAMBA Service (port 445) - ensure encryption is in use${NC}"
+            sg_insecure_list+="<li class=\"yellow\">Allows SAMBA Service (port 445) - Ensure encryption is in use from:</li><ul>"
+            for source in $samba_sources; do
                 sg_insecure_list+="<li>$source</li>"
             done
             sg_insecure_list+="</ul>"
@@ -491,43 +549,42 @@ add_section "$OUTPUT_FILE" "req-1.3" "Requirement 1.3: Network access to and fro
 
 echo -e "\n${CYAN}=== PCI REQUIREMENT 1.3: CDE NETWORK ACCESS RESTRICTION ===${NC}"
 
-# Check 1.3.1 - Inbound traffic to CDE restriction
-echo -e "\n${BLUE}1.3.1 - Inbound traffic to CDE restriction${NC}"
-echo -e "Checking for properly restricted inbound traffic to CDE subnets..."
+# Check 1.3.1 - Inbound traffic to CDE restriction (NACL & Security Groups)
+echo -e "\n${BLUE}1.3.1 - Inbound traffic to CDE restriction (NACL & Security Groups)${NC}"
+echo -e "Checking for properly restricted inbound traffic to CDE subnets and security groups..."
 
-inbound_details="<p>Analysis of inbound traffic controls for potential CDE subnets:</p><ul>"
+inbound_details="<p>Analysis of inbound traffic controls for potential CDE subnets:</p>"
+
+overall_warning=false
+
+# --- Part 1: NACL Checks ---
+inbound_details+="<h4>NACL Rules</h4><ul>"
 
 for vpc_id in $TARGET_VPCS; do
     inbound_details+="<li>VPC: $vpc_id</li><ul>"
     
-    # This is a simplified check - in a real environment, you would need to identify CDE subnets specifically
     subnets=$(aws ec2 describe-subnets --region $REGION --filters "Name=vpc-id,Values=$vpc_id" --query 'Subnets[*].SubnetId' --output text 2>/dev/null)
     
     for subnet_id in $subnets; do
-        echo -e "\nChecking Subnet: $subnet_id"
         inbound_details+="<li>Subnet: $subnet_id</li><ul>"
         
-        # Get associated NACLs
         nacl_id=$(aws ec2 describe-network-acls --region $REGION --filters "Name=association.subnet-id,Values=$subnet_id" --query 'NetworkAcls[0].NetworkAclId' --output text 2>/dev/null)
         
         if [ -z "$nacl_id" ] || [ "$nacl_id" == "None" ]; then
-            echo -e "${YELLOW}No NACL associated with subnet $subnet_id${NC}"
             inbound_details+="<li class=\"yellow\">No NACL associated with this subnet</li>"
+            overall_warning=true
             continue
         fi
         
-        echo -e "Associated NACL: $nacl_id"
         inbound_details+="<li>Associated NACL: $nacl_id</li>"
         
-        # Check for overly permissive inbound rules
         permissive_rules=$(aws ec2 describe-network-acls --region $REGION --network-acl-ids $nacl_id --query 'NetworkAcls[0].Entries[?Egress==`false` && CidrBlock==`0.0.0.0/0` && RuleAction==`allow`]' --output text 2>/dev/null)
         
         if [ -n "$permissive_rules" ]; then
-            echo -e "${RED}WARNING: NACL $nacl_id has permissive inbound rules (0.0.0.0/0 allow)${NC}"
             inbound_details+="<li class=\"red\">WARNING: NACL has permissive inbound rules (0.0.0.0/0 allow)</li>"
             inbound_details+="<li><pre>$permissive_rules</pre></li>"
+            overall_warning=true
         else
-            echo -e "${GREEN}NACL $nacl_id has properly restricted inbound rules${NC}"
             inbound_details+="<li class=\"green\">NACL has properly restricted inbound rules</li>"
         fi
         
@@ -537,47 +594,102 @@ for vpc_id in $TARGET_VPCS; do
     inbound_details+="</ul>"
 done
 
-inbound_details+="</ul><p class=\"yellow\">NOTE: A complete CDE traffic restriction assessment requires identifying all CDE subnets and detailed traffic flow analysis</p>"
+inbound_details+="</ul>"
 
-add_check_item "$OUTPUT_FILE" "warning" "1.3.1 - Inbound traffic to CDE restriction" "$inbound_details" "Ensure inbound traffic to the CDE is restricted to only necessary traffic. Identify all CDE subnets and ensure proper traffic restrictions are in place."
+# --- Part 2: Security Group Checks ---
+inbound_details+="<h4>Security Group Rules</h4><ul>"
+
+for vpc_id in $TARGET_VPCS; do
+    inbound_details+="<li>VPC: $vpc_id</li><ul>"
+    
+    sg_list=$(aws ec2 describe-security-groups --region $REGION --filters "Name=vpc-id,Values=$vpc_id" --query 'SecurityGroups[*].GroupId' --output text 2>/dev/null)
+    
+    if [ -z "$sg_list" ]; then
+        inbound_details+="<li class=\"yellow\">No Security Groups found in this VPC</li>"
+        continue
+    fi
+    
+    for sg_id in $sg_list; do
+        sg_details=$(aws ec2 describe-security-groups --region $REGION --group-ids $sg_id --output json 2>/dev/null)
+        sg_name=$(echo "$sg_details" | jq -r '.SecurityGroups[0].GroupName')
+        
+        inbound_details+="<li>Security Group: $sg_id ($sg_name)</li><ul>"
+        
+        # Count and list public inbound rules
+        public_inbound=$(echo "$sg_details" | jq '[.SecurityGroups[].IpPermissions[] | select(.IpRanges[].CidrIp=="0.0.0.0/0")] | length')
+        if [ "$public_inbound" -gt 0 ]; then
+            inbound_details+="<li class=\"red\">WARNING: $public_inbound public inbound rules (0.0.0.0/0)</li>"
+            
+            # Get detailed rule info (Protocol, Ports)
+            public_rules=$(echo "$sg_details" | jq -r '.SecurityGroups[].IpPermissions[] 
+                | select(.IpRanges[].CidrIp=="0.0.0.0/0") 
+                | "Protocol: \(.IpProtocol) | FromPort: \(.FromPort // "all") | ToPort: \(.ToPort // "all")"' 2>/dev/null)
+            
+            [ -z "$public_rules" ] && public_rules="(No detailed rule data)"
+            inbound_details+="<li><pre>$public_rules</pre></li>"
+            overall_warning=true
+        else
+            inbound_details+="<li class=\"green\">No public inbound rules (0.0.0.0/0)</li>"
+        fi
+        
+        inbound_details+="</ul>"
+    done
+    
+    inbound_details+="</ul>"
+done
+
+inbound_details+="</ul><p class=\"yellow\">NOTE: A complete assessment requires identifying all CDE subnets, Security Groups, and analyzing detailed traffic flows.</p>"
+
+# --- Finalize result ---
+if [ "$overall_warning" = true ]; then
+    add_check_item "$OUTPUT_FILE" "warning" "1.3.1 - Inbound traffic to CDE restriction (NACL & Security Groups)" "$inbound_details" "Review NACL and Security Group rules. Restrict any rules allowing 0.0.0.0/0 unless explicitly required and documented. Ensure inbound traffic to the CDE is limited to only necessary, secure sources."
+    ((warning_checks++))
+else
+    add_check_item "$OUTPUT_FILE" "pass" "1.3.1 - Inbound traffic to CDE restriction (NACL & Security Groups)" "$inbound_details" "All examined NACLs and Security Groups have properly restricted inbound rules. No public (0.0.0.0/0) access detected."
+    ((passed_checks++))
+fi
+
 ((total_checks++))
-((warning_checks++))
 
-# Check 1.3.2 - Outbound traffic from CDE restriction
-echo -e "\n${BLUE}1.3.2 - Outbound traffic from CDE restriction${NC}"
-echo -e "Checking for properly restricted outbound traffic from CDE subnets..."
 
-outbound_details="<p>Analysis of outbound traffic controls for potential CDE subnets:</p><ul>"
+
+# Check 1.3.2 - Outbound traffic from CDE restriction (NACL & Security Groups)
+echo -e "\n${BLUE}1.3.2 - Outbound traffic from CDE restriction (NACL & Security Groups)${NC}"
+echo -e "Checking for properly restricted outbound traffic from CDE subnets and security groups..."
+
+outbound_details="<p>Analysis of outbound traffic controls for potential CDE subnets:</p>"
+
+overall_warning=false
+
+# --- Part 1: NACL Outbound Checks ---
+outbound_details+="<h4>NACL Rules</h4><ul>"
 
 for vpc_id in $TARGET_VPCS; do
     outbound_details+="<li>VPC: $vpc_id</li><ul>"
     
-    # Again, this is a simplified check - in a real environment, you would need to identify CDE subnets specifically
     subnets=$(aws ec2 describe-subnets --region $REGION --filters "Name=vpc-id,Values=$vpc_id" --query 'Subnets[*].SubnetId' --output text 2>/dev/null)
     
     for subnet_id in $subnets; do
-        echo -e "\nChecking outbound traffic control for Subnet: $subnet_id"
         outbound_details+="<li>Subnet: $subnet_id</li><ul>"
         
-        # Get associated NACLs
         nacl_id=$(aws ec2 describe-network-acls --region $REGION --filters "Name=association.subnet-id,Values=$subnet_id" --query 'NetworkAcls[0].NetworkAclId' --output text 2>/dev/null)
         
         if [ -z "$nacl_id" ] || [ "$nacl_id" == "None" ]; then
             outbound_details+="<li class=\"yellow\">No NACL associated with this subnet</li>"
+            overall_warning=true
             continue
         fi
         
         outbound_details+="<li>Associated NACL: $nacl_id</li>"
         
-        # Check for default outbound rules (allowing all)
-        default_outbound=$(aws ec2 describe-network-acls --region $REGION --network-acl-ids $nacl_id --query 'NetworkAcls[0].Entries[?Egress==`true` && CidrBlock==`0.0.0.0/0` && RuleAction==`allow`]' --output text 2>/dev/null)
+        permissive_rules=$(aws ec2 describe-network-acls --region $REGION --network-acl-ids $nacl_id --query 'NetworkAcls[0].Entries[?Egress==`true` && CidrBlock==`0.0.0.0/0` && RuleAction==`allow`]' --output text 2>/dev/null)
         
-        if [ -n "$default_outbound" ]; then
-            echo -e "${YELLOW}NOTE: NACL $nacl_id allows all outbound traffic (0.0.0.0/0 allow)${NC}"
-            outbound_details+="<li class=\"yellow\">NACL allows all outbound traffic (0.0.0.0/0 allow)</li>"
+        if [ -n "$permissive_rules" ]; then
+            outbound_details+="<li class=\"red\">WARNING: NACL has permissive outbound rules (0.0.0.0/0 allow)</li>"
+            outbound_details+="<li><pre>$permissive_rules</pre></li>"
+            overall_warning=true
         else
-            echo -e "${GREEN}NACL $nacl_id has restricted outbound rules${NC}"
-            outbound_details+="<li class=\"green\">NACL has restricted outbound rules</li>"
+            outbound_details+="<li class=\"green\">NACL has properly restricted outbound rules</li>"
         fi
         
         outbound_details+="</ul>"
@@ -586,11 +698,63 @@ for vpc_id in $TARGET_VPCS; do
     outbound_details+="</ul>"
 done
 
-outbound_details+="</ul><p class=\"yellow\">NOTE: A complete CDE outbound traffic assessment requires detailed traffic flow analysis</p>"
+outbound_details+="</ul>"
 
-add_check_item "$OUTPUT_FILE" "warning" "1.3.2 - Outbound traffic from CDE restriction" "$outbound_details" "Ensure outbound traffic from the CDE is restricted to only necessary traffic. Identify all CDE subnets and ensure proper outbound traffic restrictions are in place."
+# --- Part 2: Security Group Outbound Checks ---
+outbound_details+="<h4>Security Group Rules</h4><ul>"
+
+for vpc_id in $TARGET_VPCS; do
+    outbound_details+="<li>VPC: $vpc_id</li><ul>"
+    
+    sg_list=$(aws ec2 describe-security-groups --region $REGION --filters "Name=vpc-id,Values=$vpc_id" --query 'SecurityGroups[*].GroupId' --output text 2>/dev/null)
+    
+    if [ -z "$sg_list" ]; then
+        outbound_details+="<li class=\"yellow\">No Security Groups found in this VPC</li>"
+        continue
+    fi
+    
+    for sg_id in $sg_list; do
+        sg_details=$(aws ec2 describe-security-groups --region $REGION --group-ids $sg_id --output json 2>/dev/null)
+        sg_name=$(echo "$sg_details" | jq -r '.SecurityGroups[0].GroupName')
+        
+        outbound_details+="<li>Security Group: $sg_id ($sg_name)</li><ul>"
+        
+        # Count and list public outbound rules
+        public_outbound=$(echo "$sg_details" | jq '[.SecurityGroups[].IpPermissionsEgress[] | select(.IpRanges[].CidrIp=="0.0.0.0/0")] | length')
+        if [ "$public_outbound" -gt 0 ]; then
+            outbound_details+="<li class=\"red\">WARNING: $public_outbound public outbound rules (0.0.0.0/0)</li>"
+            
+            # Get detailed rule info (Protocol, Ports)
+            outbound_rules=$(echo "$sg_details" | jq -r '.SecurityGroups[].IpPermissionsEgress[] 
+                | select(.IpRanges[].CidrIp=="0.0.0.0/0") 
+                | "Protocol: \(.IpProtocol) | FromPort: \(.FromPort // "all") | ToPort: \(.ToPort // "all")"' 2>/dev/null)
+            
+            [ -z "$outbound_rules" ] && outbound_rules="(No detailed rule data)"
+            outbound_details+="<li><pre>$outbound_rules</pre></li>"
+            overall_warning=true
+        else
+            outbound_details+="<li class=\"green\">No public outbound rules (0.0.0.0/0)</li>"
+        fi
+        
+        outbound_details+="</ul>"
+    done
+    
+    outbound_details+="</ul>"
+done
+
+outbound_details+="</ul><p class=\"yellow\">NOTE: Verify all outbound connections from the CDE are restricted to authorized destinations only.</p>"
+
+# --- Finalize result ---
+if [ "$overall_warning" = true ]; then
+    add_check_item "$OUTPUT_FILE" "warning" "1.3.2 - Outbound traffic from CDE restriction (NACL & Security Groups)" "$outbound_details" "Review NACL and Security Group outbound rules. Restrict any rules allowing 0.0.0.0/0 unless explicitly required and documented. Outbound traffic from the CDE must be limited to known, secure destinations."
+    ((warning_checks++))
+else
+    add_check_item "$OUTPUT_FILE" "pass" "1.3.2 - Outbound traffic from CDE restriction (NACL & Security Groups)" "$outbound_details" "All examined NACLs and Security Groups have properly restricted outbound rules. No public (0.0.0.0/0) access detected."
+    ((passed_checks++))
+fi
+
 ((total_checks++))
-((warning_checks++))
+
 
 # Check 1.3.3 - Wireless networks and CDE
 echo -e "\n${BLUE}1.3.3 - Wireless networks and CDE${NC}"

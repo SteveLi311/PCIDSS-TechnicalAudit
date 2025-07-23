@@ -253,14 +253,15 @@ main() {
     fi
     
     # RDS Encryption Check
-    total_checks=$((total_checks + 1))
-    if [ "$unencrypted_count" -eq 0 ]; then
-        add_check_item "$OUTPUT_FILE" "pass" "RDS Encryption" "All RDS instances are encrypted" ""
-        passed_checks=$((passed_checks + 1))
-    else
-        add_check_item "$OUTPUT_FILE" "fail" "RDS Encryption" "$unencrypted_count RDS instances are not encrypted" "Enable encryption for all RDS instances"
-        failed_checks=$((failed_checks + 1))
-    fi
+	total_checks=$((total_checks + 1))
+	if [ "$unencrypted_count" -eq 0 ]; then
+		add_check_item "$OUTPUT_FILE" "pass" "2.2.1 - RDS Encryption" "All RDS instances are encrypted" ""
+		passed_checks=$((passed_checks + 1))
+	else
+		add_check_item "$OUTPUT_FILE" "fail" "2.2.1 - RDS Encryption" "$unencrypted_count RDS instances are not encrypted" "Enable encryption for all RDS instances"
+		failed_checks=$((failed_checks + 1))
+	fi
+
     
     # RDS Default Port Check
     total_checks=$((total_checks + 1))
@@ -274,14 +275,14 @@ main() {
     fi
     
     # RDS Public Access Check
-    total_checks=$((total_checks + 1))
-    if [ "$public_access_count" -eq 0 ]; then
-        add_check_item "$OUTPUT_FILE" "pass" "RDS Public Access" "No RDS instances with public access" ""
-        passed_checks=$((passed_checks + 1))
-    else
-        add_check_item "$OUTPUT_FILE" "fail" "RDS Public Access" "$public_access_count RDS instances have public access enabled" "Disable public access for RDS instances in production environments"
-        failed_checks=$((failed_checks + 1))
-    fi
+	total_checks=$((total_checks + 1))
+	if [ "$public_access_count" -eq 0 ]; then
+		add_check_item "$OUTPUT_FILE" "pass" "1.4.4 - RDS Public Access" "No RDS instances with public access" ""
+		passed_checks=$((passed_checks + 1))
+	else
+		add_check_item "$OUTPUT_FILE" "fail" "1.4.4 - RDS Public Access" "$public_access_count RDS instances have public access enabled" "Disable public access for RDS instances in production environments"
+		failed_checks=$((failed_checks + 1))
+	fi
     
     # Requirement 2.2 continued
     # Check 2.2.3: Primary Functions with Different Security Levels
@@ -518,26 +519,26 @@ main() {
     fi
     
     # S3 Public Access Check
-    total_checks=$((total_checks + 1))
-    if [ "$insecure_acl_count" -eq 0 ]; then
-        add_check_item "$OUTPUT_FILE" "pass" "S3 Public Access" "No S3 buckets with public access" ""
-        passed_checks=$((passed_checks + 1))
-    else
-        violation_detail="$insecure_acl_count S3 buckets have public access<br><br><strong>Risk:</strong> Public S3 buckets can expose sensitive data and are frequently targeted by attackers.<br><br><strong>Public Buckets:</strong>$public_buckets"
-        add_check_item "$OUTPUT_FILE" "fail" "S3 Public Access" "$violation_detail" "1. Enable S3 Block Public Access at the account level<br>2. Remove public ACLs from the identified buckets<br>3. Review and restrict bucket policies<br>4. Use pre-signed URLs for temporary access when needed"
-        failed_checks=$((failed_checks + 1))
-    fi
+	total_checks=$((total_checks + 1))
+	if [ "$insecure_acl_count" -eq 0 ]; then
+		add_check_item "$OUTPUT_FILE" "pass" "1.4.4 - S3 Public Access" "No S3 buckets with public access" ""
+		passed_checks=$((passed_checks + 1))
+	else
+		violation_detail="$insecure_acl_count S3 buckets have public access<br><br><strong>Risk:</strong> Public S3 buckets can expose sensitive data and are frequently targeted by attackers.<br><br><strong>Public Buckets:</strong>$public_buckets"
+		add_check_item "$OUTPUT_FILE" "fail" "1.4.4 - S3 Public Access" "$violation_detail" "1. Enable S3 Block Public Access at the account level<br>2. Remove public ACLs from the identified buckets<br>3. Review and restrict bucket policies<br>4. Use pre-signed URLs for temporary access when needed"
+		failed_checks=$((failed_checks + 1))
+	fi
     
     # S3 Encryption Check
-    total_checks=$((total_checks + 1))
-    if [ "$no_encryption_count" -eq 0 ]; then
-        add_check_item "$OUTPUT_FILE" "pass" "S3 Encryption" "All S3 buckets have encryption enabled" ""
-        passed_checks=$((passed_checks + 1))
-    else
-        violation_detail="$no_encryption_count S3 buckets don't have encryption enabled<br><br><strong>Risk:</strong> Unencrypted data storage violates PCI DSS requirements and may expose sensitive information.<br><br><strong>Unencrypted Buckets:</strong>$unencrypted_buckets"
-        add_check_item "$OUTPUT_FILE" "fail" "S3 Encryption" "$violation_detail" "1. Enable default encryption for all S3 buckets using AES-256 or AWS KMS<br>2. Consider using AWS Organizations to enforce encryption policies<br>3. Review data classification to ensure appropriate controls"
-        failed_checks=$((failed_checks + 1))
-    fi
+	total_checks=$((total_checks + 1))
+	if [ "$no_encryption_count" -eq 0 ]; then
+		add_check_item "$OUTPUT_FILE" "pass" "2.2.1 - S3 Encryption" "All S3 buckets have encryption enabled" ""
+		passed_checks=$((passed_checks + 1))
+	else
+		violation_detail="$no_encryption_count S3 buckets don't have encryption enabled<br><br><strong>Risk:</strong> Unencrypted data storage violates PCI DSS requirements and may expose sensitive information.<br><br><strong>Unencrypted Buckets:</strong>$unencrypted_buckets"
+		add_check_item "$OUTPUT_FILE" "fail" "2.2.1 - S3 Encryption" "$violation_detail" "1. Enable default encryption for all S3 buckets using AES-256 or AWS KMS<br>2. Consider using AWS Organizations to enforce encryption policies<br>3. Review data classification to ensure appropriate controls"
+		failed_checks=$((failed_checks + 1))
+	fi
     
     # Check 2.2.5: Insecure Services with Justification
     echo "Checking for insecure services with business justification..."

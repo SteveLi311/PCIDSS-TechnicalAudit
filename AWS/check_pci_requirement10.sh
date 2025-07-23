@@ -730,7 +730,7 @@ main() {
         
         echo "$status:$details"
     }
-    
+
     # Check 10.1.1 - Implementation of audit trails
     echo "Checking CloudTrail configuration..."
     cloudtrail_result=$("check_cloudtrail_enabled" "$REGION")
@@ -750,6 +750,7 @@ main() {
     fi
     ((total_checks++))
     
+	
     # Section 10.2 - Audit logs capture all user activities
     # For this example, we're including it in 10.1 section as it's closely related
     # In a full implementation, you might have a separate section
@@ -945,6 +946,38 @@ main() {
     fi
     ((total_checks++))
     
+	# === 10.5.1 - CloudWatch Log Groups (with color and overall PASS/FAIL) ===
+    echo "Collecting CloudWatch Log Groups (with retention color)..."
+
+    loggroups=$(aws logs describe-log-groups --region "$REGION" \
+        --query 'logGroups[*].{Name:logGroupName,Retention:retentionInDays}' --output json 2>/dev/null)
+
+    logs_html="<h4>CloudWatch Log Groups:</h4><ul>"
+    overall_status="pass"
+
+    if [ -n "$loggroups" ] && [ "$loggroups" != "[]" ]; then
+        for row in $(echo "$loggroups" | jq -c '.[]'); do
+            name=$(echo "$row" | jq -r '.Name')
+            retention=$(echo "$row" | jq -r '.Retention // "Never Expire"')
+
+            if [ "$retention" != "Never Expire" ] && [ "$retention" -lt 365 ]; then
+                logs_html+="<li class=\"red\"><strong>$name</strong> (Retention: $retention days)</li>"
+                overall_status="fail"
+            else
+                logs_html+="<li class=\"green\"><strong>$name</strong> (Retention: $retention days)</li>"
+            fi
+        done
+    else
+        logs_html+="<li>No Log Groups found</li>"
+    fi
+    logs_html+="</ul>"
+
+    # 依據是否有 fail 來設定 10.5.1 狀態
+    add_check_item "$OUTPUT_FILE" "$overall_status" "10.5.1 - CloudWatch Log Groups" \
+        "$logs_html" \
+        "CloudWatch log groups must retain logs for at least 365 days to meet audit requirements."
+
+	
     close_section "$OUTPUT_FILE"
     
     # Section 10.6: Log monitoring and anomaly detection

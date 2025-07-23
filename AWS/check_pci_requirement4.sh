@@ -53,333 +53,84 @@ check_command_access() {
 
 # Function to check TLS configurations for load balancers
 check_elb_tls_configuration() {
-    local region="$1"
-    local details=""
-    local found_issues=false
-    
-    # Check Classic Load Balancers
-    echo "Checking Classic Load Balancers..."
-    classic_lbs=$(aws elb describe-load-balancers --region $region --query 'LoadBalancerDescriptions[*].LoadBalancerName' --output text)
-    
-    if [ -n "$classic_lbs" ]; then
-        details+="<p>Analysis of Classic Load Balancers:</p><ul>"
-        
-        for lb in $classic_lbs; do
-            # Get listener configurations
-            listeners=$(aws elb describe-load-balancers --region $region --load-balancer-name $lb --query 'LoadBalancerDescriptions[0].ListenerDescriptions[*].Listener')
-            
-            # Check if this is a HTTPS/SSL LB
-            if [[ "$listeners" == *"HTTPS"* || "$listeners" == *"SSL"* ]]; then
-                lb_details="<li>Load Balancer: $lb<ul>"
-                
-                # Get SSL policies for this LB
-                policies=$(aws elb describe-load-balancer-policies --region $region --load-balancer-name $lb)
-                
-                # Find SSL negotiation policies
-                ssl_policies=$(echo "$policies" | grep -A 2 "SSLNegotiationPolicyType" | grep "PolicyName" | awk -F'"' '{print $4}')
-                
-                if [ -z "$ssl_policies" ]; then
-                    # No custom SSL policy, using default
-                    lb_details+="<li class=\"red\">Using default SSL policy which may not enforce strong TLS.</li>"
-                    found_issues=true
+    local region=$1
+    local lb_arns
+    local output="<p>ELB/ALB TLS Configuration:</p><ul>"
+    local tls_issue_found=false
+
+    # 取得所有 Load Balancer
+    lb_arns=$(aws elbv2 describe-load-balancers --region "$region" --query 'LoadBalancers[*].LoadBalancerArn' --output text 2>/dev/null)
+
+    if [ -z "$lb_arns" ]; then
+        output+="<li class=\"green\">No Load Balancers found in region $region</li></ul>"
+        echo "$output"
+        return
+    fi
+
+    for lb_arn in $lb_arns; do
+        lb_name=$(echo "$lb_arn" | awk -F'/' '{print $3}')
+        output+="<li>Load Balancer: $lb_name<ul>"
+
+        # 找 Listener
+        listeners=$(aws elbv2 describe-listeners --region "$region" --load-balancer-arn "$lb_arn" \
+            --query 'Listeners[*].{Port:Port,ARN:ListenerArn,SslPolicy:SslPolicy}' --output json 2>/dev/null)
+
+        if [ -z "$listeners" ] || [ "$listeners" == "[]" ]; then
+            output+="<li class=\"yellow\">No Listeners found</li></ul></li>"
+            continue
+        fi
+
+        for listener in $(echo "$listeners" | jq -c '.[]'); do
+            port=$(echo "$listener" | jq -r '.Port')
+            ssl_policy=$(echo "$listener" | jq -r '.SslPolicy // "None"')
+            listener_arn=$(echo "$listener" | jq -r '.ARN')
+
+            output+="<li>Listener Port: $port<br>SSL Policy: $ssl_policy<ul>"
+
+            if [ "$ssl_policy" != "None" ]; then
+                # 查 Policy 詳細內容 (Protocols, Ciphers)
+                policy_details=$(aws elbv2 describe-ssl-policies --region "$region" --names "$ssl_policy" \
+                    --query 'SslPolicies[0]' --output json 2>/dev/null)
+
+                protocols=$(echo "$policy_details" | jq -r '.SslProtocols[]?' | paste -sd "," -)
+                output+="<li>Supported Protocols: $protocols</li>"
+
+                # 逐一列出所有 Ciphers
+                ciphers=$(echo "$policy_details" | jq -r '.Ciphers[].Name')
+                if [ -n "$ciphers" ]; then
+                    output+="<li>Supported Ciphers:<ul>"
+                    while IFS= read -r cipher; do
+                        output+="<li>$cipher</li>"
+                    done <<< "$ciphers"
+                    output+="</ul></li>"
                 else
-                    for policy in $ssl_policies; do
-                        # Get policy details
-                        policy_details=$(aws elb describe-load-balancer-policies --region $region --load-balancer-name $lb --policy-names $policy)
-                        
-                        # Check if weak protocols (SSLv2, SSLv3, TLSv1.0, TLSv1.1) are enabled
-                        if [[ "$policy_details" == *"Protocol-SSLv2"* && "$policy_details" == *"true"* ]]; then
-                            lb_details+="<li class=\"red\">Policy $policy allows insecure SSLv2 protocol</li>"
-                            found_issues=true
-                        fi
-                        
-                        if [[ "$policy_details" == *"Protocol-SSLv3"* && "$policy_details" == *"true"* ]]; then
-                            lb_details+="<li class=\"red\">Policy $policy allows insecure SSLv3 protocol</li>"
-                            found_issues=true
-                        fi
-                        
-                        if [[ "$policy_details" == *"Protocol-TLSv1"* && "$policy_details" == *"true"* ]]; then
-                            lb_details+="<li class=\"yellow\">Policy $policy allows TLSv1.0 protocol (deprecated)</li>"
-                            found_issues=true
-                        fi
-                        
-                        if [[ "$policy_details" == *"Protocol-TLSv1.1"* && "$policy_details" == *"true"* ]]; then
-                            lb_details+="<li class=\"yellow\">Policy $policy allows TLSv1.1 protocol (deprecated)</li>"
-                            found_issues=true
-                        fi
-                        
-                        # Check for weak ciphers
-                        weak_ciphers=$(echo "$policy_details" | grep -E 'RC4|DES|MD5|EXPORT' | grep -B 1 "true" | grep "Name" | awk -F'"' '{print $4}')
-                        if [ -n "$weak_ciphers" ]; then
-                            lb_details+="<li class=\"red\">Policy $policy allows weak ciphers:<ul>"
-                            for cipher in $weak_ciphers; do
-                                lb_details+="<li>$cipher</li>"
-                            done
-                            lb_details+="</ul></li>"
-                            found_issues=true
-                        fi
-                    done
+                    output+="<li class=\"yellow\">No Ciphers found in policy</li>"
                 fi
-                
-                lb_details+="</ul></li>"
-                
-                # Only add this LB to the details if it had issues
-                if [[ "$lb_details" == *"class=\"red\""* || "$lb_details" == *"class=\"yellow\""* ]]; then
-                    details+="$lb_details"
+
+                # 判斷是否使用弱 TLS 版本
+                if [[ "$protocols" == *"TLSv1.0"* || "$protocols" == *"TLSv1.1"* ]]; then
+                    tls_issue_found=true
+                    output+="<li class=\"red\">WARNING: Weak TLS versions (TLS1.0/TLS1.1) allowed!</li>"
                 else
-                    details+="<li>Load Balancer: $lb - No TLS issues detected</li>"
+                    output+="<li class=\"green\">Only strong TLS versions (1.2/1.3) detected</li>"
                 fi
             else
-                # Not an HTTPS/SSL load balancer, so not relevant for this check
-                details+="<li>Load Balancer: $lb - Not using HTTPS/SSL (not applicable)</li>"
+                output+="<li class=\"yellow\">No SSL Policy (Listener not using HTTPS)</li>"
             fi
+
+            output+="</ul></li>"
         done
-        
-        details+="</ul>"
+
+        output+="</ul></li>"
+    done
+
+    output+="</ul>"
+
+    # 回傳完整報告內容
+    if [ "$tls_issue_found" = true ]; then
+        echo "<div class=\"red\">$output</div>"
     else
-        details+="<p>No Classic Load Balancers found in region $region.</p>"
-    fi
-    
-    # Check Application Load Balancers
-    echo "Checking Application Load Balancers..."
-    albs=$(aws elbv2 describe-load-balancers --region $region --query 'LoadBalancers[?Type==`application`].LoadBalancerArn' --output text)
-    
-    if [ -n "$albs" ]; then
-        details+="<p>Analysis of Application Load Balancers:</p><ul>"
-        
-        for alb_arn in $albs; do
-            alb_name=$(echo "$alb_arn" | awk -F'/' '{print $3}')
-            
-            # Get listener configurations
-            listeners=$(aws elbv2 describe-listeners --region $region --load-balancer-arn $alb_arn --query 'Listeners[*]')
-            
-            # Check if this ALB has HTTPS listeners
-            https_listeners=$(echo "$listeners" | grep -A 2 '"Protocol": "HTTPS"' | grep "ListenerArn" | awk -F'"' '{print $4}')
-            
-            if [ -n "$https_listeners" ]; then
-                alb_details="<li>Application Load Balancer: $alb_name<ul>"
-                
-                for listener_arn in $https_listeners; do
-                    # Get SSL policy for this listener
-                    ssl_policy=$(aws elbv2 describe-listeners --region $region --listener-arns $listener_arn --query 'Listeners[0].SslPolicy' --output text)
-                    
-                    # Check if using a deprecated or weak policy
-                    case "$ssl_policy" in
-                        "ELBSecurityPolicy-TLS-1-0-2015-04")
-                            alb_details+="<li class=\"red\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses deprecated policy $ssl_policy that allows TLSv1.0</li>"
-                            found_issues=true
-                            ;;
-                        "ELBSecurityPolicy-TLS-1-1-2017-01")
-                            alb_details+="<li class=\"yellow\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses policy $ssl_policy that allows TLSv1.1 (deprecated)</li>"
-                            found_issues=true
-                            ;;
-                        "ELBSecurityPolicy-2016-08"|"ELBSecurityPolicy-FS-2018-06"|"ELBSecurityPolicy-FS-1-2-2019-08"|"ELBSecurityPolicy-FS-1-1-2019-08"|"ELBSecurityPolicy-2015-05")
-                            # These are recent policies that are considered secure
-                            alb_details+="<li class=\"green\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses secure policy $ssl_policy</li>"
-                            ;;
-                        *)
-                            # For custom or unknown policies, flag as warning
-                            alb_details+="<li class=\"yellow\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses custom or unknown policy $ssl_policy - manual verification needed</li>"
-                            found_issues=true
-                            ;;
-                    esac
-                done
-                
-                alb_details+="</ul></li>"
-                
-                # Only add this ALB to the details if it had issues or if we want to show all
-                if [[ "$alb_details" == *"class=\"red\""* || "$alb_details" == *"class=\"yellow\""* ]]; then
-                    details+="$alb_details"
-                else
-                    details+="<li>Application Load Balancer: $alb_name - Using secure TLS configurations</li>"
-                fi
-            else
-                # Not using HTTPS
-                details+="<li>Application Load Balancer: $alb_name - Not using HTTPS (not applicable)</li>"
-            fi
-        done
-        
-        details+="</ul>"
-    else
-        details+="<p>No Application Load Balancers found in region $region.</p>"
-    fi
-    
-    # Check Network Load Balancers with TLS listeners
-    echo "Checking Network Load Balancers..."
-    nlbs=$(aws elbv2 describe-load-balancers --region $region --query 'LoadBalancers[?Type==`network`].LoadBalancerArn' --output text)
-    
-    if [ -n "$nlbs" ]; then
-        details+="<p>Analysis of Network Load Balancers:</p><ul>"
-        
-        for nlb_arn in $nlbs; do
-            nlb_name=$(echo "$nlb_arn" | awk -F'/' '{print $3}')
-            
-            # Get listener configurations
-            listeners=$(aws elbv2 describe-listeners --region $region --load-balancer-arn $nlb_arn --query 'Listeners[*]')
-            
-            # Check if this NLB has TLS listeners
-            tls_listeners=$(echo "$listeners" | grep -A 2 '"Protocol": "TLS"' | grep "ListenerArn" | awk -F'"' '{print $4}')
-            
-            if [ -n "$tls_listeners" ]; then
-                nlb_details="<li>Network Load Balancer: $nlb_name<ul>"
-                
-                for listener_arn in $tls_listeners; do
-                    # Get SSL policy for this listener
-                    ssl_policy=$(aws elbv2 describe-listeners --region $region --listener-arns $listener_arn --query 'Listeners[0].SslPolicy' --output text)
-                    
-                    # Check if using a deprecated or weak policy
-                    case "$ssl_policy" in
-                        *"TLS-1-0"*)
-                            nlb_details+="<li class=\"red\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses deprecated policy $ssl_policy that allows TLSv1.0</li>"
-                            found_issues=true
-                            ;;
-                        *"TLS-1-1"*)
-                            nlb_details+="<li class=\"yellow\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses policy $ssl_policy that allows TLSv1.1 (deprecated)</li>"
-                            found_issues=true
-                            ;;
-                        *)
-                            # For other policies, assume they're secure
-                            nlb_details+="<li class=\"green\">Listener $(echo $listener_arn | awk -F'/' '{print $NF}') uses policy $ssl_policy</li>"
-                            ;;
-                    esac
-                done
-                
-                nlb_details+="</ul></li>"
-                
-                # Only add this NLB to the details if it had issues
-                if [[ "$nlb_details" == *"class=\"red\""* || "$nlb_details" == *"class=\"yellow\""* ]]; then
-                    details+="$nlb_details"
-                else
-                    details+="<li>Network Load Balancer: $nlb_name - Using secure TLS configurations</li>"
-                fi
-            else
-                # Not using TLS
-                details+="<li>Network Load Balancer: $nlb_name - Not using TLS (not applicable)</li>"
-            fi
-        done
-        
-        details+="</ul>"
-    else
-        details+="<p>No Network Load Balancers found in region $region.</p>"
-    fi
-    
-    # Check CloudFront Distributions
-    echo "Checking CloudFront Distributions..."
-    cf_distributions=$(aws cloudfront list-distributions --region $region --query 'DistributionList.Items[*].Id' --output text 2>/dev/null)
-    
-    # If the command failed (CloudFront is global but accessed from us-east-1), try again with us-east-1
-    if [ $? -ne 0 ]; then
-        cf_distributions=$(aws cloudfront list-distributions --region us-east-1 --query 'DistributionList.Items[*].Id' --output text 2>/dev/null)
-    fi
-    
-    if [ -n "$cf_distributions" ]; then
-        details+="<p>Analysis of CloudFront Distributions:</p><ul>"
-        
-        for dist_id in $cf_distributions; do
-            # Get distribution config
-            if ! dist_config=$(aws cloudfront get-distribution --region us-east-1 --id $dist_id 2>/dev/null); then
-                dist_config=$(aws cloudfront get-distribution --region $region --id $dist_id 2>/dev/null)
-            fi
-            
-            # Extract viewer certificate info
-            minimum_protocol_version=$(echo "$dist_config" | grep -A 5 "ViewerCertificate" | grep "MinimumProtocolVersion" | awk -F'"' '{print $4}')
-            
-            if [ -n "$minimum_protocol_version" ]; then
-                dist_details="<li>CloudFront Distribution: $dist_id<ul>"
-                
-                # Check TLS protocol version
-                case "$minimum_protocol_version" in
-                    "SSLv3")
-                        dist_details+="<li class=\"red\">Uses insecure minimum protocol version: $minimum_protocol_version</li>"
-                        found_issues=true
-                        ;;
-                    "TLSv1")
-                        dist_details+="<li class=\"red\">Uses deprecated minimum protocol version: $minimum_protocol_version</li>"
-                        found_issues=true
-                        ;;
-                    "TLSv1_2016")
-                        dist_details+="<li class=\"red\">Uses deprecated minimum protocol version: $minimum_protocol_version (TLSv1)</li>"
-                        found_issues=true
-                        ;;
-                    "TLSv1.1_2016")
-                        dist_details+="<li class=\"yellow\">Uses deprecated minimum protocol version: $minimum_protocol_version (TLSv1.1)</li>"
-                        found_issues=true
-                        ;;
-                    *)
-                        # TLSv1.2 or higher is good
-                        dist_details+="<li class=\"green\">Uses secure minimum protocol version: $minimum_protocol_version</li>"
-                        ;;
-                esac
-                
-                dist_details+="</ul></li>"
-                
-                # Only add this distribution to the details if it had issues
-                if [[ "$dist_details" == *"class=\"red\""* || "$dist_details" == *"class=\"yellow\""* ]]; then
-                    details+="$dist_details"
-                else
-                    details+="<li>CloudFront Distribution: $dist_id - Using secure TLS configuration</li>"
-                fi
-            else
-                details+="<li>CloudFront Distribution: $dist_id - Unable to determine TLS configuration</li>"
-            fi
-        done
-        
-        details+="</ul>"
-    else
-        details+="<p>No CloudFront Distributions found.</p>"
-    fi
-    
-    # Check API Gateway APIs
-    echo "Checking API Gateway APIs..."
-    apis=$(aws apigateway get-rest-apis --region $region --query 'items[*].id' --output text 2>/dev/null)
-    
-    if [ -n "$apis" ]; then
-        details+="<p>Analysis of API Gateway APIs:</p><ul>"
-        
-        for api_id in $apis; do
-            # Get API details
-            api_name=$(aws apigateway get-rest-api --region $region --rest-api-id $api_id --query 'name' --output text)
-            
-            # Get security policy
-            security_policy=$(aws apigateway get-rest-api --region $region --rest-api-id $api_id --query 'securityPolicy' --output text)
-            
-            api_details="<li>API Gateway: $api_name ($api_id)<ul>"
-            
-            if [ "$security_policy" == "TLS_1_0" ]; then
-                api_details+="<li class=\"red\">Uses deprecated security policy: $security_policy</li>"
-                found_issues=true
-            elif [ "$security_policy" == "TLS_1_1" ]; then
-                api_details+="<li class=\"yellow\">Uses deprecated security policy: $security_policy</li>"
-                found_issues=true
-            elif [ "$security_policy" == "TLS_1_2" ]; then
-                api_details+="<li class=\"green\">Uses secure security policy: $security_policy</li>"
-            else
-                api_details+="<li class=\"yellow\">Unknown security policy: $security_policy</li>"
-                found_issues=true
-            fi
-            
-            api_details+="</ul></li>"
-            
-            # Only add this API to the details if it had issues
-            if [[ "$api_details" == *"class=\"red\""* || "$api_details" == *"class=\"yellow\""* ]]; then
-                details+="$api_details"
-            else
-                details+="<li>API Gateway: $api_name ($api_id) - Using secure TLS configuration</li>"
-            fi
-        done
-        
-        details+="</ul>"
-    else
-        details+="<p>No API Gateway APIs found in region $region.</p>"
-    fi
-    
-    # Return the results
-    if [ "$found_issues" = true ]; then
-        echo "$details"
-        return 1
-    else
-        echo "<p class=\"green\">No TLS configuration issues detected across load balancers, CloudFront distributions, and API Gateway APIs in region $region.</p>"
-        return 0
+        echo "<div class=\"green\">$output</div>"
     fi
 }
 

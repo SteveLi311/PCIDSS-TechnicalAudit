@@ -80,7 +80,7 @@ check_admin_policies() {
               $(echo "$policy_doc" | jq -r '.Statement[].Resource' 2>/dev/null) == *"*"* ]]; then
             
             # Add details about this policy
-            details+="<div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #f44336;'>"
+            details+="<div style='margin-bottom: 15px; padding: 10px; border-left: 3px solid #ff9800;'>"
             details+="<strong>Policy Name:</strong> $policy_name<br>"
             details+="<strong>Policy ARN:</strong> $policy_arn<br>"
             details+="<strong>Issue:</strong> This policy contains wildcard permissions or administrative access<br>"
@@ -939,35 +939,54 @@ main() {
     add_check_item "$OUTPUT_FILE" "info" "7.3.1 - Access Control System" \
         "<p>AWS IAM serves as your access control system for AWS resources. This check verifies if access control restrictions are based on need-to-know principles.</p><p>You need to manually review your IAM configurations to ensure they restrict access appropriately for all system components in your cardholder data environment.</p>"
     
-    # 7.3.2 Access control system configuration
-    direct_policy_details=$(check_direct_user_policies "$REGION")
-    
-    if [[ "$direct_policy_details" == *"No IAM users with direct policy attachments were detected"* ]]; then
-        add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Direct Policies)" "$direct_policy_details"
-    else
-        add_check_item "$OUTPUT_FILE" "fail" "7.3.2 - Access Control System Configuration (Direct Policies)" "$direct_policy_details" \
-            "Reorganize your IAM structure to use groups for policy management instead of direct user policy attachments. This aligns with job classification and function-based access principles."
-    fi
-    
-    # Admin policy check
-    admin_policy_details=$(check_admin_policies "$REGION")
-    
-    if [[ "$admin_policy_details" == *"No policies with full administrative privileges"* ]]; then
-        add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Admin Policies)" "$admin_policy_details"
-    else
-        add_check_item "$OUTPUT_FILE" "fail" "7.3.2 - Access Control System Configuration (Admin Policies)" "$admin_policy_details" \
-            "Revise policies to limit administrative access. Replace wildcard permissions with specific permissions required for each role."
-    fi
-    
-    # Permissions boundary check
-    boundary_details=$(check_permission_boundaries "$REGION")
-    
-    if [[ "$boundary_details" == *"Permission boundary policies are defined"* ]]; then
-        add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Permission Boundaries)" "$boundary_details"
-    else
-        add_check_item "$OUTPUT_FILE" "warning" "7.3.2 - Access Control System Configuration (Permission Boundaries)" "$boundary_details" \
-            "Implement permission boundaries to set maximum permissions for IAM entities, which can help enforce your access control model."
-    fi
+    # Section 7.3.2 - Access Control System Configuration
+	echo "Checking 7.3.2 - Access Control System Configuration..."
+
+	# Check direct user policy attachments
+	direct_policy_details=$(check_direct_user_policies "$REGION")
+	if [[ "$direct_policy_details" != *"No IAM users with direct policy attachments were detected"* ]]; then
+		add_check_item "$OUTPUT_FILE" "warning" "7.3.2 - Access Control System Configuration (Direct Policies)" \
+			"$direct_policy_details" \
+			"Remove direct policy attachments from IAM users. Assign policies via IAM groups to simplify and centralize access management."
+		((warning_checks++))
+	else
+		add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Direct Policies)" \
+			"$direct_policy_details" \
+			"No IAM users with direct policy attachments were detected."
+		((passed_checks++))
+	fi
+	((total_checks++))
+
+	# Check for overly permissive policies (Admin Policies)
+	admin_policy_details=$(check_admin_policies "$REGION")
+	if [[ "$admin_policy_details" != *"No policies with full administrative privileges"* ]]; then
+		add_check_item "$OUTPUT_FILE" "warning" "7.3.2 - Access Control System Configuration (Admin Policies)" \
+			"$admin_policy_details" \
+			"Review these policies and replace wildcard actions or full administrative privileges with more granular, least-privilege permissions."
+		((warning_checks++))
+	else
+		add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Admin Policies)" \
+			"$admin_policy_details" \
+			"No overly permissive or wildcard-based administrative policies detected."
+		((passed_checks++))
+	fi
+	((total_checks++))
+
+	# Check for permission boundaries
+	boundary_details=$(check_permission_boundaries "$REGION")
+	if [[ "$boundary_details" == *"No IAM permission boundaries found"* ]]; then
+		add_check_item "$OUTPUT_FILE" "warning" "7.3.2 - Access Control System Configuration (Permission Boundaries)" \
+			"$boundary_details" \
+			"Implement IAM permission boundaries to enforce limits on maximum permissions granted to users and roles."
+		((warning_checks++))
+	else
+		add_check_item "$OUTPUT_FILE" "pass" "7.3.2 - Access Control System Configuration (Permission Boundaries)" \
+			"$boundary_details" \
+			"IAM permission boundaries detected and enforced for applicable users and roles."
+		((passed_checks++))
+	fi
+	((total_checks++))
+
     
     # 7.3.3 Default-deny configuration
     default_deny_details=$(check_default_deny "$REGION")

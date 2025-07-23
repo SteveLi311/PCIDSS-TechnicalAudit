@@ -754,6 +754,113 @@ $usage_details
     <li>Whether keys are stored securely and separately from the data they protect</li>
 </ul>"
 
+    # === 3.6 - Key Management (Readable KMS Permissions Overview) ===
+    echo "Collecting KMS Key information for 3.6 - Key Management..."
+
+    kms_keys=$(aws kms list-keys --region "$REGION" --query 'Keys[*].KeyId' --output text 2>/dev/null)
+
+    if [ -z "$kms_keys" ]; then
+        kms_html="<p>No KMS Customer-Managed Keys found in region $REGION.</p>"
+        add_check_item "$OUTPUT_FILE" "pass" "3.6 - Key Management" \
+            "$kms_html" \
+            "No Customer-Managed KMS keys detected in this region."
+    else
+        kms_html="<h4>KMS Key Configuration:</h4>"
+        kms_html+="<p><em>Each key shows which Principals (who can use it), what Actions they are allowed, and any active Grants (temporary permissions).</em></p>"
+        overall_status="pass"
+
+        for key_id in $kms_keys; do
+            # 取得 Key Metadata
+            metadata=$(aws kms describe-key --key-id "$key_id" --region "$REGION" --query 'KeyMetadata' --output json 2>/dev/null)
+            key_state=$(echo "$metadata" | jq -r '.KeyState')
+            key_alias=$(aws kms list-aliases --region "$REGION" --query "Aliases[?TargetKeyId=='$key_id'].AliasName" --output text 2>/dev/null)
+            key_owner=$(echo "$metadata" | jq -r '.AWSAccountId // "Unknown"')
+
+            kms_html+="<div style='margin:10px;padding:10px;border:1px solid #ccc;'>"
+            kms_html+="<strong>Key ID:</strong> $key_id<br>"
+            kms_html+="<strong>Alias:</strong> ${key_alias:-N/A}<br>"
+            kms_html+="<strong>Owner Account:</strong> $key_owner<br>"
+            kms_html+="<strong>Key State:</strong> $key_state<br>"
+			# 檢查 Key Rotation 狀態
+            rotation_enabled=$(aws kms get-key-rotation-status --key-id "$key_id" --region "$REGION" --query 'KeyRotationEnabled' --output text 2>/dev/null)
+
+            if [ "$rotation_enabled" == "True" ]; then
+                kms_html+="<strong>Key Rotation:</strong> <span class=\"green\">Enabled</span><br>"
+            else
+                kms_html+="<strong>Key Rotation:</strong> <span class=\"red\">Disabled</span><br>"
+                overall_status="warning"
+            fi
+
+
+            # 取得並解析 Key Policy
+            policy=$(aws kms get-key-policy --key-id "$key_id" --region "$REGION" --policy-name default --query 'Policy' --output text 2>/dev/null)
+            if [ -n "$policy" ]; then
+                # 展開 Principals (字串或陣列都能正確處理)
+                principals_clean=$(echo "$policy" | jq -r '
+                    .Statement[].Principal.AWS |
+                    if type=="array" then .[] else . end' 2>/dev/null)
+
+                if echo "$principals_clean" | grep -q "\*"; then
+                    kms_html+="<p class=\"red\"><strong>Policy Principals:</strong></p><ul>"
+                    overall_status="warning"
+                else
+                    kms_html+="<p class=\"green\"><strong>Policy Principals:</strong></p><ul>"
+                fi
+                while IFS= read -r principal; do
+                    if [[ "$principal" == "*" ]]; then
+                        kms_html+="<li class=\"red\">$principal (Any Principal)</li>"
+                        overall_status="warning"
+                    else
+                        kms_html+="<li>$principal</li>"
+                    fi
+                done <<< "$principals_clean"
+                kms_html+="</ul>"
+
+                # 展開 Allowed Actions
+                actions_clean=$(echo "$policy" | jq -r '
+                    .Statement[].Action |
+                    if type=="array" then .[] else . end' 2>/dev/null)
+
+                kms_html+="<p><strong>Allowed Actions:</strong></p><ul>"
+                while IFS= read -r action; do
+                    if [[ "$action" == "kms:*" || "$action" == "kms:ReEncrypt*" ]]; then
+                        kms_html+="<li class=\"red\">$action</li>"
+                        overall_status="warning"
+                    else
+                        kms_html+="<li>$action</li>"
+                    fi
+                done <<< "$actions_clean"
+                kms_html+="</ul>"
+            else
+                kms_html+="<p>No Key Policy found (default AWS-managed key?)</p>"
+            fi
+
+            # 取得 Grants 並展開
+            grants=$(aws kms list-grants --key-id "$key_id" --region "$REGION" \
+                --query 'Grants[*].{Grantee:GranteePrincipal,Ops:Operations}' --output json 2>/dev/null)
+
+            if [ -n "$grants" ] && [ "$grants" != "[]" ]; then
+                kms_html+="<p><strong>Active Grants:</strong></p><ul>"
+                for grant in $(echo "$grants" | jq -c '.[]'); do
+                    grantee=$(echo "$grant" | jq -r '.Grantee')
+                    ops=$(echo "$grant" | jq -r '.Ops | join(", ")')
+                    kms_html+="<li><strong>$grantee</strong>: $ops</li>"
+                done
+                kms_html+="</ul>"
+            else
+                kms_html+="<p>No active grants.</p>"
+            fi
+            kms_html+="</div>"
+        done
+
+        add_check_item "$OUTPUT_FILE" "$overall_status" "3.6 - Key Management" \
+            "$kms_html" \
+            "Review KMS key policies and grants to ensure least privilege and proper access control."
+    fi
+
+
+
+
 # Requirement 3.6.1 - Key Protection Procedures
 # Add more specific details about key policy evaluation
 if [ $policy_result -eq 0 ] && [ $usage_result -eq 0 ]; then
