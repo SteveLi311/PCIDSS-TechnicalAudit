@@ -162,7 +162,6 @@
                 "access-analyzer:ListAnalyzers",
                 "config:DescribeConfigurationRecorders",
                 "ssm:ListDocuments",
-                "iam:UpdateAccountPasswordPolicy",
                 "iam:GetAccountPasswordPolicy",
                 "iam:ListMFADevices",
                 "iam:ListVirtualMFADevices",
@@ -193,8 +192,10 @@
                 "s3:GetBucketAcl",
                 "s3:GetBucketTagging",
                 "s3:GetEncryptionConfiguration",
-                "s3:GetLifecycleConfiguration",
-                "ec2:DescribeVolumes"
+                "ec2:DescribeVolumes",
+                "s3:GetBucketPolicy",
+                "s3:GetBucketPublicAccessBlock",
+                "ec2:DescribeAddresses"
             ],
             "Resource": "*"
         }
