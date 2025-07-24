@@ -5,27 +5,31 @@ import re
 
 REPORT_DIR = "./reports"  # Update this path as needed
 TARGET_KEYWORDS = [
-    "1.2.5 - Ports, protocols, and services inventory",
+    "1.2.3 - Network Peering Connections",
     "1.2.6 - Security features for insecure services/protocols",
     "1.3.1 - Inbound traffic to CDE restriction",
     "1.3.2 - Outbound traffic from CDE restriction",
-    "1.3.3 - Wireless networks and CDE",
     "1.4.1 - NSCs between trusted and untrusted networks",
     "1.4.3 - Anti-spoofing measures",
-    "RDS Encryption",
-    "RDS Public Access",
-    "S3 Encryption",
-    "S3 Public Access",
-    "3.6.1 - Key Protection Procedures",
-    "3.7.4 - Key Cryptoperiod and Changes",
+    "1.4.4 - RDS Public Access",
+    "1.4.4 - S3 Public Access",
+    "2.2.1 - RDS Encryption",
+    "2.2.1 - S3 Encryption",
+    "3.6 - Key Management",
     "4.2.1 - TLS Implementation",
-    "4.2.2 - Prevent Unencrypted Data Transmission",
+    "6.3.1 - Vulnerability scanning with AWS Inspector",
+    "6.3.2 - Container image vulnerability scanning",
+    "6.4.2 - Web application firewall implementation",
+    "6.5.4 - Role separation",
     "7.3.2 - Access Control System Configuration (Direct Policies)",
     "8.3.6 - Password/Passphrase Requirements",
     "8.4.2 - Multi-Factor Authentication",
     "8.6.1-3 - Review User Access",
     "10.1.1 - Implementation of audit trails",
-    "10.4.1-10.4.3 - Log review and monitoring process"
+    "10.4.1-10.4.3 - Log review and monitoring process",
+    "10.5.1 - CloudWatch Log Groups",
+    "11.3.1 - Internal Vulnerability Scanning",
+    "11.5.1 - Intrusion Detection Systems",
 ]
 
 def extract_metadata():

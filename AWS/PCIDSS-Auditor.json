@@ -195,7 +195,8 @@
                 "ec2:DescribeVolumes",
                 "s3:GetBucketPolicy",
                 "s3:GetBucketPublicAccessBlock",
-                "ec2:DescribeAddresses"
+                "ec2:DescribeAddresses",
+                "iam:ListEntitiesForPolicy"
             ],
             "Resource": "*"
         }
