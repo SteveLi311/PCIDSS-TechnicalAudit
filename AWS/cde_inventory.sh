@@ -1,8 +1,15 @@
 #!/bin/bash
-REGION="ap-southeast-1"
 OUTPUT_FILE="cde_inventory_report.html"
 FILTER_VPC="$1"  # 第一個參數 (VPC ID 或 Name)，空值時查全部
 
+# Ask user to specify region
+if [ -z "$REGION" ]; then
+    read -p "Enter AWS region to test (e.g., us-east-1): " REGION
+    if [ -z "$REGION" ]; then
+        REGION="ap-southeast-1"
+        echo -e "${YELLOW}Using default region: $REGION${NC}"
+    fi
+fi
 # 初始化 HTML 報告
 echo "<html><head><meta charset='UTF-8'><style>
 body { font-family: Arial, sans-serif; }
@@ -78,6 +85,7 @@ echo "$vpcs" | jq . >&2
 
 
 # === 1. CDE VPC & 子網路資訊 ===
+echo -e "\n===== [ 1 ] 處理 VPC 清單與子網路資訊 ====="
 echo "<h2>1. CDE VPCs and Subnets</h2>" >> "$OUTPUT_FILE"
 
 if [ -z "$vpcs" ] || [ "$vpcs" == "[]" ]; then
@@ -115,6 +123,7 @@ else
 fi
 
 # === 2. 列出特定 VPC 內所有 EC2 執行個體 ===
+echo -e "\n===== [ 2 ] 列出 EC2 實例資訊 ====="
 echo "<h2>2. EC2 Instances by VPC</h2>" >> "$OUTPUT_FILE"
 
 if [ -n "$vpcs" ] && [ "$vpcs" != "[]" ]; then
@@ -163,6 +172,7 @@ fi
 
 
 # === 3. 檢查 VPC 中 EC2 是否暴露到 Internet (SG 規則檢查) ===
+echo -e "\n===== [ 3 ] 分析 EC2 是否暴露至 Internet ====="
 echo "<h2>3. Internet-Exposed EC2 Instances (0.0.0.0/0 or ::/0 Inbound)</h2>" >> "$OUTPUT_FILE"
 
 if [ -n "$vpcs" ] && [ "$vpcs" != "[]" ]; then
@@ -232,6 +242,7 @@ fi
 
 
 # === 4. 檢查 Load Balancer 配置 ===
+echo -e "\n===== [ 4 ] 檢查 Load Balancer 設定與 WAF 綁定 ====="
 echo "<h2>4. Load Balancer Configuration</h2>" >> "$OUTPUT_FILE"
 
 fail_flag=false
@@ -308,6 +319,7 @@ else
 fi
 
 # === 5. 檢查 IAM 帳號是否啟用 MFA 認證機制 ===
+echo -e "\n===== [ 5 ] 檢查 IAM 使用者 MFA 設定 ====="
 echo "<h2>5. IAM Users MFA Enforcement</h2>" >> "$OUTPUT_FILE"
 
 fail_flag=false
@@ -341,6 +353,7 @@ else
 fi
 
 # === 6. 列出所有 S3 儲存桶及其訪問控制 ===
+echo -e "\n===== [ 6 ] 檢查 S3 Bucket 的 ACL 與 Public Access 設定 ====="
 echo "<h2>6. S3 Buckets and Access Control</h2>" >> "$OUTPUT_FILE"
 
 # 列出所有 S3 buckets
@@ -378,6 +391,7 @@ else
 fi
 
 # === 7. 檢查 VPC 對等連接 ===
+echo -e "\n===== [ 7 ] 檢查 VPC Peering 設定 ====="
 echo "<h2>7. VPC Peering Connections</h2>" >> "$OUTPUT_FILE"
 
 # 查詢所有 VPC Peering Connections
