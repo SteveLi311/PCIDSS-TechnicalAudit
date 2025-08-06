@@ -55,28 +55,31 @@ check_command_access() {
 check_elb_tls_configuration() {
     local region=$1
     local lb_arns
-    local output="<p>ELB/ALB TLS Configuration:</p><ul>"
+    local output="<p>ELB/ALB TLS Configuration:</p>"
     local tls_issue_found=false
 
     # 取得所有 Load Balancer
     lb_arns=$(aws elbv2 describe-load-balancers --region "$region" --query 'LoadBalancers[*].LoadBalancerArn' --output text 2>/dev/null)
 
     if [ -z "$lb_arns" ]; then
-        output+="<li class=\"green\">No Load Balancers found in region $region</li></ul>"
+        output+="<div class=\"green\"><ul><li>No Load Balancers found in region $region</li></ul></div>"
         echo "$output"
         return
     fi
 
     for lb_arn in $lb_arns; do
         lb_name=$(echo "$lb_arn" | awk -F'/' '{print $3}')
-        output+="<li>Load Balancer: $lb_name<ul>"
+        lb_output="<ul><li>Load Balancer: $lb_name<ul>"
+        lb_tls_issue_found=false
 
         # 找 Listener
         listeners=$(aws elbv2 describe-listeners --region "$region" --load-balancer-arn "$lb_arn" \
             --query 'Listeners[*].{Port:Port,ARN:ListenerArn,SslPolicy:SslPolicy}' --output json 2>/dev/null)
 
         if [ -z "$listeners" ] || [ "$listeners" == "[]" ]; then
-            output+="<li class=\"yellow\">No Listeners found</li></ul></li>"
+            lb_output+="<li class=\"yellow\">No Listeners found</li></ul></li></ul>"
+            output+="<div class=\"yellow\">$lb_output</div>"
+            tls_issue_found=true
             continue
         fi
 
@@ -85,7 +88,7 @@ check_elb_tls_configuration() {
             ssl_policy=$(echo "$listener" | jq -r '.SslPolicy // "None"')
             listener_arn=$(echo "$listener" | jq -r '.ARN')
 
-            output+="<li>Listener Port: $port<br>SSL Policy: $ssl_policy<ul>"
+            lb_output+="<li>Listener Port: $port<br>SSL Policy: $ssl_policy<ul>"
 
             if [ "$ssl_policy" != "None" ]; then
                 # 查 Policy 詳細內容 (Protocols, Ciphers)
@@ -93,45 +96,48 @@ check_elb_tls_configuration() {
                     --query 'SslPolicies[0]' --output json 2>/dev/null)
 
                 protocols=$(echo "$policy_details" | jq -r '.SslProtocols[]?' | paste -sd "," -)
-                output+="<li>Supported Protocols: $protocols</li>"
+                lb_output+="<li>Supported Protocols: $protocols</li>"
 
-                # 逐一列出所有 Ciphers
+                # 列出所有 Ciphers
                 ciphers=$(echo "$policy_details" | jq -r '.Ciphers[].Name')
                 if [ -n "$ciphers" ]; then
-                    output+="<li>Supported Ciphers:<ul>"
+                    lb_output+="<li>Supported Ciphers:<ul>"
                     while IFS= read -r cipher; do
-                        output+="<li>$cipher</li>"
+                        lb_output+="<li>$cipher</li>"
                     done <<< "$ciphers"
-                    output+="</ul></li>"
+                    lb_output+="</ul></li>"
                 else
-                    output+="<li class=\"yellow\">No Ciphers found in policy</li>"
+                    lb_output+="<li class=\"yellow\">No Ciphers found in policy</li>"
+                    lb_tls_issue_found=true
                 fi
 
-                # 判斷是否使用弱 TLS 版本
+                # 檢查弱 TLS 版本
                 if [[ "$protocols" == *"TLSv1.0"* || "$protocols" == *"TLSv1.1"* ]]; then
-                    tls_issue_found=true
-                    output+="<li class=\"red\">WARNING: Weak TLS versions (TLS1.0/TLS1.1) allowed!</li>"
+                    lb_tls_issue_found=true
+                    lb_output+="<li class=\"red\">WARNING: Weak TLS versions (TLS1.0/TLS1.1) allowed!</li>"
                 else
-                    output+="<li class=\"green\">Only strong TLS versions (1.2/1.3) detected</li>"
+                    lb_output+="<li class=\"green\">Only strong TLS versions (1.2/1.3) detected</li>"
                 fi
             else
-                output+="<li class=\"yellow\">No SSL Policy (Listener not using HTTPS)</li>"
+                lb_tls_issue_found=true
+                lb_output+="<li class=\"yellow\">No SSL Policy (Listener not using HTTPS)</li>"
             fi
 
-            output+="</ul></li>"
+            lb_output+="</ul></li>"
         done
 
-        output+="</ul></li>"
+        lb_output+="</ul></li></ul>"
+
+        # 單一 Load Balancer 的結果顏色包裝
+        if [ "$lb_tls_issue_found" = true ]; then
+            output+="<div class=\"red\">$lb_output</div>"
+            tls_issue_found=true
+        else
+            output+="<div class=\"green\">$lb_output</div>"
+        fi
     done
 
-    output+="</ul>"
-
-    # 回傳完整報告內容
-    if [ "$tls_issue_found" = true ]; then
-        echo "<div class=\"red\">$output</div>"
-    else
-        echo "<div class=\"green\">$output</div>"
-    fi
+    echo "$output"
 }
 
 # Function to check for certificate expiration and maintain inventory
@@ -432,20 +438,22 @@ add_check_item "$OUTPUT_FILE" "warning" "4.1.2 - Defined Roles and Responsibilit
     add_section "$OUTPUT_FILE" "req-4.2" "Requirement 4.2: Strong cryptography and security protocols are implemented to safeguard PAN during transmission over open, public networks." "active"
     
     # Check 4.2.1 - TLS Implementation
-    echo "Checking 4.2.1 - TLS Implementation..."
-    tls_details=$(check_elb_tls_configuration "$REGION")
-    
-    if [[ "$tls_details" == *"class=\"red\""* || "$tls_details" == *"class=\"yellow\""* ]]; then
-        add_check_item "$OUTPUT_FILE" "fail" "4.2.1 - TLS Implementation" \
-            "<p>According to PCI DSS Requirement 4.2.1 [cite: 1232-1236], strong cryptography and security protocols must be implemented to safeguard PAN during transmission over open, public networks, including:</p><ul><li>Only trusted keys and certificates are accepted</li><li>The protocol supports only secure versions or configurations</li><li>The encryption strength is appropriate for the encryption methodology in use</li></ul>$tls_details" \
-            "Implement strong cryptography and security protocols that provide strong encryption, meet industry best practices, and support only secure versions and configurations."
-        ((failed_checks++))
-    else
-        add_check_item "$OUTPUT_FILE" "pass" "4.2.1 - TLS Implementation" \
-            "$tls_details"
-        ((passed_checks++))
-    fi
-    ((total_checks++))
+    # Check 4.2.1 - TLS Implementation
+	echo "Checking 4.2.1 - TLS Implementation..."
+	tls_details=$(check_elb_tls_configuration "$REGION")
+
+	if [[ "$tls_details" == *"class=\"red\""* || "$tls_details" == *"class=\"yellow\""* ]]; then
+		add_check_item "$OUTPUT_FILE" "fail" "4.2.1 - TLS Implementation" \
+			"<p>According to PCI DSS Requirement 4.2.1 [cite: 1232-1236], strong cryptography and security protocols must be implemented to safeguard PAN during transmission over open, public networks, including:</p><ul><li>Only trusted keys and certificates are accepted</li><li>The protocol supports only secure versions or configurations</li><li>The encryption strength is appropriate for the encryption methodology in use</li></ul>$tls_details" \
+			"Implement strong cryptography and security protocols that provide strong encryption, meet industry best practices, and support only secure versions and configurations."
+		((failed_checks++))
+	else
+		add_check_item "$OUTPUT_FILE" "pass" "4.2.1 - TLS Implementation" \
+			"$tls_details"
+		((passed_checks++))
+	fi
+	((total_checks++))
+
     
     # Check 4.2.1.1 - Certificate Inventory
     echo "Checking 4.2.1.1 - Certificate Inventory..."

@@ -588,7 +588,7 @@ check_intrusion_detection() {
         done
         details+="</ul>"
     else
-        details+="<p class='red'>Amazon GuardDuty is not enabled in this region. GuardDuty provides threat detection and intrusion detection capabilities.</p>"
+        details+="<p class='yellow'>Amazon GuardDuty is not enabled in this region. GuardDuty provides threat detection and intrusion detection capabilities.</p>"
     fi
     
     # Check for Network Firewall
@@ -700,7 +700,7 @@ for vpc_id in $TARGET_VPCS; do
             "$details"
         ((passed_checks++))
     else
-        add_check_item "$OUTPUT_FILE" "fail" "11.5.1 - Intrusion Detection Systems (VPC: $vpc_id)" \
+        add_check_item "$OUTPUT_FILE" "warning" "11.5.1 - Intrusion Detection Systems (VPC: $vpc_id)" \
             "$details" \
             "Implement intrusion-detection techniques such as AWS GuardDuty to monitor all traffic at the perimeter of the CDE and at critical points within the CDE. Ensure alerts are generated for suspected compromises and intrusion-detection mechanisms are kept up to date."
         ((failed_checks++))

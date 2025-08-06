@@ -906,7 +906,7 @@ done
 
 network_connections_details+="</ul><p class=\"yellow\">NOTE: A complete assessment requires understanding of which networks are trusted vs. untrusted</p>"
 
-add_check_item "$OUTPUT_FILE" "warning" "1.4.1 - NSCs between trusted and untrusted networks" "$network_connections_details" "Ensure proper network security controls are implemented between trusted and untrusted networks. Identify and classify all networks as trusted or untrusted, and verify appropriate security controls at boundaries."
+add_check_item "$OUTPUT_FILE" "info" "1.4.1 - NSCs between trusted and untrusted networks" "$network_connections_details" "Ensure proper network security controls are implemented between trusted and untrusted networks. Identify and classify all networks as trusted or untrusted, and verify appropriate security controls at boundaries."
 ((total_checks++))
 ((warning_checks++))
 

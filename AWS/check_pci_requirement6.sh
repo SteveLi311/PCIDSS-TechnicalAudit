@@ -644,9 +644,9 @@ if [ $? -eq 0 ]; then
     fi
 else
     INSPECTOR_DETAILS="<p><span class=\"red\">AWS Inspector is not enabled or configured in this region.</span></p>"
-    add_check_item "$OUTPUT_FILE" "fail" "6.3.1 - Vulnerability scanning with AWS Inspector" \
+    add_check_item "$OUTPUT_FILE" "warning" "6.3.1 - Vulnerability scanning with AWS Inspector" \
         "$INSPECTOR_DETAILS" \
-        "Enable AWS Inspector to automatically scan for vulnerabilities in EC2 instances, container images, and Lambda functions. Inspector helps identify software vulnerabilities and network exposure."
+        "Please confirm whether a third-party vulnerability scanning tool has been used for EC2 instances."
     ((failed_checks++))
 fi
 ((total_checks++))
@@ -885,9 +885,9 @@ if [ -n "$WAF_ACLS" ]; then
         ((passed_checks++))
     fi
 else
-    add_check_item "$OUTPUT_FILE" "fail" "6.4.2 - Web application firewall implementation" \
+    add_check_item "$OUTPUT_FILE" "warning" "6.4.2 - Web application firewall implementation" \
         "<p><span class=\"red\">No AWS WAF Web ACLs found. Public-facing web applications should be protected by a web application firewall.</span></p>" \
-        "Implement AWS WAF with appropriate rule sets to protect public-facing web applications. At minimum, use the AWS managed rule groups to protect against common vulnerabilities like SQL injection, XSS, and other OWASP Top 10 vulnerabilities."
+        "Please confirm whether a WAF has been configured to protect public-facing web applications, and whether the WAF is deployed in front of the CDN."
     ((failed_checks++))
 fi
 ((total_checks++))

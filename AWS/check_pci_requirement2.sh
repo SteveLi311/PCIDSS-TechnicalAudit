@@ -258,7 +258,7 @@ main() {
 		add_check_item "$OUTPUT_FILE" "pass" "2.2.1 - RDS Encryption" "All RDS instances are encrypted" ""
 		passed_checks=$((passed_checks + 1))
 	else
-		add_check_item "$OUTPUT_FILE" "fail" "2.2.1 - RDS Encryption" "$unencrypted_count RDS instances are not encrypted" "Enable encryption for all RDS instances"
+		add_check_item "$OUTPUT_FILE" "warning" "2.2.1 - RDS Encryption" "$unencrypted_count RDS instances are not encrypted" "Enable encryption for all RDS instances"
 		failed_checks=$((failed_checks + 1))
 	fi
 
@@ -536,7 +536,7 @@ main() {
 		passed_checks=$((passed_checks + 1))
 	else
 		violation_detail="$no_encryption_count S3 buckets don't have encryption enabled<br><br><strong>Risk:</strong> Unencrypted data storage violates PCI DSS requirements and may expose sensitive information.<br><br><strong>Unencrypted Buckets:</strong>$unencrypted_buckets"
-		add_check_item "$OUTPUT_FILE" "fail" "2.2.1 - S3 Encryption" "$violation_detail" "1. Enable default encryption for all S3 buckets using AES-256 or AWS KMS<br>2. Consider using AWS Organizations to enforce encryption policies<br>3. Review data classification to ensure appropriate controls"
+		add_check_item "$OUTPUT_FILE" "warning" "2.2.1 - S3 Encryption" "$violation_detail" "1. Enable default encryption for all S3 buckets using AES-256 or AWS KMS<br>2. Consider using AWS Organizations to enforce encryption policies<br>3. Review data classification to ensure appropriate controls"
 		failed_checks=$((failed_checks + 1))
 	fi
     

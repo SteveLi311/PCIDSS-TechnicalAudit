@@ -597,8 +597,8 @@ check_log_anomaly_detection() {
     detector_count=$(echo "$guardduty" | jq '.DetectorIds | length')
     
     if [ "$detector_count" -eq 0 ]; then
-        details="<p class=\"red\">GuardDuty is not enabled in region $region. GuardDuty provides automated threat detection including log analysis.</p>"
-        status="fail"
+        details="<p class=\"yellow\">GuardDuty is not enabled in region $region. GuardDuty provides automated threat detection including log analysis.</p>"
+        status="warning"
     else
         details="<p class=\"green\">GuardDuty is enabled in region $region, which provides log anomaly detection and threat monitoring.</p>"
         
@@ -609,8 +609,8 @@ check_log_anomaly_detection() {
             if [ "$finding_status" = "ENABLED" ]; then
                 details+="<p class=\"green\">GuardDuty detector $detector_id is enabled and actively monitoring.</p>"
             else
-                details+="<p class=\"red\">GuardDuty detector $detector_id is disabled. Please enable for proper threat monitoring.</p>"
-                status="fail"
+                details+="<p class=\"yellow\">GuardDuty detector $detector_id is disabled. Please enable for proper threat monitoring.</p>"
+                status="warning"
             fi
         done
     fi
