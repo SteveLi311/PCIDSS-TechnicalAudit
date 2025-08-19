@@ -70,7 +70,8 @@
                 "iam:ListGroupPolicies",
                 "iam:ListRolePolicies",
                 "iam:ListSSHPublicKeys",
-                "iam:ListServiceSpecificCredentials"
+                "iam:ListServiceSpecificCredentials",
+                "iam:ListEntitiesForPolicy"
             ],
             "Resource": "*"
         },
@@ -162,6 +163,7 @@
                 "access-analyzer:ListAnalyzers",
                 "config:DescribeConfigurationRecorders",
                 "ssm:ListDocuments",
+                "iam:UpdateAccountPasswordPolicy",
                 "iam:GetAccountPasswordPolicy",
                 "iam:ListMFADevices",
                 "iam:ListVirtualMFADevices",
@@ -182,7 +184,6 @@
                 "inspector2:ListDelegatedAdminAccounts",
                 "cloudformation:ListStacks",
                 "ec2:DescribeAvailabilityZones",
-                "s3:GetLifecycleConfiguration",
                 "cloudfront:ListDistributions",
                 "apigateway:GET",
                 "s3:GetBucketLocation",
@@ -192,11 +193,9 @@
                 "s3:GetBucketAcl",
                 "s3:GetBucketTagging",
                 "s3:GetEncryptionConfiguration",
+                "s3:GetLifecycleConfiguration",
                 "ec2:DescribeVolumes",
-                "s3:GetBucketPolicy",
-                "s3:GetBucketPublicAccessBlock",
-                "ec2:DescribeAddresses",
-                "iam:ListEntitiesForPolicy"
+                "s3:GetBucketPublicAccessBlock"
             ],
             "Resource": "*"
         }
