@@ -15,6 +15,7 @@ TARGET_KEYWORDS = [
     "Vendor default accounts analysis",
     "Key Management",
     "TLS/SSL Configuration Analysis",
+    "SSL Certificate Inventory and Management",
     "Firewall Rules for Unencrypted Protocols",
     "Project owner role assignment",
     "Identity-Aware Proxy MFA",
