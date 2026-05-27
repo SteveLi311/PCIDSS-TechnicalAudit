@@ -25,23 +25,34 @@ TARGET_KEYWORDS = [
 
 def extract_metadata():
     for filename in sorted(os.listdir(REPORT_DIR)):
-        if filename.startswith("pci_req1") and filename.endswith(".html"):
+        if filename.startswith("pci_req") and filename.endswith(".html"):
             filepath = os.path.join(REPORT_DIR, filename)
-            with open(filepath, "r", encoding="utf-8") as file:
-                soup = BeautifulSoup(file, "html.parser")
-                gcp_account = soup.select_one('tr:has(th:-soup-contains("GCP Account")) td')
-                project = soup.select_one('tr:has(th:-soup-contains("Project")) td')
+            with open(filepath, "r", encoding="utf-8", errors="ignore") as file:
+                soup = BeautifulSoup(file.read(), "html.parser")
+                
+                gcp_account_val = 'N/A'
+                project_val = 'N/A'
+                
+                for th in soup.find_all('th'):
+                    if 'GCP Account' in th.get_text():
+                        td = th.find_next_sibling('td')
+                        if td: gcp_account_val = td.get_text(strip=True)
+                    if 'Project' in th.get_text():
+                        td = th.find_next_sibling('td')
+                        if td: project_val = td.get_text(strip=True)
                 date_str = datetime.now().strftime("%a %b %d %H:%M:%S CST %Y")
                 return f'''
                 <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                   <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold; width: 220px;">Assessment Date</td><td style="padding: 8px;">{date_str}</td></tr>
-                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">GCP Account</td><td style="padding: 8px;">{gcp_account.text.strip() if gcp_account else 'N/A'}</td></tr>
-                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">Project</td><td style="padding: 8px;">{project.text.strip() if project else 'N/A'}</td></tr>
+                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">GCP Account</td><td style="padding: 8px;">{gcp_account_val}</td></tr>
+                  <tr><td style="background: #f2f2f2; padding: 8px; font-weight: bold;">Project</td><td style="padding: 8px;">{project_val}</td></tr>
                 </table>
                 '''
     return ""
 
 def extract_status_class(classes):
+    if not isinstance(classes, list):
+        classes = [classes]
     for status in ["pass", "fail", "warning", "info"]:
         if status in classes:
             return status
@@ -49,20 +60,36 @@ def extract_status_class(classes):
 
 def extract_findings_by_keywords():
     findings_by_keyword = {kw: [] for kw in TARGET_KEYWORDS}
+    
+    if not os.path.exists(REPORT_DIR):
+        print(f"❌ Error: Directory '{REPORT_DIR}' does not exist.")
+        return findings_by_keyword
+        
+    print(f"🔍 Scanning for HTML reports in '{REPORT_DIR}' directory...")
+    files_found = 0
+    
     for filename in sorted(os.listdir(REPORT_DIR)):
         if not (filename.startswith("pci_req") and filename.endswith(".html")):
             continue
         filepath = os.path.join(REPORT_DIR, filename)
-        with open(filepath, "r", encoding="utf-8") as file:
-            soup = BeautifulSoup(file, "html.parser")
-            for section in soup.find_all("div", class_=lambda c: c and "check-item" in c):
+        files_found += 1
+        print(f"📄 Processing report: {filename}")
+        with open(filepath, "r", encoding="utf-8", errors="ignore") as file:
+            soup = BeautifulSoup(file.read(), "html.parser")
+            items = soup.select("div.check-item")
+            print(f"  ↳ Found {len(items)} check items block.")
+            for section in items:
                 label = section.select_one("strong")
                 label_text = label.get_text(strip=True) if label else ""
                 for kw in TARGET_KEYWORDS:
                     if kw.lower() in label_text.lower():
                         header_span = section.select_one("strong + span")
-                        if header_span and header_span.get("class", [])[0] in ["pass", "fail", "warning", "info"]:
-                            header_span.decompose()
+                        if header_span:
+                            span_classes = header_span.get("class", [])
+                            if isinstance(span_classes, list) and any(c in ["pass", "fail", "warning", "info"] for c in span_classes):
+                                header_span.decompose()
+                            elif isinstance(span_classes, str) and any(c in span_classes for c in ["pass", "fail", "warning", "info"]):
+                                header_span.decompose()
                         inner_html = section.decode_contents()
                         inner_html = inner_html.replace('class="warning"', 'class="text-warning"')
                         inner_html = inner_html.replace('class="fail"', 'class="text-fail"')
@@ -74,6 +101,11 @@ def extract_findings_by_keywords():
                             "html": inner_html,
                             "status": extract_status_class(section.get("class", []))
                         })
+                        
+    if files_found == 0:
+        print("⚠️ Warning: No files starting with 'pci_req' and ending with '.html' were found!")
+    else:
+        print("✅ Finished extracting targets from HTML files.")
     return findings_by_keyword
 
 def generate_html_report(findings_by_keyword, output_file):
