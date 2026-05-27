@@ -1,0 +1,85 @@
+============================================================
+ AWS PCI DSS 安全合規檢查腳本 使用說明
+============================================================
+
+【一、檔案說明】
+
+本次提供以下 AWS 安全合規稽核腳本，用於自動化收集與驗證 AWS 雲端環境是否符合 PCI DSS 4.0.1 的標準規範：
+
+  主檢查腳本          →  check_pci_requirements.sh
+
+此腳本專為「已綁定特定審計角色（IAM Role）的 EC2 檢查主機」設計，只會對 AWS 進行「唯讀（Read-Only）」的狀態查詢，絕不會修改、刪除或異動您的任何 AWS 雲端資源設定，請放心執行。
+
+
+【二、執行前準備與環境檢查】
+
+為確保腳本能順利完整產出合規報告，請在執行前確認受測 EC2 主機符合以下三項標準：
+
+1. 檢查並確認 AWS CLI 與 jq 工具已安裝
+   腳本高度依賴 aws-cli 與 JSON 解析工具 jq。請登入該台 EC2 執行以下指令進行確認：
+   
+      aws --version
+      jq --version
+
+   ※ 若未安裝，請參考以下快速安裝指令（以 Ubuntu/Debian 為例）：
+      sudo apt-get update && sudo apt-get install awscli jq -y
+
+2. 確認 EC2 已綁定 PCI 稽核專用 IAM Role
+   請確認該 EC2 實例已套用（Attach）具備 PCI 稽核權限的 IAM Role（即權限清單符合 PCIDSS-Audit.json 規範）。
+   您可以透過以下指令，驗證該 EC2 目前是否能正常取得該 IAM 角色的暫時憑證：
+   
+      aws sts get-caller-identity
+
+   （正確配置下，畫面的 Arn 欄位應顯示該 EC2 所綁定的 IAM Role PCIDSS-Auditor 資訊。）
+
+
+【三、執行步驟】
+
+  Step 1. 將 check_pci_requirements.sh 腳本上傳至該台已配置好權限的 EC2 主機（例如 /tmp/）。
+  Step 2. 進入該目錄並賦予腳本執行權限：
+  
+            cd /tmp/
+            chmod +x *.sh
+
+  Step 3. 執行腳本：
+  
+            ./check_pci_requirements.sh
+
+  Step 4. 腳本執行時會出現提示如下，請依需求選擇：
+  
+            Enter AWS region to test (e.g., ap-northeast-1) [Press Enter to use AWS config]:
+            
+          • 指定區域：請輸入您欲稽核的 AWS 區域代碼（例如：ap-northeast-1）。
+          • 預設區域：直接按下 Enter 鍵，腳本將會自動抓取您 AWS CLI 的預設設定區域。
+
+  ※ 執行時間：依您的 AWS 雲端資源規模大小而定，通常約在 30 秒至 3 分鐘內完成。
+
+
+【四、執行後產出位置與檔案】
+
+執行成功後，會自動在當前目錄下建立 reports 資料夾，並將原始稽核結果整合輸出：
+
+    /tmp/
+      └── reports/
+            └── pci_req_raw.html     ← ★ 原始 PCI DSS AWS 稽核結果報告
+
+  • pci_req_raw.html：內部包含針對 PCI DSS 4.0 各項網路安全、資料加密、帳號 MFA、Log 留存（如 1.2.3, 1.4.4, 8.4.2, 10.5.1 等項目）的檢測結果、細部數據與改善建議。
+
+
+【五、回傳方式】
+
+請將產出的 reports 資料夾打包壓縮後，回傳給您的安全稽核窗口：
+
+    cd /tmp/
+    tar -czvf aws-pci-audit-report.tar.gz reports/
+
+→ 請將打包好的 aws-pci-audit-report.tar.gz 檔案回傳，我們將會進行最終的合規統整報告產出。
+
+
+【六、收集範圍宣告】
+
+本次收集僅限「AWS 雲端基礎設施與架構設定層級」的安全證據（如：VPC、Security Group、S3 Public Access、IAM 密碼原則與 MFA、KMS 金鑰輪轉狀態、CloudTrail/GuardDuty 開啟狀態等），不涵蓋 EC2 內部作業系統漏洞、Web 應用程式漏洞或原始碼安全掃描。
+
+============================================================
+ 如有任何執行上的疑問，請隨時聯繫您的安全稽核聯絡窗口。感謝您的配合！
+============================================================

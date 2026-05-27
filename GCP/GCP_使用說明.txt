@@ -1,0 +1,96 @@
+============================================================
+ GCP PCI DSS 安全合規檢查腳本 使用說明
+============================================================
+
+【一、檔案說明】
+
+本次提供以下 GCP 安全合規稽核腳本與共享函式庫，用於自動化收集與驗證 GCP 雲端環境是否符合 PCI DSS 4.0.1 的標準規範：
+
+  主檢查腳本          →  check_pci_requirements.sh
+  共享功能函式庫      →  lib/gcp_common.sh
+  權限驗證函式庫      →  lib/gcp_permissions.sh
+  範圍管理函式庫      →  lib/gcp_scope_mgmt.sh
+  報告生成函式庫      →  lib/gcp_html_report.sh
+
+此腳本專為「已安裝 Google Cloud SDK (gcloud) 且設定好稽核權限的檢查環境」設計，只會對 GCP 進行「唯讀（Read-Only）」的狀態查詢（例如：gcloud compute, gcloud iam 等），絕不會修改、刪除或異動您的任何 GCP 雲端資源設定，請放心執行。
+
+
+【二、執行前準備與環境檢查】
+
+為確保腳本能順利完整產出合規報告，請在執行前確認受測環境符合以下三項標準：
+
+1. 檢查並確認 Google Cloud CLI (gcloud) 工具已安裝
+   腳本高度依賴 gcloud CLI 工具。請在執行環境的終端機執行以下指令進行確認：
+   
+      gcloud --version
+
+   ※ 若未安裝，請依據您的作業系統下載並安裝 Google Cloud SDK。
+
+2. 啟用稽核專用服務帳戶 (Service Account)
+   請使用隨附的憑證金鑰檔案，執行以下指令以啟用具備唯讀審計權限的服務帳戶：
+   
+      gcloud auth activate-service-account XXX@XXX.iam.gserviceaccount.com --key-file=XXXkey.json
+
+3. 設定目標檢查專案 (Project ID)
+   切換至您本次需要進行 PCI DSS 合規檢查的目標 GCP 專案：
+   
+      gcloud config set project PROJECT_ID
+
+   （執行後可輸入 `gcloud config list` 再次確認目前 active 的帳號與專案 ID 是否正確。）
+
+4. 保持正確的資料夾結構
+   主腳本執行時會自動載入 `lib` 資料夾內的共享函式庫。請確保檔案解壓縮後，結構保持如下：
+   
+      ├── check_pci_requirements.sh
+      └── lib/
+            ├── gcp_common.sh
+            ├── gcp_permissions.sh
+            ├── gcp_scope_mgmt.sh
+            └── gcp_html_report.sh
+
+
+【三、執行步驟】
+
+  Step 1. 將腳本與 lib 資料夾上傳至受測主機或維運工作站（例如 /tmp/）。
+  Step 2. 進入該目錄並賦予主腳本執行權限：
+  
+            cd /tmp/
+            chmod +x check_pci_requirements.sh lib/*.sh
+
+  Step 3. 執行腳本：
+  
+            ./check_pci_requirements.sh
+
+  ※ 執行時間：依您的 GCP 專案與雲端資源規模大小而定，通常約在 1 分鐘至 5 分鐘內完成。
+  ※ 腳本執行時會自動遍歷並檢查專案內的所有安全設定（如：不安全服務、金鑰輪轉狀態、TLS版本、Firewall原則、Cloud Logging開啟狀態等 13 項關鍵指標）。
+
+
+【四、執行後產出位置與檔案】
+
+執行成功後，會自動在指定報告目錄（預設為 reports 或產出目錄）下建立帶有時間戳記的合規報告檔案：
+
+    tmp/reports/
+      └── pci_req_consolidated_all_YYYYMMDD_HHMMSS.html   ← ★ 原始 GCP 稽核結果報告
+
+  • 說明：報告檔名後半段為執行當時的「年月日_時分秒」（例如：pci_req_consolidated_all_20260527_161730.html）。
+  • 該 HTML 報告內部包含針對 PCI DSS 1 到 12 中所有被標記的特定檢查項目細節（如：具體 IP 網段、詳細 IAM 清單與防火牆狀態等），以利後續進行統整與解析。
+
+
+【五、回傳方式】
+
+請將產出的整個報告目錄（包含該 HTML 報告檔案）打包壓縮後回傳給您的安全稽核窗口：
+
+    cd /tmp/
+    # 假設 REPORT_DIR 為當前目錄下的 reports 資料夾，請將其整體打包
+    tar -czvf gcp-pci-audit-report.tar.gz ./reports/
+
+→ 請將打包好的 gcp-pci-audit-report.tar.gz 檔案回傳，我們將會進行最終的合規摘要報告產出。
+
+
+【六、收集範圍宣告】
+
+本次收集僅限「GCP 雲端基礎設施與架構設定層級」的安全證據（如：Compute Engine 網路限制、IAM 帳號與角色審查、Cloud Storage 公開存取控制、KMS 金鑰管理、Cloud Logging 安全日誌等），不涵蓋 VM 內部作業系統漏洞、Web 應用程式漏洞或原始碼安全掃描。
+
+============================================================
+ 如有任何執行上的疑問，請隨時聯繫您的安全稽核聯絡窗口。感謝您的配合！
+============================================================

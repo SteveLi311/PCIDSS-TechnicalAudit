@@ -1,0 +1,92 @@
+============================================================
+ Cherri 主機安全合規檢查腳本  使用說明
+============================================================
+
+【一、檔案說明】
+
+本次提供以下腳本，請依您的 Ubuntu 版本選用對應版本：
+
+  Ubuntu 14.04          →  cherri-collect-ubuntu14_04_v1/cherri-collect-ubuntu14_04_v1.sh
+  Ubuntu 18.04 / 20.04 / 22.04
+                        →  cherri-collect-ubuntu18-22_v1/cherri-collect-ubuntu18-22_v1.sh
+                           （此資料夾內為「同一支腳本」，三個版本共用）
+
+不確定主機版本時，可先執行：
+    lsb_release -a
+    # 或
+    cat /etc/os-release
+
+
+【二、執行前準備】
+
+1. 請以 root 權限執行（建議使用 sudo），以利收集 /etc/shadow、
+   sshd_config、systemd 服務、auditd 等需要特權的資料。
+
+2. 請預先建立輸出根目錄（腳本不會自行建立，若不存在會直接中止）：
+
+    sudo mkdir -p /mnt/ELK_Log/Security-Configuration
+
+
+【三、執行步驟】
+
+  Step 1. 將對應版本資料夾上傳到受測主機，例如 /tmp/
+  Step 2. 進入該資料夾並賦予執行權限：
+
+         【Ubuntu 18.04 / 20.04 / 22.04】
+            cd /tmp/cherri-collect-ubuntu18-22_v1
+            chmod +x cherri-collect-ubuntu18-22_v1.sh
+            sudo bash ./cherri-collect-ubuntu18-22_v1.sh
+
+         【Ubuntu 14.04】
+            cd /tmp/cherri-collect-ubuntu14_04_v1
+            chmod +x cherri-collect-ubuntu14_04_v1.sh
+            sudo bash ./cherri-collect-ubuntu14_04_v1.sh
+
+  ※ 執行時間：依主機環境約 10 秒～1 分鐘，腳本只「讀取」資料、
+     不會修改任何系統設定，請放心執行。
+
+
+【四、執行後產出位置與檔案】
+
+執行成功後，輸出位置為：
+
+    /mnt/ELK_Log/Security-Configuration/<IP>_<HOSTNAME>-security-audit/
+
+範例（假設 IP=10.1.2.3，HOSTNAME=db01）：
+
+    /mnt/ELK_Log/Security-Configuration/10.1.2.3_db01-security-audit/
+      ├── raw/                              ← 原始稽核資料（多個 .txt）
+      │     ├── os.txt
+      │     ├── ssh.txt
+      │     ├── accounts.txt
+      │     ├── listening_ports.txt
+      │     ├── pam_common_password.txt
+      │     ├── auditd.txt
+      │     ├── ... (約 30 個項目)
+      │
+      ├── metadata.txt                      ← 主機基本資訊（含 ubuntu_version）
+      │
+      └── 10.1.2.3_db01_report.json         ← ★ 彙整 JSON 報告（要回傳這個）
+
+
+【五、回傳方式】
+
+請將整個 audit 資料夾打包成 zip 後回傳，例如：
+
+    cd /mnt/ELK_Log/Security-Configuration/
+    sudo tar -czvf 10.1.2.3_db01-security-audit.tar.gz 10.1.2.3_db01-security-audit/
+
+    # 或用 zip
+    sudo zip -r 10.1.2.3_db01-security-audit.zip 10.1.2.3_db01-security-audit/
+
+  → 將打包好的檔案以郵件方式回傳給稽核窗口。
+
+
+【六、收集範圍宣告】
+
+本次收集僅限「主機層級」安全證據（OS 設定、權限控制、遠端存取、
+Kernel 加固狀態等），不涵蓋 Web 應用、Middleware 或應用層漏洞掃描。
+
+============================================================
+ 如有任何問題請聯繫稽核窗口。感謝您的配合！
+============================================================
