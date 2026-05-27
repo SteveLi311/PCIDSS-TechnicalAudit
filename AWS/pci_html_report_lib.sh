@@ -115,6 +115,9 @@ initialize_html_report() {
         .warning {
             border-left-color: #ff9800;
         }
+		.info {
+			border-left-color: #2196F3;
+		}
         .info-table {
             width: 100%;
             border-collapse: collapse;

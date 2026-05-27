@@ -35,17 +35,13 @@ TARGET_KEYWORDS = [
 def extract_metadata():
     now = datetime.now(timezone.utc).strftime("%a %b %d %H:%M:%S UTC %Y")
     for filename in sorted(os.listdir(REPORT_DIR)):
-        if filename.startswith("pci_req1") and filename.endswith(".html"):
+        if filename.startswith("pci_req") and filename.endswith(".html"):
             filepath = os.path.join(REPORT_DIR, filename)
             with open(filepath, "r", encoding="utf-8") as file:
                 soup = BeautifulSoup(file, "html.parser")
                 metadata_table = soup.find("table")
                 if metadata_table:
-                    for row in metadata_table.find_all("tr"):
-                        cells = row.find_all("td")
-                        # 使用原始報告內的 Assessment Date，不進行覆蓋
                     return str(metadata_table)
-    return ""
     return ""
 
 def extract_findings_by_keywords():
